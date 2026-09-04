@@ -1,0 +1,5 @@
+{
+  "buildPath": "code",
+  "platform": "web",
+  "apps": { "web": "apps/web" }
+}

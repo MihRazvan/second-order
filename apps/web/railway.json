@@ -1,0 +1,15 @@
+{
+  "$schema": "https://railway.com/railway.schema.json",
+  "build": {
+    "builder": "RAILPACK",
+    "buildCommand": "corepack enable && pnpm install --frozen-lockfile && pnpm --filter @second-order/web build",
+    "watchPatterns": ["apps/web/**", "packages/**", "data/replays/**"]
+  },
+  "deploy": {
+    "startCommand": "pnpm --filter @second-order/web start",
+    "healthcheckPath": "/api/health",
+    "healthcheckTimeout": 120,
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 10
+  }
+}
