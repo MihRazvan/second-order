@@ -35,7 +35,7 @@ export function Annunciator(p: Props) {
 
   if (p.blocked) {
     return (
-      <div className={`${base} ${flip} border-l-4 border-red bg-bg-raised`} role="status" aria-live="polite">
+      <div className={`${base} ${flip} border-t-2 border-red bg-bg-raised`} role="status" aria-live="polite">
         <div className="text-[13px] font-semibold tracking-[0.04em] text-red">WALLET BLOCKED</div>
         <div className="mt-1 text-[13px] text-fg-muted">Stored in this browser only. CrowdGuard will not evaluate copies of this wallet.</div>
         <div className="mt-3"><button type="button" onClick={p.onUnblock} className="border border-line-strong px-3 py-1.5 text-[13px] hover:border-fg">Unblock</button></div>
@@ -45,7 +45,7 @@ export function Annunciator(p: Props) {
 
   if (p.phase === 'failed') {
     return (
-      <div className={`${base} border-l-4 border-amber bg-bg-raised`} role="alert">
+      <div className={`${base} border-t-2 border-amber bg-bg-raised`} role="alert">
         <div className="text-[13px] font-semibold tracking-[0.04em] text-amber">REPLAY UNAVAILABLE</div>
         <div className="mt-1 text-[13px] text-fg-muted">{p.error ?? 'The replay could not be loaded.'} No verdict is issued without data.</div>
         <div className="mt-3"><button type="button" onClick={p.onReset} className="border border-line-strong px-3 py-1.5 text-[13px] hover:border-fg">Try again</button></div>
@@ -73,7 +73,7 @@ export function Annunciator(p: Props) {
 
   if (p.phase === 'running') {
     return (
-      <div className={`${base} border-l-4 border-amber bg-bg-raised`} role="status" aria-live="polite">
+      <div className={`${base} border-t-2 border-amber bg-bg-raised`} role="status" aria-live="polite">
         <div className="flex items-baseline justify-between">
           <div className="text-[13px] font-semibold tracking-[0.04em] text-amber">EVALUATING</div>
           <div className="font-data text-[12px] text-fg-muted">{Math.round(p.progress * 100)}%</div>
@@ -101,7 +101,7 @@ export function Annunciator(p: Props) {
   const text = color === 'alpha' ? 'text-alpha' : 'text-red';
 
   return (
-    <div className={`${base} ${flip} border-l-4 ${border} bg-bg-raised`} role="status" aria-live="assertive" data-decision={v.decision}>
+    <div className={`${base} ${flip} border-t-2 ${border} bg-bg-raised`} role="status" aria-live="assertive" data-decision={v.decision}>
       <div className="flex items-baseline justify-between">
         <div className={`text-[13px] font-semibold tracking-[0.04em] ${text}`}>{heading}</div>
         <div className="flex gap-4">

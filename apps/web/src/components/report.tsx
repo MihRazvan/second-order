@@ -107,7 +107,7 @@ export function Report({ sessionId }: { sessionId: string }) {
           <div className={`font-data mt-1 text-[32px] leading-none ${tone}`}>{fmtPct(verdict.evPct, 1)}</div>
           <div className="mt-1.5 text-[12px] text-fg-muted">scenario-adjusted outcome · size and delay come from this link's fragment</div>
         </div>
-        <div className={`border-l-4 bg-bg-raised px-6 py-4 md:px-7 ${verdict.decision === 'ALLOW' ? 'border-alpha' : 'border-red'}`} data-decision={verdict.decision}>
+        <div className={`border-t-2 bg-bg-raised px-6 py-4 md:px-7 ${verdict.decision === 'ALLOW' ? 'border-alpha' : 'border-red'}`} data-decision={verdict.decision}>
           <div className={`text-[13px] font-semibold tracking-[0.04em] ${tone}`}>{title}</div>
           <div className="mt-1 text-[12px] text-fg-muted">Max scenario-compatible size</div>
           <div className="font-data text-[26px] leading-none">{verdict.maxCompatibleUsd > 0 ? fmtUsdWhole(verdict.maxCompatibleUsd) : 'none'}</div>
