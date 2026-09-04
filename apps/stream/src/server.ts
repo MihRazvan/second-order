@@ -1,5 +1,5 @@
 import cors from '@fastify/cors';
-import Fastify, { type FastifyInstance } from 'fastify';
+import Fastify, { LogController, type FastifyInstance } from 'fastify';
 import { CreateSessionRequest, type ApiError, type HealthResponse, type SessionSnapshot, type SseFrame } from '@second-order/contracts';
 import { listReplays, loadReplay } from '@second-order/replays';
 import type { Config } from './config.js';
@@ -16,7 +16,7 @@ export interface ServerDeps {
 const HEARTBEAT_MS = 5000;
 
 export async function buildServer(deps: ServerDeps): Promise<FastifyInstance> {
-  const app = Fastify({ logger: { level: deps.config.LOG_LEVEL }, logController: { disableRequestLogging: true } });
+  const app = Fastify({ logger: { level: deps.config.LOG_LEVEL }, logController: new LogController({ disableRequestLogging: true }) });
   const startedAt = Date.now();
   const sessions = new SessionManager(deps.sources, deps.persistence, app.log, 50, deps.config.CAPTURE_DIR);
 
