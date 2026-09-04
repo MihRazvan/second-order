@@ -40,10 +40,15 @@ export async function reconstruct(rest: MobulaRest, spec: SessionSpec, signal: A
   const windowMs = (spec.windowSeconds ?? DEFAULT_WINDOW_S) * 1000;
   const notes: string[] = [];
 
-  const trades = await rest.walletTrades({ wallet: spec.wallet, blockchains: spec.chainId ? chainName(spec.chainId) : undefined, limit: 40 }, signal);
-  const buys = trades.data.filter((t) => t.type === 'buy' && (t.baseTokenAmountUSD ?? 0) > 0 && t.marketAddress);
+  const trades = await rest.walletTrades({ wallet: spec.wallet, blockchains: spec.chainId ? chainName(spec.chainId) : undefined, limit: 100 }, signal);
+  // The chain filter is applied here as well (the keyless demo API ignores `blockchains`), and
+  // only buys old enough to have a complete window behind them are eligible.
+  const cutoff = Date.now() - windowMs;
+  const buys = trades.data.filter((t) =>
+    t.type === 'buy' && (t.baseTokenAmountUSD ?? 0) > 0 && t.marketAddress && t.date <= cutoff &&
+    (!spec.chainId || chainIdFromName(t.blockchain) === spec.chainId));
   const buy = buys[spec.tradeIndex ?? 0];
-  if (!buy) throw Object.assign(new Error(`No buy with a pool address found for this wallet (found ${buys.length} candidate buys)`), { code: 'NO_SOURCE_TRADE', status: 404 });
+  if (!buy) throw Object.assign(new Error(`No buy with a pool address at least ${windowMs / 1000}s old found for this wallet${spec.chainId ? ` on ${chainName(spec.chainId)}` : ''} (${buys.length} candidates)`), { code: 'NO_SOURCE_TRADE', status: 404 });
 
   const provenance: Provenance = { kind: 'estimated-reconstruction', source: 'mobula-rest' };
   let seq = 0;
@@ -160,16 +165,16 @@ export function createReconstructionDataSource(rest: MobulaRest, restBaseUrl: st
       const { events, windowMs, notes, source } = await reconstruct(rest, spec, signal);
       const ctx: NormalizeContext = { sessionId: spec.sessionId, provenance: { kind: 'estimated-reconstruction', source: 'mobula-rest' }, originMs: 0, nextSeq: () => 0 };
       const status = statusEvent(ctx, { provider: 'mobula', state: 'connected', speed, message: `Estimated reconstruction via ${new URL(restBaseUrl).host}: ${notes.join('; ')}` }, 0);
-      yield { ...status, id: 'recon:status:start', seq: -1, at: 0 };
+      yield { ...status, id: 'recon:status:start', seq: 0, at: 0 };
       const origin = Date.now();
       for (const e of events) {
         if (signal.aborted) return;
         await sleep(origin + e.at / speed - Date.now(), signal);
         if (signal.aborted) return;
-        yield e;
+        yield { ...e, seq: e.seq + 1 };
       }
       await sleep(origin + windowMs / speed - Date.now(), signal);
-      yield { ...statusEvent(ctx, { provider: 'mobula', state: 'ended', speed, message: `Reconstruction window complete (${source.token.symbol})` }, windowMs), id: 'recon:status:end', seq: events.length, at: windowMs };
+      yield { ...statusEvent(ctx, { provider: 'mobula', state: 'ended', speed, message: `Reconstruction window complete (${source.token.symbol})` }, windowMs), id: 'recon:status:end', seq: events.length + 1, at: windowMs };
     },
   };
 }

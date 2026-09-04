@@ -1,5 +1,8 @@
 import { loadConfig } from './config.js';
-import { ReplayDataSource } from './datasources/replay.js';
+
+// Load ./.env when present (Node 20.12+). Railway injects variables directly, so absence is fine.
+try { process.loadEnvFile?.(new URL('../.env', import.meta.url).pathname); } catch { /* no .env */ }
+import { ReplayDataSource, ReplayLibrary } from './datasources/replay.js';
 import { createMobulaDataSource } from './datasources/mobula/index.js';
 import { createReconstructionDataSource } from './datasources/mobula/reconstruction.js';
 import { MobulaRest } from './datasources/mobula/rest.js';
@@ -25,7 +28,7 @@ const app = await buildServer({
   config,
   persistence,
   sources: {
-    replay: new ReplayDataSource(),
+    replay: new ReplayDataSource(new ReplayLibrary(config.CAPTURE_DIR)),
     mobula: config.MOBULA_API_KEY ? createMobulaDataSource(config, rest) : null,
     reconstruction: createReconstructionDataSource(rest, restBaseUrl),
   },

@@ -4,7 +4,7 @@ A profitable source wallet is not necessarily profitable to copy. Second Order r
 
 The central object is the Alpha Capacity Surface, `C(delay, crowd AUM)`: the maximum aggregate follower capital for which the trade's scenario-adjusted follower expected value remains positive.
 
-> Everything you see in the default demo is labelled **Demo scenario**. It is a synthetic fixture. No live capture exists until a session is run against Mobula with a Growth-plan key (see below).
+> The default replay is labelled **Demo scenario**: a synthetic, calibrated fixture. Type any wallet into the form to get an **Estimated reconstruction** built from real Mobula history (works even without a key through Mobula's demo API). **Live witnessed** sessions need a Growth-plan key for the WebSocket streams.
 
 ## Run the demo
 
@@ -15,6 +15,8 @@ pnpm dev                   # web on :3000, stream on :4010
 ```
 
 Open http://localhost:3000 and press **Crash test this wallet**. The run takes about fifteen seconds. If the stream service is not reachable the page falls back to replaying the same fixture in the browser and says so in the status bar (`?stream=off` forces that path).
+
+To crash-test a real wallet, paste its address in **Crash test any wallet**, pick the chain and window, and press **Reconstruct crash test**. The stream service anchors on the wallet's most recent buy that is at least one window old, pulls the pool's trade history, 5-second candles, security and market context from Mobula, and replays the reconstructed minutes in about fifteen seconds. Every completed run has a **Share report** link (`/report/<sessionId>`), with your size and delay carried only in the URL fragment. With `CAPTURE_DIR` set, reconstructions are saved as replay files and appear in the replay picker.
 
 Useful commands:
 
@@ -42,7 +44,7 @@ node apps/web/scripts/demo-run.mjs out/ 1440x900  # drive the demo and capture f
 | Quoting stream | `wss://api.mobula.io` type `quoting` | **Growth+** | live quotes at several sizes |
 | Fast trades stream | `wss://api.mobula.io` type `fast-trade` | **Growth+** | competing flow and source exits |
 
-The stream service probes each capability at start and reports `available`, `plan-gated`, `unreachable` or `disabled` at `GET /api/capabilities`; the UI degrades explicitly. Set `MOBULA_API_KEY` in `apps/stream/.env` (never in the web app). With `CAPTURE_DIR` set, an ended live session is written as a replay file with `live-witnessed` provenance.
+Reconstruction additionally uses `GET /api/2/token/trades` (pair mode) and `GET /api/2/market/ohlcv-history` (5s candles), both Free+. Without a key the service talks to `demo-api.mobula.io` (rate limited, no signup); with `MOBULA_API_KEY` in `apps/stream/.env` it uses `api.mobula.io`. The service probes each capability at start and reports `available`, `plan-gated`, `unreachable` or `disabled` at `GET /api/capabilities`; `/health` reports `mobula: ready` only when a stream is available, otherwise `rest-only`, and the UI offers live sessions only in the former case. Ended live and reconstruction sessions are written to `CAPTURE_DIR` as replay files with their provenance.
 
 ## Deployment
 

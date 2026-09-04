@@ -1,7 +1,7 @@
 import cors from '@fastify/cors';
 import Fastify, { LogController, type FastifyInstance } from 'fastify';
 import { CreateSessionRequest, type ApiError, type HealthResponse, type SessionSnapshot, type SseFrame } from '@second-order/contracts';
-import { listReplays, loadReplay } from '@second-order/replays';
+import { ReplayLibrary } from './datasources/replay.js';
 import type { Config } from './config.js';
 import type { DataSource } from './datasources/types.js';
 import type { Persistence } from './persistence/types.js';
@@ -19,6 +19,7 @@ export async function buildServer(deps: ServerDeps): Promise<FastifyInstance> {
   const app = Fastify({ logger: { level: deps.config.LOG_LEVEL }, logController: new LogController({ disableRequestLogging: true }) });
   const startedAt = Date.now();
   const sessions = new SessionManager(deps.sources, deps.persistence, app.log, 50, deps.config.CAPTURE_DIR);
+  const library = new ReplayLibrary(deps.config.CAPTURE_DIR);
 
   await app.register(cors, { origin: deps.config.CORS_ORIGIN.split(',').map((s) => s.trim()) });
 
@@ -32,6 +33,17 @@ export async function buildServer(deps: ServerDeps): Promise<FastifyInstance> {
     reply.status(status).send(body);
   });
 
+  // Stream capability (Growth+ plans) decides whether live sessions are offered. Probed once, refreshed lazily.
+  let mobulaState: 'ready' | 'rest-only' | 'disabled' | 'error' = deps.sources.mobula ? 'rest-only' : 'disabled';
+  const refreshMobula = async () => {
+    if (!deps.sources.mobula) return;
+    try {
+      const caps = (await deps.sources.mobula.capabilities()).capabilities;
+      mobulaState = caps['quoting-wss'] === 'available' || caps['fast-trade-wss'] === 'available' ? 'ready' : 'rest-only';
+    } catch { mobulaState = 'error'; }
+  };
+  void refreshMobula();
+
   app.get('/health', async (): Promise<HealthResponse> => {
     const dbOk = await deps.persistence.ping();
     return {
@@ -40,7 +52,7 @@ export async function buildServer(deps: ServerDeps): Promise<FastifyInstance> {
       version: deps.config.SERVICE_VERSION,
       uptimeMs: Date.now() - startedAt,
       persistence: deps.persistence.kind,
-      providers: { replay: deps.sources.replay ? 'ready' : 'disabled', mobula: deps.sources.mobula ? 'ready' : 'disabled', reconstruction: deps.sources.reconstruction ? 'ready' : 'disabled' },
+      providers: { replay: deps.sources.replay ? 'ready' : 'disabled', mobula: mobulaState, reconstruction: deps.sources.reconstruction ? 'ready' : 'disabled' },
       sessions: sessions.count(),
     };
   });
@@ -50,11 +62,11 @@ export async function buildServer(deps: ServerDeps): Promise<FastifyInstance> {
     reply.status(ok ? 200 : 503).send({ ready: ok });
   });
 
-  app.get('/api/replays', async () => ({ v: 1, replays: listReplays() }));
+  app.get('/api/replays', async () => ({ v: 1, replays: library.list() }));
 
   /** Events at the fixture origin (the tracked wallet's context before the crash test starts). */
   app.get<{ Params: { id: string } }>('/api/replays/:id/context', async (req, reply) => {
-    const file = loadReplay(req.params.id);
+    const file = library.load(req.params.id);
     if (!file) return reply.status(404).send({ error: { code: 'NOT_FOUND', message: 'Replay not found' } } satisfies ApiError);
     return { v: 1, manifest: file.manifest, events: file.events.filter((e) => e.at === 0 && e.type !== 'stream.status') };
   });

@@ -1,0 +1,13 @@
+import { chromium } from '@playwright/test';
+const browser = await chromium.launch();
+const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+const logs = [];
+page.on('console', (m) => logs.push(m.type() + ': ' + m.text().slice(0, 200)));
+page.on('pageerror', (e) => logs.push('pageerror: ' + e.message.slice(0, 300)));
+const sessions = await (await fetch('http://localhost:4011/api/sessions')).json();
+const id = sessions.sessions.at(-1)?.sessionId;
+await page.goto(`http://localhost:3001/report/${id}#size=1000&delay=5000`, { waitUntil: 'networkidle' });
+await page.waitForTimeout(3000);
+console.log(id, (await page.locator('main').innerText()).slice(0, 400).replace(/\n+/g, ' | '));
+console.log(logs.slice(0, 5));
+await browser.close();

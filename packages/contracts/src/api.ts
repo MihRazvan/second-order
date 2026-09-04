@@ -79,7 +79,7 @@ export const HealthResponse = z.object({
   version: z.string(),
   uptimeMs: z.number(),
   persistence: z.enum(['postgres', 'memory']),
-  providers: z.record(z.string(), z.enum(['ready', 'disabled', 'error'])),
+  providers: z.record(z.string(), z.enum(['ready', 'rest-only', 'disabled', 'error'])),
   sessions: z.number().int().nonnegative(),
 });
 export type HealthResponse = z.infer<typeof HealthResponse>;
