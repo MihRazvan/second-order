@@ -75,7 +75,7 @@ export function Recorder({ state, derived, shadows, timeline, nowAt, durationMs,
       viewBox={`0 0 ${W} ${H}`}
       preserveAspectRatio="xMinYMin meet"
       role="img"
-      aria-label={`Flight recorder. Remaining Alpha ${fmtUsdWhole(lastAlpha)} of ${fmtUsdWhole(startAlphaUsd)}. ${flows.length} competing trades. Execution depth ${fmtUsdWhole(depthNow)}.`}
+      aria-label={`Flight recorder. Remaining Alpha ${fmtUsdWhole(lastAlpha)} of ${fmtUsdWhole(startAlphaUsd)}. ${flows.length} competing trades. Execution depth ${fmtUsdWhole(depthNow)}.${exit ? ` Source exited ${Math.round(exit.fractionOfPosition * 100)}% at ${(exit.delayMs / 1000).toFixed(0)} seconds.` : ''}`}
       className="block"
       style={{ fontFamily: 'var(--font-data)' }}
     >
@@ -144,7 +144,7 @@ export function Recorder({ state, derived, shadows, timeline, nowAt, durationMs,
       {/* Lane 3 */}
       <g>
         <line x1={GUTTER} x2={W - 20} y1={dy(depthStart)} y2={dy(depthStart)} stroke="var(--so-line-strong)" strokeDasharray="3 5" />
-        <text x={W - 24} y={dy(depthStart) - 5} fontSize={11} fill="var(--so-fg-faint)" textAnchor="end">{fmtUsdWhole(depthStart)} reported liquidity ÷ 2</text>
+        <text x={W - 24} y={dy(depthStart) + 14} fontSize={11} fill="var(--so-fg-faint)" textAnchor="end">{fmtUsdWhole(depthStart)} reported liquidity ÷ 2</text>
         {depthPath && <path d={depthPath} fill="none" stroke="var(--so-amber)" strokeWidth={2} strokeLinejoin="round" />}
         {pts.length > 0 && <text x={Math.min(px + 8, W - 24)} y={Math.min(dy(depthNow) - 8, D.y + D.h - 6)} fontSize={12} fill="var(--so-amber)" fontWeight={600} textAnchor={px > W - 110 ? 'end' : 'start'}>{fmtUsdWhole(depthNow)}</text>}
       </g>
@@ -152,8 +152,8 @@ export function Recorder({ state, derived, shadows, timeline, nowAt, durationMs,
       {/* markers strip: flags stack in two rows so labels never collide */}
       {markers.map((m, i) => {
         const row = i % 2;
-        const label = m.label.length > 44 ? m.label.slice(0, 43) + '…' : m.label;
-        const w = Math.min(300, label.length * 6.4 + 14);
+        const label = m.label.length > 40 ? m.label.slice(0, 39) + '…' : m.label;
+        const w = Math.min(320, label.length * 7.1 + 16);
         const xFlag = Math.min(t(m.at) + 3, W - 20 - w);
         const critical = m.severity === 'critical';
         return (
@@ -164,7 +164,6 @@ export function Recorder({ state, derived, shadows, timeline, nowAt, durationMs,
           </g>
         );
       })}
-      {exit && <text x={Math.min(t(exit.delayMs) + 6, W - 150)} y={S.y + S.h - 4} fontSize={11} fill="var(--so-red)">source sold {Math.round(exit.fractionOfPosition * 100)}% · {fmtUsdWhole(exit.sizeUsd)}</text>}
 
       {/* playhead */}
       {(running || phase === 'ended') && (

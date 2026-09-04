@@ -2800,7 +2800,7 @@
    },
    "type": "scenario.marker",
    "payload": {
-    "label": "Execution deteriorating: quotes drift above source price",
+    "label": "Execution deteriorating",
     "severity": "warning"
    }
   },
@@ -3974,7 +3974,7 @@
    },
    "type": "scenario.marker",
    "payload": {
-    "label": "Source exits 55% of position — source-exit overlap",
+    "label": "Source exits 55% · source-exit overlap",
     "severity": "critical"
    }
   },

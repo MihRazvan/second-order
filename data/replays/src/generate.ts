@@ -156,7 +156,7 @@ export function generateDemo(cfg: Cfg = DEMO_CONFIG) {
         wallet: cfg.sourceWallet, chainId: cfg.chainId, token: cfg.token, sizeUsd: Math.round(r.usd), fractionOfPosition: cfg.sourceExit.fraction,
         executionPriceUsd: r.avgPrice, priceRatioVsEntry: r.avgPrice / sourcePrice, txHash: hex(), delayMs: it.at,
       }, 'source-exit-0');
-      push('scenario.marker', it.at, { label: `Source exits ${Math.round(cfg.sourceExit.fraction * 100)}% of position — source-exit overlap`, severity: 'critical' }, 'marker-exit');
+      push('scenario.marker', it.at, { label: `Source exits ${Math.round(cfg.sourceExit.fraction * 100)}% · source-exit overlap`, severity: 'critical' }, 'marker-exit');
     } else if (it.kind === 'quote') {
       for (const size of cfg.quotes.sizesUsd) {
         const q = pool.quoteBuy(size);
@@ -171,7 +171,7 @@ export function generateDemo(cfg: Cfg = DEMO_CONFIG) {
       }
     }
   }
-  push('scenario.marker', 20_000, { label: 'Execution deteriorating: quotes drift above source price', severity: 'warning' }, 'marker-deteriorating');
+  push('scenario.marker', 20_000, { label: 'Execution deteriorating', severity: 'warning' }, 'marker-deteriorating');
   push('stream.status', cfg.durationMs, { provider: 'replay', state: 'ended', speed: cfg.defaultSpeed, message: 'Replay complete' }, 'status-end');
   events.sort((a, b) => a.at - b.at || a.seq - b.seq);
   events.forEach((e, i) => { e.seq = i; });
