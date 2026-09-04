@@ -52,3 +52,11 @@ Vertical milestones. Each ends with something runnable and inspected in a browse
 ## Later (not before the demo works)
 - Crowdproof credential
 - Multiple tracked wallets / session history browser
+
+## Showcase plan (2026-09-04, after Milestone 6)
+- [x] 1 · Real Mobula data on screen: Estimated reconstruction for any wallet (REST history; works keyless via demo-api.mobula.io, uses the key when present)
+- [x] 2 · Real wallets shipped as replays: `recon-base-cbbtc-honeypot.v1` (SECURITY BLOCK) and `recon-base-flock.v1` (scenario-compatible); replay picker in the UI
+- [x] 3 · Recorder interactivity: hover cards, draggable delay marker, post-run playhead scrubbing; wallet form with chain, window and which-buy controls
+- [ ] 4 · Deploy on Railway: configs ready; needs `railway login` in an interactive terminal (browser OAuth), then project + Postgres + two services
+- [x] 5 · Shareable report: `/report/:sessionId` with intent in the URL fragment, Copy link, Print/PDF; sessions rebuilt from PostgreSQL after restarts
+- [ ] Live witnessed sessions: adapters built and unit-tested; the current key's plan reports quoting/fast-trade streams as plan-gated, so live mode stays hidden
