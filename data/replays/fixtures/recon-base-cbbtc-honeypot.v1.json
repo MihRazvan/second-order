@@ -1,0 +1,5726 @@
+{
+ "manifest": {
+  "v": 1,
+  "id": "recon-base-cbbtc-honeypot.v1",
+  "title": "Real: fake CBBTC honeypot on Base (reconstruction)",
+  "description": "A real Base wallet bought a token named CBBTC in a $250k pool; Mobula static analysis later flagged it as a honeypot with a 100% sell tax, and the wallet itself sold 86% four minutes in. Reconstructed from Mobula REST history on 2026-09-04.",
+  "provenance": {
+   "kind": "estimated-reconstruction",
+   "source": "mobula-rest",
+   "capturedAt": "2026-09-04T17:39:42.799Z"
+  },
+  "durationMs": 300000,
+  "defaultSpeed": 20,
+  "eventCount": 205,
+  "disclosure": "Estimated reconstruction. Trades, prices and context were fetched from Mobula REST history after the fact (session d14b7b3e-a21d-47f3-91f2-520b92155de3, started 2026-09-04T17:39:42.799Z). Quotes are inferred from the price path and current pool depth, not observed.",
+  "createdAt": "2026-09-04T17:40:03.722Z"
+ },
+ "events": [
+  {
+   "v": 1,
+   "id": "recon:status:start",
+   "seq": 0,
+   "at": 0,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest",
+    "endpoint": "stream",
+    "capturedAt": "2026-09-04T17:39:48.721Z"
+   },
+   "type": "stream.status",
+   "payload": {
+    "provider": "mobula",
+    "state": "connected",
+    "speed": 20,
+    "message": "Estimated reconstruction via api.mobula.io: pool liquidity is the current reported value, not the value at trade time; 59 price points from 5s candles; impact reconstructed on current depth, not observed; 19 trades by other wallets and 1 source sells in the 300s window"
+   }
+  },
+  {
+   "v": 1,
+   "id": "mobula:trade:0x0876b31d1c6c57b8e8b99b937afb06ae0b42650473156fe981eef318859ccbc6",
+   "seq": 1,
+   "at": 0,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest",
+    "endpoint": "wallet-trades-v2",
+    "capturedAt": "2026-09-04T17:39:43.710Z"
+   },
+   "type": "source.trade",
+   "payload": {
+    "wallet": "0xa8a14ce28771ff0e750caa2685d9da636d4808c6",
+    "chainId": "evm:8453",
+    "token": {
+     "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+     "symbol": "CBBTC",
+     "name": "Coinbase Wrapped BTC",
+     "decimals": 8
+    },
+    "quoteToken": {
+     "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+     "symbol": "USDC",
+     "name": "USDC",
+     "decimals": 6
+    },
+    "side": "buy",
+    "sizeUsd": 228.8832487330686,
+    "tokenAmount": 0.00287503,
+    "executionPriceUsd": 79610.73405601631,
+    "txHash": "0x0876b31d1c6c57b8e8b99b937afb06ae0b42650473156fe981eef318859ccbc6",
+    "poolAddress": "0x9d14ff91ae2c6e3d1a760542248b6c7f206894b0",
+    "feesUsd": 0.003132583671042315,
+    "platformFeesUsd": 0,
+    "quoteTokenPriceUsd": 1.0001199917215238
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:marker:trade",
+   "seq": 2,
+   "at": 0,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "scenario.marker",
+   "payload": {
+    "label": "Source BUY CBBTC 229 USD (reconstructed)",
+    "severity": "info"
+   }
+  },
+  {
+   "v": 1,
+   "id": "mobula:profile:0x2acbe7e9a41690af1353d0ce2991748ecd8b6e6c:90",
+   "seq": 3,
+   "at": 0,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest",
+    "endpoint": "wallet-analysis",
+    "capturedAt": "2026-09-04T17:39:48.721Z"
+   },
+   "type": "source.profile",
+   "payload": {
+    "wallet": "0x2acbe7e9a41690af1353d0ce2991748ecd8b6e6c",
+    "periodDays": 90,
+    "realizedRatePct": 0.0081,
+    "realizedPnlUsd": 2790.621644790246,
+    "winRatePct": 0.1023436967214499,
+    "typicalGainPct": null,
+    "tradeCount": 7232,
+    "labels": [],
+    "chains": []
+   }
+  },
+  {
+   "v": 1,
+   "id": "mobula:security:evm:8453:0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf:1788542697079",
+   "seq": 4,
+   "at": 0,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest",
+    "endpoint": "token-security",
+    "capturedAt": "2026-09-04T17:39:48.721Z"
+   },
+   "type": "security.snapshot",
+   "payload": {
+    "chainId": "evm:8453",
+    "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "isHoneypot": true,
+    "buyFeePct": 0,
+    "sellFeePct": 100,
+    "transferFeePct": 0,
+    "isMintable": true,
+    "isFreezable": null,
+    "transferPausable": true,
+    "balanceMutable": false,
+    "selfDestruct": false,
+    "isBlacklisted": true,
+    "modifyableTax": false,
+    "renounced": false,
+    "lpLockedShare": 0,
+    "liquidityBurnPct": 0,
+    "top10HoldingsPct": 3.225346497961153,
+    "staticAnalysisStatus": "completed",
+    "completeness": 0.9375,
+    "observedAt": 1788542697079
+   }
+  },
+  {
+   "v": 1,
+   "id": "mobula:market:0x9d14ff91ae2c6e3d1a760542248b6c7f206894b0:1788542697079",
+   "seq": 5,
+   "at": 0,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest",
+    "endpoint": "market-details",
+    "capturedAt": "2026-09-04T17:39:48.721Z"
+   },
+   "type": "market.snapshot",
+   "payload": {
+    "chainId": "evm:8453",
+    "poolAddress": "0x9d14ff91ae2c6e3d1a760542248b6c7f206894b0",
+    "poolType": "uniswap-v3",
+    "exchange": "Aerodrome",
+    "priceUsd": 79610.73405601631,
+    "liquidityUsd": 249975.3218034887,
+    "volume1hUsd": 60791.49943723724,
+    "volume24hUsd": 1822288.1578859878,
+    "priceChange1hPct": -0.1905032997887233,
+    "latestTradeAt": 1788542697079,
+    "observedAt": 1788542697079
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542695000:100",
+   "seq": 6,
+   "at": 2921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 2921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.9200560636604,
+    "effectivePriceRatio": 1.000800078978025,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542700000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542695000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542695000:1000",
+   "seq": 7,
+   "at": 2921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 2921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.0627147702988,
+    "effectivePriceRatio": 1.0080007897802499,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542700000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542695000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542695000:5000",
+   "seq": 8,
+   "at": 2921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 2921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4807.6740528557,
+    "effectivePriceRatio": 1.040003948901249,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542700000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542695000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542700000:100",
+   "seq": 9,
+   "at": 7921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 7921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.9200560636604,
+    "effectivePriceRatio": 1.000800078978025,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542705000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542700000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542700000:1000",
+   "seq": 10,
+   "at": 7921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 7921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.0627147702988,
+    "effectivePriceRatio": 1.0080007897802499,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542705000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542700000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542700000:5000",
+   "seq": 11,
+   "at": 7921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 7921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4807.6740528557,
+    "effectivePriceRatio": 1.040003948901249,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542705000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542700000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542705000:100",
+   "seq": 12,
+   "at": 12921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 12921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.9200560636604,
+    "effectivePriceRatio": 1.000800078978025,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542710000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542705000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542705000:1000",
+   "seq": 13,
+   "at": 12921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 12921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.0627147702988,
+    "effectivePriceRatio": 1.0080007897802499,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542710000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542705000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542705000:5000",
+   "seq": 14,
+   "at": 12921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 12921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4807.6740528557,
+    "effectivePriceRatio": 1.040003948901249,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542710000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542705000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:flow:0x8533a06603e1dcde676235d63783be2405cd8c40d22749df11e6a70e830206ce:35587441205",
+   "seq": 15,
+   "at": 16059,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "flow.competing",
+   "payload": {
+    "chainId": "evm:8453",
+    "token": {
+     "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+     "symbol": "CBBTC",
+     "name": "Coinbase Wrapped BTC",
+     "decimals": 8
+    },
+    "wallet": "0xbad08cd29eabf66f58c34e1fb0506a026f27a126",
+    "side": "sell",
+    "sizeUsd": 41.53420267835816,
+    "delayMs": 16059,
+    "txHash": "0x8533a06603e1dcde676235d63783be2405cd8c40d22749df11e6a70e830206ce",
+    "labels": [
+     "freshTrader30d"
+    ]
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542710000:100",
+   "seq": 16,
+   "at": 17921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 17921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.92271583983349,
+    "effectivePriceRatio": 1.0007734393477694,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542715000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542710000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542710000:1000",
+   "seq": 17,
+   "at": 17921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 17921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.0891225294105,
+    "effectivePriceRatio": 1.007973958479073,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542715000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542710000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542710000:5000",
+   "seq": 18,
+   "at": 17921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 17921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4807.802028533432,
+    "effectivePriceRatio": 1.03997626572931,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542715000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542710000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542715000:100",
+   "seq": 19,
+   "at": 22921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 22921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.92271583983349,
+    "effectivePriceRatio": 1.0007734393477694,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542720000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542715000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542715000:1000",
+   "seq": 20,
+   "at": 22921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 22921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.0891225294105,
+    "effectivePriceRatio": 1.007973958479073,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542720000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542715000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542715000:5000",
+   "seq": 21,
+   "at": 22921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 22921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4807.802028533432,
+    "effectivePriceRatio": 1.03997626572931,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542720000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542715000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542720000:100",
+   "seq": 22,
+   "at": 27921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 27921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.92271583983349,
+    "effectivePriceRatio": 1.0007734393477694,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542725000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542720000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542720000:1000",
+   "seq": 23,
+   "at": 27921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 27921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.0891225294105,
+    "effectivePriceRatio": 1.007973958479073,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542725000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542720000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542720000:5000",
+   "seq": 24,
+   "at": 27921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 27921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4807.802028533432,
+    "effectivePriceRatio": 1.03997626572931,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542725000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542720000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:flow:0x36ab426a5b9ba8b3725be898081716e966f8980a0d23a0a51a2765acc3fafebd:35587452213",
+   "seq": 25,
+   "at": 29971,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "flow.competing",
+   "payload": {
+    "chainId": "evm:8453",
+    "token": {
+     "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+     "symbol": "CBBTC",
+     "name": "Coinbase Wrapped BTC",
+     "decimals": 8
+    },
+    "wallet": "0x4f8ab6b0b6d0df45ac0290c8421c9a6caafc3f36",
+    "side": "sell",
+    "sizeUsd": 93.10361669698119,
+    "delayMs": 29971,
+    "txHash": "0x36ab426a5b9ba8b3725be898081716e966f8980a0d23a0a51a2765acc3fafebd",
+    "labels": []
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:flow:0xf485832d5c2a859eb34e9a1be138c68c446c160d3e5e8547982778be729a6e92:35587454094",
+   "seq": 26,
+   "at": 32033,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "flow.competing",
+   "payload": {
+    "chainId": "evm:8453",
+    "token": {
+     "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+     "symbol": "CBBTC",
+     "name": "Coinbase Wrapped BTC",
+     "decimals": 8
+    },
+    "wallet": "0xc460b4990d05bc4537602b29c15ab8b6089cd71e",
+    "side": "sell",
+    "sizeUsd": 336.72921412811485,
+    "delayMs": 32033,
+    "txHash": "0xf485832d5c2a859eb34e9a1be138c68c446c160d3e5e8547982778be729a6e92",
+    "labels": []
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542725000:100",
+   "seq": 27,
+   "at": 32921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 32921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.93243157125738,
+    "effectivePriceRatio": 1.0006761411453742,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542730000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542725000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542725000:1000",
+   "seq": 28,
+   "at": 32921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 32921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.1855857948659,
+    "effectivePriceRatio": 1.0078759602205607,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542730000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542725000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542725000:5000",
+   "seq": 29,
+   "at": 32921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 32921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4808.269502949594,
+    "effectivePriceRatio": 1.0398751561102784,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542730000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542725000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542730000:100",
+   "seq": 30,
+   "at": 37921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 37921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.93243157125738,
+    "effectivePriceRatio": 1.0006761411453742,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542735000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542730000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542730000:1000",
+   "seq": 31,
+   "at": 37921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 37921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.1855857948659,
+    "effectivePriceRatio": 1.0078759602205607,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542735000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542730000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542730000:5000",
+   "seq": 32,
+   "at": 37921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 37921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4808.269502949594,
+    "effectivePriceRatio": 1.0398751561102784,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542735000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542730000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542735000:100",
+   "seq": 33,
+   "at": 42921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 42921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.93243157125738,
+    "effectivePriceRatio": 1.0006761411453742,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542740000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542735000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542735000:1000",
+   "seq": 34,
+   "at": 42921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 42921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.1855857948659,
+    "effectivePriceRatio": 1.0078759602205607,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542740000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542735000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542735000:5000",
+   "seq": 35,
+   "at": 42921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 42921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4808.269502949594,
+    "effectivePriceRatio": 1.0398751561102784,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542740000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542735000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:flow:0xe76a5710e1c12f5c05e65c448065cdbae1ed3492c283d38f99dcfcdc13286d05:35587466446",
+   "seq": 36,
+   "at": 46054,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "flow.competing",
+   "payload": {
+    "chainId": "evm:8453",
+    "token": {
+     "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+     "symbol": "CBBTC",
+     "name": "Coinbase Wrapped BTC",
+     "decimals": 8
+    },
+    "wallet": "0x9e6441c6d930f2e98bfb6cae6dc46729c862055f",
+    "side": "sell",
+    "sizeUsd": 711.1847865715771,
+    "delayMs": 46054,
+    "txHash": "0xe76a5710e1c12f5c05e65c448065cdbae1ed3492c283d38f99dcfcdc13286d05",
+    "labels": []
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542740000:100",
+   "seq": 37,
+   "at": 47921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 47921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.9606851020733,
+    "effectivePriceRatio": 1.0003933036061783,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542745000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542740000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542740000:1000",
+   "seq": 38,
+   "at": 47921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 47921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.4661027960295,
+    "effectivePriceRatio": 1.0075910876782044,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542745000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542740000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542740000:5000",
+   "seq": 39,
+   "at": 47921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 47921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4809.6289273970615,
+    "effectivePriceRatio": 1.0395812391094308,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542745000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542740000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542745000:100",
+   "seq": 40,
+   "at": 52921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 52921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.9606851020733,
+    "effectivePriceRatio": 1.0003933036061783,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542750000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542745000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542745000:1000",
+   "seq": 41,
+   "at": 52921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 52921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.4661027960295,
+    "effectivePriceRatio": 1.0075910876782044,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542750000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542745000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542745000:5000",
+   "seq": 42,
+   "at": 52921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 52921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4809.6289273970615,
+    "effectivePriceRatio": 1.0395812391094308,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542750000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542745000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542750000:100",
+   "seq": 43,
+   "at": 57921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 57921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.9606851020733,
+    "effectivePriceRatio": 1.0003933036061783,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542755000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542750000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542750000:1000",
+   "seq": 44,
+   "at": 57921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 57921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.4661027960295,
+    "effectivePriceRatio": 1.0075910876782044,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542755000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542750000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542750000:5000",
+   "seq": 45,
+   "at": 57921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 57921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4809.6289273970615,
+    "effectivePriceRatio": 1.0395812391094308,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542755000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542750000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542755000:100",
+   "seq": 46,
+   "at": 62921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 62921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.9606851020733,
+    "effectivePriceRatio": 1.0003933036061783,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542760000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542755000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542755000:1000",
+   "seq": 47,
+   "at": 62921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 62921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.4661027960295,
+    "effectivePriceRatio": 1.0075910876782044,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542760000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542755000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542755000:5000",
+   "seq": 48,
+   "at": 62921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 62921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4809.6289273970615,
+    "effectivePriceRatio": 1.0395812391094308,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542760000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542755000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542760000:100",
+   "seq": 49,
+   "at": 67921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 67921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.9606851020733,
+    "effectivePriceRatio": 1.0003933036061783,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542765000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542760000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542760000:1000",
+   "seq": 50,
+   "at": 67921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 67921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.4661027960295,
+    "effectivePriceRatio": 1.0075910876782044,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542765000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542760000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542760000:5000",
+   "seq": 51,
+   "at": 67921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 67921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4809.6289273970615,
+    "effectivePriceRatio": 1.0395812391094308,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542765000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542760000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542765000:100",
+   "seq": 52,
+   "at": 72921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 72921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.9606851020733,
+    "effectivePriceRatio": 1.0003933036061783,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542770000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542765000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542765000:1000",
+   "seq": 53,
+   "at": 72921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 72921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.4661027960295,
+    "effectivePriceRatio": 1.0075910876782044,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542770000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542765000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542765000:5000",
+   "seq": 54,
+   "at": 72921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 72921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4809.6289273970615,
+    "effectivePriceRatio": 1.0395812391094308,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542770000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542765000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:flow:0x0b1844c2054a0636986cf4997b3f860a667aa75fc9e6cd2f4cb2d6bd17c8a7c2:35587490265",
+   "seq": 55,
+   "at": 74140,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "flow.competing",
+   "payload": {
+    "chainId": "evm:8453",
+    "token": {
+     "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+     "symbol": "CBBTC",
+     "name": "Coinbase Wrapped BTC",
+     "decimals": 8
+    },
+    "wallet": "0xfc0862a491a9ac80a0c10369fcaead012e81c303",
+    "side": "buy",
+    "sizeUsd": 73.95950972406757,
+    "delayMs": 74140,
+    "txHash": "0x0b1844c2054a0636986cf4997b3f860a667aa75fc9e6cd2f4cb2d6bd17c8a7c2",
+    "labels": []
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542770000:100",
+   "seq": 56,
+   "at": 77921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 77921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.95831422276072,
+    "effectivePriceRatio": 1.000417031615263,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542775000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542770000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542770000:1000",
+   "seq": 57,
+   "at": 77921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 77921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.442563368012,
+    "effectivePriceRatio": 1.0076149864092292,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542775000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542770000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542770000:5000",
+   "seq": 58,
+   "at": 77921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 77921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4809.514852051204,
+    "effectivePriceRatio": 1.0396058966046349,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542775000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542770000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:flow:0xcfdace250fd39b757b1188e62226af3102f73eb99dcf42d00dab97bbb9730440:35587493057",
+   "seq": 59,
+   "at": 77977,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "flow.competing",
+   "payload": {
+    "chainId": "evm:8453",
+    "token": {
+     "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+     "symbol": "CBBTC",
+     "name": "Coinbase Wrapped BTC",
+     "decimals": 8
+    },
+    "wallet": "0x64fe6674e0f514e245e03fd89be42129a6fdb4fc",
+    "side": "buy",
+    "sizeUsd": 66.5325444465019,
+    "delayMs": 77977,
+    "txHash": "0xcfdace250fd39b757b1188e62226af3102f73eb99dcf42d00dab97bbb9730440",
+    "labels": []
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:flow:0x4d038e46d6f58119d6014e9295b09c81230beb288fe87efcbead1d8ff171f86a:35587495212",
+   "seq": 60,
+   "at": 80150,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "flow.competing",
+   "payload": {
+    "chainId": "evm:8453",
+    "token": {
+     "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+     "symbol": "CBBTC",
+     "name": "Coinbase Wrapped BTC",
+     "decimals": 8
+    },
+    "wallet": "0x8f10b468b06c6fd214b65f87778827f7d113f996",
+    "side": "buy",
+    "sizeUsd": 71.70475067284252,
+    "delayMs": 80150,
+    "txHash": "0x4d038e46d6f58119d6014e9295b09c81230beb288fe87efcbead1d8ff171f86a",
+    "labels": []
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542775000:100",
+   "seq": 61,
+   "at": 82921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 82921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.95422549954318,
+    "effectivePriceRatio": 1.0004579546310128,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542780000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542775000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542775000:1000",
+   "seq": 62,
+   "at": 82921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 82921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.4019682160982,
+    "effectivePriceRatio": 1.007656203864206,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542780000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542775000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542775000:5000",
+   "seq": 63,
+   "at": 82921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 82921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4809.318122292469,
+    "effectivePriceRatio": 1.039648422678398,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542780000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542775000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542780000:100",
+   "seq": 64,
+   "at": 87921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 87921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.95422549954318,
+    "effectivePriceRatio": 1.0004579546310128,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542785000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542780000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542780000:1000",
+   "seq": 65,
+   "at": 87921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 87921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.4019682160982,
+    "effectivePriceRatio": 1.007656203864206,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542785000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542780000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542780000:5000",
+   "seq": 66,
+   "at": 87921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 87921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4809.318122292469,
+    "effectivePriceRatio": 1.039648422678398,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542785000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542780000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:flow:0xd7060f5ddbd880e2d2720431aa2f165dedbe34262ed75eefdefe91f6922ff0c3:35587501880",
+   "seq": 67,
+   "at": 88200,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "flow.competing",
+   "payload": {
+    "chainId": "evm:8453",
+    "token": {
+     "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+     "symbol": "CBBTC",
+     "name": "Coinbase Wrapped BTC",
+     "decimals": 8
+    },
+    "wallet": "0x8f10b468b06c6fd214b65f87778827f7d113f996",
+    "side": "buy",
+    "sizeUsd": 14.926705141535837,
+    "delayMs": 88200,
+    "txHash": "0xd7060f5ddbd880e2d2720431aa2f165dedbe34262ed75eefdefe91f6922ff0c3",
+    "labels": []
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542785000:100",
+   "seq": 68,
+   "at": 92921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 92921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.9540895191508,
+    "effectivePriceRatio": 1.0004593156825305,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542790000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542785000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542785000:1000",
+   "seq": 69,
+   "at": 92921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 92921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.4006181260106,
+    "effectivePriceRatio": 1.0076575747084273,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542790000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542785000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542785000:5000",
+   "seq": 70,
+   "at": 92921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 92921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4809.311579567914,
+    "effectivePriceRatio": 1.0396498370457457,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542790000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542785000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542790000:100",
+   "seq": 71,
+   "at": 97921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 97921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.9540895191508,
+    "effectivePriceRatio": 1.0004593156825305,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542795000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542790000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542790000:1000",
+   "seq": 72,
+   "at": 97921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 97921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.4006181260106,
+    "effectivePriceRatio": 1.0076575747084273,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542795000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542790000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542790000:5000",
+   "seq": 73,
+   "at": 97921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 97921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4809.311579567914,
+    "effectivePriceRatio": 1.0396498370457457,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542795000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542790000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:flow:0x2d985e84b59a8ce562c3731b446f817ebdff2ca35f680e51dd5d6cd8be06a5e3:35587513132",
+   "seq": 74,
+   "at": 101964,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "flow.competing",
+   "payload": {
+    "chainId": "evm:8453",
+    "token": {
+     "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+     "symbol": "CBBTC",
+     "name": "Coinbase Wrapped BTC",
+     "decimals": 8
+    },
+    "wallet": "0xe0ad01d57738f17ee7f828d7644dd53d58775624",
+    "side": "buy",
+    "sizeUsd": 91.6285786595273,
+    "delayMs": 101964,
+    "txHash": "0x2d985e84b59a8ce562c3731b446f817ebdff2ca35f680e51dd5d6cd8be06a5e3",
+    "labels": []
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542795000:100",
+   "seq": 75,
+   "at": 102921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 102921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.95325482209219,
+    "effectivePriceRatio": 1.0004676703924351,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542800000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542795000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542795000:1000",
+   "seq": 76,
+   "at": 102921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 102921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.3923307824822,
+    "effectivePriceRatio": 1.0076659895300877,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542800000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542795000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542795000:5000",
+   "seq": 77,
+   "at": 102921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 102921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4809.271417947227,
+    "effectivePriceRatio": 1.0396585190307648,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542800000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542795000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542800000:100",
+   "seq": 78,
+   "at": 107921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 107921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.95325482209219,
+    "effectivePriceRatio": 1.0004676703924351,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542805000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542800000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542800000:1000",
+   "seq": 79,
+   "at": 107921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 107921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.3923307824822,
+    "effectivePriceRatio": 1.0076659895300877,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542805000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542800000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542800000:5000",
+   "seq": 80,
+   "at": 107921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 107921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4809.271417947227,
+    "effectivePriceRatio": 1.0396585190307648,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542805000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542800000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:flow:0xe7e44acbdb8f2d9c00aea9e8a8c0856cc9a07ac22d70d4517b0bb1110ecb6f5c:35587518880",
+   "seq": 81,
+   "at": 110074,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "flow.competing",
+   "payload": {
+    "chainId": "evm:8453",
+    "token": {
+     "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+     "symbol": "CBBTC",
+     "name": "Coinbase Wrapped BTC",
+     "decimals": 8
+    },
+    "wallet": "0x13e3bc533ba56753f68475ef8ebae06507843ea8",
+    "side": "buy",
+    "sizeUsd": 529.8174169439634,
+    "delayMs": 110074,
+    "txHash": "0xe7e44acbdb8f2d9c00aea9e8a8c0856cc9a07ac22d70d4517b0bb1110ecb6f5c",
+    "labels": []
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542805000:100",
+   "seq": 82,
+   "at": 112921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 112921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.9484287226719,
+    "effectivePriceRatio": 1.000515978870175,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542810000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542805000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542805000:1000",
+   "seq": 83,
+   "at": 112921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 112921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.3444145434285,
+    "effectivePriceRatio": 1.0077146455851156,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542810000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542805000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542805000:5000",
+   "seq": 84,
+   "at": 112921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 112921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4809.039209180806,
+    "effectivePriceRatio": 1.0397087198737403,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542810000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542805000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542810000:100",
+   "seq": 85,
+   "at": 117921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 117921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.9484287226719,
+    "effectivePriceRatio": 1.000515978870175,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542815000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542810000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542810000:1000",
+   "seq": 86,
+   "at": 117921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 117921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.3444145434285,
+    "effectivePriceRatio": 1.0077146455851156,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542815000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542810000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542810000:5000",
+   "seq": 87,
+   "at": 117921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 117921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4809.039209180806,
+    "effectivePriceRatio": 1.0397087198737403,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542815000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542810000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:flow:0xdac4904944e563fdf0d1a7a91d357ae3f086b746259e51b19f9326824858845c:35587525350",
+   "seq": 88,
+   "at": 117989,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "flow.competing",
+   "payload": {
+    "chainId": "evm:8453",
+    "token": {
+     "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+     "symbol": "CBBTC",
+     "name": "Coinbase Wrapped BTC",
+     "decimals": 8
+    },
+    "wallet": "0x2192bc3b4028acc1113f2cd9ac2cba70c36520db",
+    "side": "buy",
+    "sizeUsd": 19.1425901892202,
+    "delayMs": 117989,
+    "txHash": "0xdac4904944e563fdf0d1a7a91d357ae3f086b746259e51b19f9326824858845c",
+    "labels": [
+     "freshTrader30d"
+    ]
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:flow:0xed684a9ef9e059a2d9ae25d45f4bf9aa8d5bb3792f424f184eea23b909b2bcb4:35587529122",
+   "seq": 89,
+   "at": 122159,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "flow.competing",
+   "payload": {
+    "chainId": "evm:8453",
+    "token": {
+     "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+     "symbol": "CBBTC",
+     "name": "Coinbase Wrapped BTC",
+     "decimals": 8
+    },
+    "wallet": "0x22e4668ab0c1ee4a249f3a8a975f2ad780b08444",
+    "side": "buy",
+    "sizeUsd": 182.70877508451497,
+    "delayMs": 122159,
+    "txHash": "0xed684a9ef9e059a2d9ae25d45f4bf9aa8d5bb3792f424f184eea23b909b2bcb4",
+    "labels": []
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:flow:0x148d855a3c05d21bed3735647119a81174ea16415a7ebff22ed4c9fdb538bc1b:35587529145",
+   "seq": 90,
+   "at": 122196,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "flow.competing",
+   "payload": {
+    "chainId": "evm:8453",
+    "token": {
+     "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+     "symbol": "CBBTC",
+     "name": "Coinbase Wrapped BTC",
+     "decimals": 8
+    },
+    "wallet": "0xbad08cd29eabf66f58c34e1fb0506a026f27a126",
+    "side": "buy",
+    "sizeUsd": 39.31882479045477,
+    "delayMs": 122196,
+    "txHash": "0x148d855a3c05d21bed3735647119a81174ea16415a7ebff22ed4c9fdb538bc1b",
+    "labels": [
+     "freshTrader30d"
+    ]
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542815000:100",
+   "seq": 91,
+   "at": 122921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 122921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.93857084421327,
+    "effectivePriceRatio": 1.0006146691439333,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542820000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542815000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542815000:1000",
+   "seq": 92,
+   "at": 122921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 122921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.2465399619797,
+    "effectivePriceRatio": 1.0078140459308806,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542820000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542815000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542815000:5000",
+   "seq": 93,
+   "at": 122921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 122921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4808.5648953308255,
+    "effectivePriceRatio": 1.0398112760950904,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542820000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542815000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542820000:100",
+   "seq": 94,
+   "at": 127921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 127921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.93857084421327,
+    "effectivePriceRatio": 1.0006146691439333,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542825000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542820000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542820000:1000",
+   "seq": 95,
+   "at": 127921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 127921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.2465399619797,
+    "effectivePriceRatio": 1.0078140459308806,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542825000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542820000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542820000:5000",
+   "seq": 96,
+   "at": 127921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 127921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4808.5648953308255,
+    "effectivePriceRatio": 1.0398112760950904,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542825000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542820000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542825000:100",
+   "seq": 97,
+   "at": 132921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 132921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.93857084421327,
+    "effectivePriceRatio": 1.0006146691439333,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542830000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542825000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542825000:1000",
+   "seq": 98,
+   "at": 132921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 132921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.2465399619797,
+    "effectivePriceRatio": 1.0078140459308806,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542830000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542825000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542825000:5000",
+   "seq": 99,
+   "at": 132921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 132921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4808.5648953308255,
+    "effectivePriceRatio": 1.0398112760950904,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542830000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542825000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542830000:100",
+   "seq": 100,
+   "at": 137921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 137921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.93857084421327,
+    "effectivePriceRatio": 1.0006146691439333,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542835000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542830000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542830000:1000",
+   "seq": 101,
+   "at": 137921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 137921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.2465399619797,
+    "effectivePriceRatio": 1.0078140459308806,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542835000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542830000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542830000:5000",
+   "seq": 102,
+   "at": 137921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 137921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4808.5648953308255,
+    "effectivePriceRatio": 1.0398112760950904,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542835000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542830000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542835000:100",
+   "seq": 103,
+   "at": 142921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 142921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.93857084421327,
+    "effectivePriceRatio": 1.0006146691439333,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542840000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542835000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542835000:1000",
+   "seq": 104,
+   "at": 142921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 142921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.2465399619797,
+    "effectivePriceRatio": 1.0078140459308806,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542840000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542835000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542835000:5000",
+   "seq": 105,
+   "at": 142921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 142921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4808.5648953308255,
+    "effectivePriceRatio": 1.0398112760950904,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542840000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542835000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542840000:100",
+   "seq": 106,
+   "at": 147921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 147921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.93857084421327,
+    "effectivePriceRatio": 1.0006146691439333,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542845000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542840000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542840000:1000",
+   "seq": 107,
+   "at": 147921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 147921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.2465399619797,
+    "effectivePriceRatio": 1.0078140459308806,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542845000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542840000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542840000:5000",
+   "seq": 108,
+   "at": 147921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 147921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4808.5648953308255,
+    "effectivePriceRatio": 1.0398112760950904,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542845000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542840000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:flow:0xc5ce911f84144b827cf0dc14bd6b5b6ab035fee27cda67e86e2ee170540b6a25:35587546408",
+   "seq": 109,
+   "at": 152131,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "flow.competing",
+   "payload": {
+    "chainId": "evm:8453",
+    "token": {
+     "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+     "symbol": "CBBTC",
+     "name": "Coinbase Wrapped BTC",
+     "decimals": 8
+    },
+    "wallet": "0xb2edee1dc145624139fa361385c1e9845976f3a1",
+    "side": "sell",
+    "sizeUsd": 530.3522711543616,
+    "delayMs": 152131,
+    "txHash": "0xc5ce911f84144b827cf0dc14bd6b5b6ab035fee27cda67e86e2ee170540b6a25",
+    "labels": []
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542845000:100",
+   "seq": 110,
+   "at": 152921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 152921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.94557479298956,
+    "effectivePriceRatio": 1.000544548441721,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542850000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542845000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542845000:1000",
+   "seq": 111,
+   "at": 152921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 152921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.31607911869,
+    "effectivePriceRatio": 1.0077434207134226,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542850000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542845000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542845000:5000",
+   "seq": 112,
+   "at": 152921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 152921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4808.901891767035,
+    "effectivePriceRatio": 1.0397384085876509,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542850000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542845000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542850000:100",
+   "seq": 113,
+   "at": 157921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 157921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.94557479298956,
+    "effectivePriceRatio": 1.000544548441721,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542855000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542850000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542850000:1000",
+   "seq": 114,
+   "at": 157921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 157921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.31607911869,
+    "effectivePriceRatio": 1.0077434207134226,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542855000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542850000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542850000:5000",
+   "seq": 115,
+   "at": 157921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 157921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4808.901891767035,
+    "effectivePriceRatio": 1.0397384085876509,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542855000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542850000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542855000:100",
+   "seq": 116,
+   "at": 162921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 162921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.94557479298956,
+    "effectivePriceRatio": 1.000544548441721,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542860000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542855000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542855000:1000",
+   "seq": 117,
+   "at": 162921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 162921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.31607911869,
+    "effectivePriceRatio": 1.0077434207134226,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542860000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542855000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542855000:5000",
+   "seq": 118,
+   "at": 162921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 162921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4808.901891767035,
+    "effectivePriceRatio": 1.0397384085876509,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542860000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542855000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542860000:100",
+   "seq": 119,
+   "at": 167921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 167921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.94557479298956,
+    "effectivePriceRatio": 1.000544548441721,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542865000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542860000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542860000:1000",
+   "seq": 120,
+   "at": 167921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 167921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.31607911869,
+    "effectivePriceRatio": 1.0077434207134226,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542865000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542860000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542860000:5000",
+   "seq": 121,
+   "at": 167921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 167921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4808.901891767035,
+    "effectivePriceRatio": 1.0397384085876509,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542865000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542860000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542865000:100",
+   "seq": 122,
+   "at": 172921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 172921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.94557479298956,
+    "effectivePriceRatio": 1.000544548441721,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542870000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542865000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542865000:1000",
+   "seq": 123,
+   "at": 172921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 172921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.31607911869,
+    "effectivePriceRatio": 1.0077434207134226,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542870000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542865000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542865000:5000",
+   "seq": 124,
+   "at": 172921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 172921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4808.901891767035,
+    "effectivePriceRatio": 1.0397384085876509,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542870000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542865000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542870000:100",
+   "seq": 125,
+   "at": 177921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 177921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.94557479298956,
+    "effectivePriceRatio": 1.000544548441721,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542875000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542870000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542870000:1000",
+   "seq": 126,
+   "at": 177921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 177921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.31607911869,
+    "effectivePriceRatio": 1.0077434207134226,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542875000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542870000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542870000:5000",
+   "seq": 127,
+   "at": 177921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 177921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4808.901891767035,
+    "effectivePriceRatio": 1.0397384085876509,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542875000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542870000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542875000:100",
+   "seq": 128,
+   "at": 182921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 182921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.94557479298956,
+    "effectivePriceRatio": 1.000544548441721,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542880000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542875000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542875000:1000",
+   "seq": 129,
+   "at": 182921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 182921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.31607911869,
+    "effectivePriceRatio": 1.0077434207134226,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542880000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542875000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542875000:5000",
+   "seq": 130,
+   "at": 182921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 182921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4808.901891767035,
+    "effectivePriceRatio": 1.0397384085876509,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542880000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542875000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542880000:100",
+   "seq": 131,
+   "at": 187921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 187921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.94557479298956,
+    "effectivePriceRatio": 1.000544548441721,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542885000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542880000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542880000:1000",
+   "seq": 132,
+   "at": 187921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 187921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.31607911869,
+    "effectivePriceRatio": 1.0077434207134226,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542885000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542880000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542880000:5000",
+   "seq": 133,
+   "at": 187921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 187921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4808.901891767035,
+    "effectivePriceRatio": 1.0397384085876509,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542885000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542880000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542885000:100",
+   "seq": 134,
+   "at": 192921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 192921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.94557479298956,
+    "effectivePriceRatio": 1.000544548441721,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542890000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542885000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542885000:1000",
+   "seq": 135,
+   "at": 192921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 192921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.31607911869,
+    "effectivePriceRatio": 1.0077434207134226,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542890000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542885000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542885000:5000",
+   "seq": 136,
+   "at": 192921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 192921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4808.901891767035,
+    "effectivePriceRatio": 1.0397384085876509,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542890000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542885000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542890000:100",
+   "seq": 137,
+   "at": 197921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 197921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.94557479298956,
+    "effectivePriceRatio": 1.000544548441721,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542895000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542890000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542890000:1000",
+   "seq": 138,
+   "at": 197921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 197921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.31607911869,
+    "effectivePriceRatio": 1.0077434207134226,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542895000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542890000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542890000:5000",
+   "seq": 139,
+   "at": 197921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 197921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4808.901891767035,
+    "effectivePriceRatio": 1.0397384085876509,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542895000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542890000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542895000:100",
+   "seq": 140,
+   "at": 202921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 202921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.94557479298956,
+    "effectivePriceRatio": 1.000544548441721,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542900000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542895000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542895000:1000",
+   "seq": 141,
+   "at": 202921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 202921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.31607911869,
+    "effectivePriceRatio": 1.0077434207134226,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542900000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542895000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542895000:5000",
+   "seq": 142,
+   "at": 202921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 202921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4808.901891767035,
+    "effectivePriceRatio": 1.0397384085876509,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542900000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542895000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542900000:100",
+   "seq": 143,
+   "at": 207921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 207921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.94557479298956,
+    "effectivePriceRatio": 1.000544548441721,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542905000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542900000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542900000:1000",
+   "seq": 144,
+   "at": 207921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 207921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.31607911869,
+    "effectivePriceRatio": 1.0077434207134226,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542905000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542900000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542900000:5000",
+   "seq": 145,
+   "at": 207921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 207921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4808.901891767035,
+    "effectivePriceRatio": 1.0397384085876509,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542905000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542900000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542905000:100",
+   "seq": 146,
+   "at": 212921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 212921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.94557479298956,
+    "effectivePriceRatio": 1.000544548441721,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542910000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542905000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542905000:1000",
+   "seq": 147,
+   "at": 212921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 212921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.31607911869,
+    "effectivePriceRatio": 1.0077434207134226,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542910000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542905000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542905000:5000",
+   "seq": 148,
+   "at": 212921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 212921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4808.901891767035,
+    "effectivePriceRatio": 1.0397384085876509,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542910000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542905000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542910000:100",
+   "seq": 149,
+   "at": 217921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 217921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.94557479298956,
+    "effectivePriceRatio": 1.000544548441721,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542915000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542910000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542910000:1000",
+   "seq": 150,
+   "at": 217921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 217921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.31607911869,
+    "effectivePriceRatio": 1.0077434207134226,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542915000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542910000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542910000:5000",
+   "seq": 151,
+   "at": 217921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 217921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4808.901891767035,
+    "effectivePriceRatio": 1.0397384085876509,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542915000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542910000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:flow:0xa58ca92a1c01a489ed20b4878fb540a87d87feaabfde1cc936e5bdbd7a0b688d:35587602506",
+   "seq": 152,
+   "at": 219973,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "flow.competing",
+   "payload": {
+    "chainId": "evm:8453",
+    "token": {
+     "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+     "symbol": "CBBTC",
+     "name": "Coinbase Wrapped BTC",
+     "decimals": 8
+    },
+    "wallet": "0xbcc4521e1c9dba7df87afa9fcc0fc2b554226392",
+    "side": "sell",
+    "sizeUsd": 413.14344417422114,
+    "delayMs": 219973,
+    "txHash": "0xa58ca92a1c01a489ed20b4878fb540a87d87feaabfde1cc936e5bdbd7a0b688d",
+    "labels": []
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542915000:100",
+   "seq": 153,
+   "at": 222921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 222921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.961751535506,
+    "effectivePriceRatio": 1.0003826309954205,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542920000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542915000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542915000:1000",
+   "seq": 154,
+   "at": 222921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 222921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.4766909490794,
+    "effectivePriceRatio": 1.0075803382785002,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542920000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542915000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542915000:5000",
+   "seq": 155,
+   "at": 222921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 222921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4809.68023906106,
+    "effectivePriceRatio": 1.0395701484255206,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542920000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542915000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542920000:100",
+   "seq": 156,
+   "at": 227921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 227921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.961751535506,
+    "effectivePriceRatio": 1.0003826309954205,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542925000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542920000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542920000:1000",
+   "seq": 157,
+   "at": 227921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 227921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.4766909490794,
+    "effectivePriceRatio": 1.0075803382785002,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542925000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542920000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542920000:5000",
+   "seq": 158,
+   "at": 227921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 227921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4809.68023906106,
+    "effectivePriceRatio": 1.0395701484255206,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542925000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542920000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542925000:100",
+   "seq": 159,
+   "at": 232921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 232921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.961751535506,
+    "effectivePriceRatio": 1.0003826309954205,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542930000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542925000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542925000:1000",
+   "seq": 160,
+   "at": 232921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 232921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.4766909490794,
+    "effectivePriceRatio": 1.0075803382785002,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542930000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542925000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542925000:5000",
+   "seq": 161,
+   "at": 232921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 232921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4809.68023906106,
+    "effectivePriceRatio": 1.0395701484255206,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542930000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542925000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542930000:100",
+   "seq": 162,
+   "at": 237921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 237921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.961751535506,
+    "effectivePriceRatio": 1.0003826309954205,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542935000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542930000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542930000:1000",
+   "seq": 163,
+   "at": 237921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 237921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.4766909490794,
+    "effectivePriceRatio": 1.0075803382785002,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542935000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542930000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542930000:5000",
+   "seq": 164,
+   "at": 237921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 237921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4809.68023906106,
+    "effectivePriceRatio": 1.0395701484255206,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542935000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542930000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542935000:100",
+   "seq": 165,
+   "at": 242921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 242921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.961751535506,
+    "effectivePriceRatio": 1.0003826309954205,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542940000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542935000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542935000:1000",
+   "seq": 166,
+   "at": 242921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 242921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.4766909490794,
+    "effectivePriceRatio": 1.0075803382785002,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542940000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542935000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542935000:5000",
+   "seq": 167,
+   "at": 242921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 242921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4809.68023906106,
+    "effectivePriceRatio": 1.0395701484255206,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542940000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542935000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542940000:100",
+   "seq": 168,
+   "at": 247921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 247921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.961751535506,
+    "effectivePriceRatio": 1.0003826309954205,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542945000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542940000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542940000:1000",
+   "seq": 169,
+   "at": 247921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 247921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.4766909490794,
+    "effectivePriceRatio": 1.0075803382785002,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542945000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542940000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542940000:5000",
+   "seq": 170,
+   "at": 247921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 247921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4809.68023906106,
+    "effectivePriceRatio": 1.0395701484255206,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542945000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542940000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:flow:0xf7b318d5edc9dbb0a9270d77bd245cd72bc50e33afc7524fa8fca42de5badb0c:35587624444",
+   "seq": 171,
+   "at": 248270,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "flow.competing",
+   "payload": {
+    "chainId": "evm:8453",
+    "token": {
+     "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+     "symbol": "CBBTC",
+     "name": "Coinbase Wrapped BTC",
+     "decimals": 8
+    },
+    "wallet": "0xbad08cd29eabf66f58c34e1fb0506a026f27a126",
+    "side": "sell",
+    "sizeUsd": 39.30989998685549,
+    "delayMs": 248270,
+    "txHash": "0xf7b318d5edc9dbb0a9270d77bd245cd72bc50e33afc7524fa8fca42de5badb0c",
+    "labels": [
+     "freshTrader30d"
+    ]
+   }
+  },
+  {
+   "v": 1,
+   "id": "mobula:exit:0x00c49de91a7f2e72a89592df97c0a66852d7ba399f65268719ce7d01a4ada283",
+   "seq": 172,
+   "at": 250068,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest",
+    "endpoint": "wallet-trades-v2",
+    "capturedAt": "2026-09-04T17:39:48.721Z"
+   },
+   "type": "source.exit",
+   "payload": {
+    "wallet": "0xa8a14ce28771ff0e750caa2685d9da636d4808c6",
+    "chainId": "evm:8453",
+    "token": {
+     "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+     "symbol": "CBBTC",
+     "name": "Coinbase Wrapped BTC",
+     "decimals": 8
+    },
+    "sizeUsd": 196.099608421643,
+    "fractionOfPosition": 0.8572258376434332,
+    "executionPriceUsd": 79568.11930033598,
+    "priceRatioVsEntry": 0.9994647109314386,
+    "txHash": "0x00c49de91a7f2e72a89592df97c0a66852d7ba399f65268719ce7d01a4ada283",
+    "delayMs": 250068
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:marker:exit",
+   "seq": 173,
+   "at": 250068,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "scenario.marker",
+   "payload": {
+    "label": "Source sells CBBTC \u00b7 source-exit overlap",
+    "severity": "critical"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:flow:0x89cfcc381f904ece3d7698e1146546eb4ccf0dbf7678b0571a8f0ea3b5138b67:35587628439",
+   "seq": 174,
+   "at": 250402,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "flow.competing",
+   "payload": {
+    "chainId": "evm:8453",
+    "token": {
+     "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+     "symbol": "CBBTC",
+     "name": "Coinbase Wrapped BTC",
+     "decimals": 8
+    },
+    "wallet": "0xb5664d3e2efd57ada2e21eef2105bd9c7c379ed1",
+    "side": "sell",
+    "sizeUsd": 280.3858389108365,
+    "delayMs": 250402,
+    "txHash": "0x89cfcc381f904ece3d7698e1146546eb4ccf0dbf7678b0571a8f0ea3b5138b67",
+    "labels": []
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542945000:100",
+   "seq": 175,
+   "at": 252921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 252921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.99154351370808,
+    "effectivePriceRatio": 1.00008457201474,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542950000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542945000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542945000:1000",
+   "seq": 176,
+   "at": 252921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 252921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.7724825242435,
+    "effectivePriceRatio": 1.0072801347770837,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542950000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542945000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542945000:5000",
+   "seq": 177,
+   "at": 252921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 252921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4811.113686221,
+    "effectivePriceRatio": 1.0392604137208334,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542950000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542945000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542950000:100",
+   "seq": 178,
+   "at": 257921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 257921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.99154351370808,
+    "effectivePriceRatio": 1.00008457201474,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542955000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542950000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542950000:1000",
+   "seq": 179,
+   "at": 257921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 257921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.7724825242435,
+    "effectivePriceRatio": 1.0072801347770837,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542955000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542950000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542950000:5000",
+   "seq": 180,
+   "at": 257921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 257921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4811.113686221,
+    "effectivePriceRatio": 1.0392604137208334,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542955000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542950000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542955000:100",
+   "seq": 181,
+   "at": 262921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 262921,
+    "sizeUsd": 100,
+    "amountOutUsd": 99.99154351370808,
+    "effectivePriceRatio": 1.00008457201474,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542960000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542955000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542955000:1000",
+   "seq": 182,
+   "at": 262921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 262921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.7724825242435,
+    "effectivePriceRatio": 1.0072801347770837,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542960000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542955000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542955000:5000",
+   "seq": 183,
+   "at": 262921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 262921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4811.113686221,
+    "effectivePriceRatio": 1.0392604137208334,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542960000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542955000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:flow:0x79cba3b05f2f5a3128a312d66076e3127a4e2fc1023a9bd4360164768d3560d4:35587638764",
+   "seq": 184,
+   "at": 263961,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "flow.competing",
+   "payload": {
+    "chainId": "evm:8453",
+    "token": {
+     "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+     "symbol": "CBBTC",
+     "name": "Coinbase Wrapped BTC",
+     "decimals": 8
+    },
+    "wallet": "0x83ec51a3b67522e199414762a0fff5e2d203a040",
+    "side": "sell",
+    "sizeUsd": 190.1972393787223,
+    "delayMs": 263961,
+    "txHash": "0x79cba3b05f2f5a3128a312d66076e3127a4e2fc1023a9bd4360164768d3560d4",
+    "labels": []
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542960000:100",
+   "seq": 185,
+   "at": 267921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 267921,
+    "sizeUsd": 100,
+    "amountOutUsd": 100.00034097486329,
+    "effectivePriceRatio": 0.9999965902629935,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542965000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542960000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542960000:1000",
+   "seq": 186,
+   "at": 267921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 267921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.859828684169,
+    "effectivePriceRatio": 1.007191520000657,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542965000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542960000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542960000:5000",
+   "seq": 187,
+   "at": 267921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 267921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4811.536977874277,
+    "effectivePriceRatio": 1.0391689855013824,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542965000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542960000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542965000:100",
+   "seq": 188,
+   "at": 272921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 272921,
+    "sizeUsd": 100,
+    "amountOutUsd": 100.00034097486329,
+    "effectivePriceRatio": 0.9999965902629935,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542970000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542965000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542965000:1000",
+   "seq": 189,
+   "at": 272921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 272921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.859828684169,
+    "effectivePriceRatio": 1.007191520000657,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542970000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542965000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542965000:5000",
+   "seq": 190,
+   "at": 272921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 272921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4811.536977874277,
+    "effectivePriceRatio": 1.0391689855013824,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542970000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542965000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542970000:100",
+   "seq": 191,
+   "at": 277921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 277921,
+    "sizeUsd": 100,
+    "amountOutUsd": 100.00034097486329,
+    "effectivePriceRatio": 0.9999965902629935,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542975000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542970000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542970000:1000",
+   "seq": 192,
+   "at": 277921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 277921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.859828684169,
+    "effectivePriceRatio": 1.007191520000657,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542975000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542970000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542970000:5000",
+   "seq": 193,
+   "at": 277921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 277921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4811.536977874277,
+    "effectivePriceRatio": 1.0391689855013824,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542975000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542970000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542975000:100",
+   "seq": 194,
+   "at": 282921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 282921,
+    "sizeUsd": 100,
+    "amountOutUsd": 100.00034097486329,
+    "effectivePriceRatio": 0.9999965902629935,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542980000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542975000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542975000:1000",
+   "seq": 195,
+   "at": 282921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 282921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.859828684169,
+    "effectivePriceRatio": 1.007191520000657,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542980000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542975000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542975000:5000",
+   "seq": 196,
+   "at": 282921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 282921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4811.536977874277,
+    "effectivePriceRatio": 1.0391689855013824,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542980000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542975000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542980000:100",
+   "seq": 197,
+   "at": 287921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 287921,
+    "sizeUsd": 100,
+    "amountOutUsd": 100.00034097486329,
+    "effectivePriceRatio": 0.9999965902629935,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542985000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542980000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542980000:1000",
+   "seq": 198,
+   "at": 287921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 287921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.859828684169,
+    "effectivePriceRatio": 1.007191520000657,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542985000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542980000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542980000:5000",
+   "seq": 199,
+   "at": 287921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 287921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4811.536977874277,
+    "effectivePriceRatio": 1.0391689855013824,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542985000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542980000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:flow:0xa54134d5dbddb2a34071d5a645273305bc379b52408a289d04733cab0ce1618e:35587655537",
+   "seq": 200,
+   "at": 288214,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "flow.competing",
+   "payload": {
+    "chainId": "evm:8453",
+    "token": {
+     "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+     "symbol": "CBBTC",
+     "name": "Coinbase Wrapped BTC",
+     "decimals": 8
+    },
+    "wallet": "0xb2edee1dc145624139fa361385c1e9845976f3a1",
+    "side": "sell",
+    "sizeUsd": 100.5136556382471,
+    "delayMs": 288214,
+    "txHash": "0xa54134d5dbddb2a34071d5a645273305bc379b52408a289d04733cab0ce1618e",
+    "labels": []
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542985000:100",
+   "seq": 201,
+   "at": 292921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 292921,
+    "sizeUsd": 100,
+    "amountOutUsd": 100.00678538585073,
+    "effectivePriceRatio": 0.9999321507453264,
+    "priceImpactPct": 0.0800078978024977,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542990000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542985000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542985000:1000",
+   "seq": 202,
+   "at": 292921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 292921,
+    "sizeUsd": 1000,
+    "amountOutUsd": 992.9238124338904,
+    "effectivePriceRatio": 1.0071266168436068,
+    "priceImpactPct": 0.8000789780249771,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542990000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542985000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:quote:1788542985000:5000",
+   "seq": 203,
+   "at": 292921,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest"
+   },
+   "type": "quote.observed",
+   "payload": {
+    "chainId": "evm:8453",
+    "tokenIn": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "tokenOut": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "delayMs": 292921,
+    "sizeUsd": 5000,
+    "amountOutUsd": 4811.84705203467,
+    "effectivePriceRatio": 1.039102021724853,
+    "priceImpactPct": 4.000394890124885,
+    "slippagePct": null,
+    "feesUsd": null,
+    "latencyMs": null,
+    "quotedAt": 1788542990000,
+    "source": "reconstruction",
+    "quoteRef": "ohlcv:1788542985000"
+   }
+  },
+  {
+   "v": 1,
+   "id": "recon:status:end",
+   "seq": 204,
+   "at": 300000,
+   "sessionId": "d14b7b3e-a21d-47f3-91f2-520b92155de3",
+   "provenance": {
+    "kind": "estimated-reconstruction",
+    "source": "mobula-rest",
+    "endpoint": "stream",
+    "capturedAt": "2026-09-04T17:40:03.722Z"
+   },
+   "type": "stream.status",
+   "payload": {
+    "provider": "mobula",
+    "state": "ended",
+    "speed": 20,
+    "message": "Reconstruction window complete (CBBTC)"
+   }
+  }
+ ]
+}

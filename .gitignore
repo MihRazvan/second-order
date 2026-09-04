@@ -23,3 +23,6 @@ tsconfig.tsbuildinfo
 .impeccable/config.local.json
 # npm lockfile from a one-off `npm i shadcn`; pnpm-lock.yaml is the workspace lockfile
 package-lock.json
+
+# ephemeral session captures (promote worthwhile ones into data/replays/fixtures)
+data/replays/captures/

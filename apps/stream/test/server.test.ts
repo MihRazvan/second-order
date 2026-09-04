@@ -32,11 +32,13 @@ describe('stream service', () => {
     expect(JSON.stringify(body)).not.toMatch(/MOBULA_API_KEY|postgres:\/\//);
   });
 
-  it('lists replays with demo-scenario provenance', async () => {
+  it('lists replays with honest provenance (demo fixture plus reconstructions, never live)', async () => {
     const res = await fetch(`${base}/api/replays`);
-    const body = (await res.json()) as { replays: { id: string; provenance: { kind: string } }[] };
+    const body = (await res.json()) as { replays: { id: string; provenance: { kind: string }; disclosure: string }[] };
     expect(body.replays.length).toBeGreaterThan(0);
-    expect(body.replays.every((r) => r.provenance.kind === 'demo-scenario')).toBe(true);
+    expect(body.replays.find((r) => r.id === 'demo-crowd-capture.v1')?.provenance.kind).toBe('demo-scenario');
+    expect(body.replays.some((r) => r.provenance.kind === 'live-witnessed')).toBe(false);
+    expect(body.replays.every((r) => r.disclosure.length > 20)).toBe(true);
   });
 
   it('rejects a malformed session request with a typed error', async () => {

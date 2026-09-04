@@ -12,3 +12,12 @@ Setup: `pnpm dev`, open http://localhost:3000 at 1440×900. The page loads armed
 | 15 s | Annunciator flips red: **CROWD CAPTURE RISK · −12.4% · Max scenario-compatible size $84 · [Resize to $84] [Block wallet]**. | "CrowdGuard says: resize to 84 dollars, or block the wallet." |
 
 Follow-ups for judges: press **Resize to $84** (verdict becomes ALLOW), move the delay slider (curve and verdict update instantly, in the browser), open **Open evidence** (provenance, model inputs, quote column, flow ledger, assumptions), add `?stream=off` to show the local replay fallback.
+
+## Second act: a real wallet (about 40 seconds)
+
+1. Scroll to **Crash test any wallet**. Say: "Now something we did not script."
+2. Pick a replay first for determinism: in **Replays**, click *Real: fake CBBTC honeypot on Base*. Press **Crash test this wallet**. The recorder plays a real five-minute window reconstructed from Mobula history: 19 same-direction trades, the wallet's own 86% exit at T+250 s, and a **SECURITY BLOCK** because Mobula's static analysis flags the token as a honeypot with a 100% sell tax. Say: "Same model, real data, different failure mode."
+3. Then paste any wallet a judge names, choose the chain and a 5-minute window, and press **Reconstruct crash test**. Point out the status bar: *Estimated reconstruction*, not *Live witnessed*, and that quotes are inferred from the price path and current depth.
+4. After the run: drag the playhead back to the source exit, drag the amber marker to a later delay and watch the verdict change, then press **Share report** and show the link (size and delay live in the fragment only).
+
+If the stream service is unreachable the page says so and only the bundled demo replay runs locally.

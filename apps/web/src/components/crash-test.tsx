@@ -69,9 +69,9 @@ export function CrashTest() {
   const startAlphaRef = useRef<{ key: string; value: number } | null>(null);
   const sessionKey = `${snap.session?.sessionId ?? 'armed'}:${snap.manifest?.id ?? ''}`;
   if (startAlphaRef.current && startAlphaRef.current.key !== sessionKey) startAlphaRef.current = null;
-  if (remainingUsd !== null && snap.state.sourceTrade && (armed || !startAlphaRef.current)) {
-    if (armed || snap.liveTarget) startAlphaRef.current = { key: sessionKey, value: remainingUsd };
-    else if (!startAlphaRef.current) startAlphaRef.current = { key: sessionKey, value: remainingUsd };
+  // Freeze only once the market snapshot is in, otherwise the first frame reads $0 on a model-only grid.
+  if (remainingUsd !== null && snap.state.sourceTrade && snap.state.market && (armed || !startAlphaRef.current)) {
+    startAlphaRef.current = { key: sessionKey, value: remainingUsd };
   }
   const startAlphaUsd = startAlphaRef.current?.value ?? remainingUsd ?? 0;
 

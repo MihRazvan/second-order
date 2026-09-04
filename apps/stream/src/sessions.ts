@@ -125,7 +125,8 @@ export class SessionManager {
           description: `${kind === 'live-witnessed' ? 'Captured from Mobula streams while it happened' : 'Reconstructed from Mobula REST history'} by the stream service. ${session.events.length} events over ${Math.round(session.state.lastEventAt / 1000)} s of event time.`,
           provenance: { kind, source: kind === 'live-witnessed' ? 'mobula-wss' : 'mobula-rest', capturedAt: session.info.startedAt },
           durationMs: session.state.lastEventAt,
-          defaultSpeed: 4,
+          // Replay any captured window in about fifteen seconds.
+          defaultSpeed: Math.max(1, Math.round(session.state.lastEventAt / 15_000)),
           eventCount: session.events.length,
           disclosure: kind === 'live-witnessed'
             ? `Live witnessed. Observations were captured from Mobula endpoints while they happened (session ${session.info.sessionId}, started ${session.info.startedAt}). Replaying them does not re-observe the market.`
