@@ -26,3 +26,5 @@ package-lock.json
 
 # ephemeral session captures (promote worthwhile ones into data/replays/fixtures)
 data/replays/captures/
+.vercel
+.env*

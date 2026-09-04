@@ -1,5 +1,7 @@
 # Second Order — Alpha Crash Test
 
+**Live:** https://second-order-crash-test.vercel.app · stream API: https://stream-production-900a.up.railway.app/health
+
 A profitable source wallet is not necessarily profitable to copy. Second Order replays a tracked wallet's trade, runs a **shadow-follower simulation** across delays and sizes against observed quotes and **competing flow**, drains a **Remaining Alpha** meter as capacity is consumed, and returns a private **CrowdGuard** verdict for your own intended size: ALLOW, RESIZE or BLOCK.
 
 The central object is the Alpha Capacity Surface, `C(delay, crowd AUM)`: the maximum aggregate follower capital for which the trade's scenario-adjusted follower expected value remains positive.
@@ -49,7 +51,7 @@ Reconstruction additionally uses `GET /api/2/token/trades` (pair mode) and `GET 
 ## Deployment
 
 - **Stream service + PostgreSQL on Railway** (project `second-order`). The service builds from `apps/stream/Dockerfile` with the repository as context (`railway.json` at the root sets the Dockerfile, `/health` check and restart policy). Variables on the `stream` service: `MOBULA_API_KEY`, `DATABASE_URL` (referenced from the Postgres plugin), `CORS_ORIGIN` (comma-separated web origins), `CAPTURE_DIR`, `MOBULA_RPS`. Deploy with `railway up -s stream --ci` from the repo root. Live: https://stream-production-900a.up.railway.app/health
-- **Web on Vercel**: project root directory `apps/web` (`apps/web/vercel.json` runs the pnpm install and build from the workspace root). Variable: `NEXT_PUBLIC_STREAM_URL` pointing at the Railway stream URL. After the first deploy, add the Vercel domain to `CORS_ORIGIN` on Railway.
+- **Web on Vercel** (project `second-order`, alias https://second-order-crash-test.vercel.app): root directory `apps/web` (`apps/web/vercel.json` runs the pnpm install and build from the workspace root). Variable: `NEXT_PUBLIC_STREAM_URL` pointing at the Railway stream URL. Deployment Protection is off so judges can open it. `CORS_ORIGIN` on Railway includes `*.vercel.app`, so preview deployments work too. Deploy with `vercel deploy --prod --yes` from the repo root.
 - Health: `/health` and `/ready` on stream, `/api/health` on web.
 
 ## Truthfulness
