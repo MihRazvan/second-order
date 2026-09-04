@@ -129,7 +129,7 @@ export function Recorder({ state, derived, shadows, timeline, nowAt, durationMs,
       {/* Lane 1 */}
       <g>
         <line x1={GUTTER} x2={W - 20} y1={ay(startAlphaUsd)} y2={ay(startAlphaUsd)} stroke="var(--so-alpha-dim)" strokeDasharray="3 5" />
-        <text x={W - 24} y={ay(startAlphaUsd) - 6} fontSize={11} fill="var(--so-alpha-dim)" textAnchor="end">{fmtUsdWhole(startAlphaUsd)} estimated before test</text>
+        <text x={GUTTER + 6} y={ay(startAlphaUsd) - 6} fontSize={11} fill="var(--so-alpha-dim)">{fmtUsdWhole(startAlphaUsd)} estimated before test</text>
         {areaPath && <path d={areaPath} fill={alphaTone} opacity={0.14} style={reducedMotion ? undefined : { transition: 'fill 400ms ease-out' }} />}
         {linePath && <path d={linePath} fill="none" stroke={alphaTone} strokeWidth={2} strokeLinejoin="round" />}
         {pts.length > 0 && (
@@ -203,9 +203,6 @@ export function Recorder({ state, derived, shadows, timeline, nowAt, durationMs,
           <rect x={px - 34} y={D.y + D.h + 6} width={68} height={16} fill={scrubbing ? 'var(--so-amber)' : 'var(--so-fg)'} />
           <text x={px} y={D.y + D.h + 18} fontSize={11} fill="var(--so-bg-sunken)" textAnchor="middle" fontWeight={600}>T+{(nowAt / 1000).toFixed(1)}s</text>
         </g>
-      )}
-      {phase === 'ended' && onScrub && !scrubbing && (
-        <text x={W - 24} y={D.y + D.h + 18} fontSize={11} fill="var(--so-fg-faint)" textAnchor="end">drag the playhead to review · drag your marker to change delay</text>
       )}
       {scrubbing && onScrub && (
         <g style={{ cursor: 'pointer' }} onClick={() => onScrub(null)}>

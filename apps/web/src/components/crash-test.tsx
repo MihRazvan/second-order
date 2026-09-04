@@ -164,7 +164,7 @@ export function CrashTest() {
           </div>
         </div>
         <div className="font-data mt-1 flex flex-wrap justify-between gap-x-6 gap-y-1 text-[12px] text-fg-faint">
-          <span>Shadow-follower simulation · 100 sampled scenarios · colour = scenario-adjusted outcome (green ≥ +2%, amber ±2%, red ≤ −2%)</span>
+          <span>Shadow-follower simulation · 100 sampled scenarios · colour = scenario-adjusted outcome (green ≥ +2%, amber ±2%, red ≤ −2%){snap.phase === 'ended' ? ' · drag the playhead to review, drag your marker to change delay, hover a follower' : ''}</span>
           <span>{derived ? `${derived.competingFlowCount} competing trades · ${fmtUsdWhole(derived.competingFlowUsd)}` : ''}{` · ${snap.state.seen.size} events`}</span>
         </div>
       </section>
