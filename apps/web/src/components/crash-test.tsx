@@ -84,6 +84,8 @@ export function CrashTest() {
   const shownFor = useRef<string | null>(null);
   const [target, setTarget] = useState({ wallet: '', chainId: 'evm:8453', windowSeconds: 300, tradeIndex: 0 });
   const [tick, setTick] = useState(0);
+  const [escArmed, setEscArmed] = useState(false);
+  const escTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => { if (!running || reducedMotion) return; const id = setInterval(() => setTick((t) => t + 1), 250); return () => clearInterval(id); }, [running, reducedMotion]);
 
   // The CrowdGuard dialog opens once per finished session.
@@ -167,15 +169,23 @@ export function CrashTest() {
         case 'F8': e.preventDefault(); if (wallet) (blocked ? intentApi.unblock(wallet) : intentApi.block(wallet)); break;
         case 'F9': e.preventDefault(); setEvidenceOpen(true); break;
         case 'F10': e.preventDefault(); if (reportHref) window.location.assign(reportHref); break;
-        case 'Escape': if (document.querySelector('[role="dialog"]')) return; e.preventDefault(); if (snap.phase !== 'armed') reset(); break;
+        case 'Escape': {
+          // Dialogs close on Escape at the document level before this runs, so a single
+          // Escape is never a reset: the first press arms, a second within two seconds resets.
+          if (snap.phase === 'armed') return;
+          e.preventDefault();
+          if (escArmed) { setEscArmed(false); reset(); }
+          else { setEscArmed(true); if (escTimer.current) clearTimeout(escTimer.current); escTimer.current = setTimeout(() => setEscArmed(false), 2000); }
+          break;
+        }
       }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [allIds, selectedId, selectedItem, editingId, evidenceOpen, verdictOpen, run, reconstruct, reset, reportHref, wallet, blocked, intentApi, snap.phase, armed, busy]);
+  }, [allIds, selectedId, selectedItem, editingId, evidenceOpen, verdictOpen, run, reconstruct, reset, reportHref, wallet, blocked, intentApi, snap.phase, armed, busy, escArmed]);
 
   const lastMarker = snap.state.markers.filter((m) => m.at <= nowAt).at(-1);
-  const statusLine = snap.phase === 'failed'
+  const statusLine = escArmed ? 'PRESS ESC AGAIN TO RESET THE UTILITY, OR ANY OTHER KEY TO KEEP THIS RUN.' : snap.phase === 'failed'
     ? `ERROR: ${snap.error ?? 'replay unavailable'} — no verdict without data`
     : armed ? (blocked ? 'THIS WALLET IS BLOCKED IN THIS BROWSER. F8 TO UNBLOCK.' : 'READY. F5 RUNS THE SHADOW-FOLLOWER SIMULATION OVER THE RECORDED SOURCE TRADE.')
       : running ? (lastMarker ? `T+${(lastMarker.at / 1000).toFixed(0)}S ${lastMarker.label.toUpperCase()}` : 'SHADOW FOLLOWERS BOARDING…')
@@ -224,7 +234,7 @@ export function CrashTest() {
                 <AlphaMeter remainingUsd={remainingUsd} startUsd={startAlphaUsd} delayMs={intent.delayMs} />
                 <FlowAndDepth derived={derived} state={snap.state} />
                 <div className="bios-rule my-1" />
-                <div className="grid gap-x-8 gap-y-2 xl:grid-cols-2">
+                <div className="grid gap-x-10 gap-y-2 xl:grid-cols-[auto_minmax(0,1fr)]">
                   <FollowerGrid shadows={shadows} nowAt={nowAt} intent={intent} cols={GRID_COLS} colLabels={COL_LABELS} />
                   <CapacityMap curve={curve} intent={intent} maxCompatibleUsd={verdict?.maxCompatibleUsd ?? null} />
                 </div>
@@ -246,7 +256,7 @@ export function CrashTest() {
               { key: 'F8', label: blocked ? 'Unblock' : 'Block wallet', onClick: () => wallet && (blocked ? intentApi.unblock(wallet) : intentApi.block(wallet)), disabled: !wallet },
               { key: 'F9', label: 'Evidence', onClick: () => setEvidenceOpen(true) },
               { key: 'F10', label: 'Report', onClick: () => reportHref && window.location.assign(reportHref), disabled: !reportHref },
-              { key: 'ESC', label: 'Reset', onClick: reset, disabled: armed },
+              { key: 'ESC ESC', label: 'Reset', onClick: reset, disabled: armed },
             ]} />
           </div>
         </footer>

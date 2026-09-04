@@ -1,59 +1,167 @@
-# Second Order — Alpha Crash Test
+# SECOND ORDER
+<img width="1920" height="480" alt="Second Order Alpha Crash Test Utility" src="docs/assets/banner.png" />
 
-**Live:** https://second-order-crash-test.vercel.app · stream API: https://stream-production-900a.up.railway.app/health
+Second Order is an onchain **Alpha Crash Test**. It answers the question a leaderboard cannot: *if I copy this wallet, what do I actually receive once delay, size, competing flow and the source's own exit are priced in?* It runs on Mobula's wallet, trade, market and security data and returns a private pre-trade verdict: **ALLOW · RESIZE · BLOCK**.
 
-A profitable source wallet is not necessarily profitable to copy. Second Order replays a tracked wallet's trade, runs a **shadow-follower simulation** across delays and sizes against observed quotes and **competing flow**, drains a **Remaining Alpha** meter as capacity is consumed, and returns a private **CrowdGuard** verdict for your own intended size: ALLOW, RESIZE or BLOCK.
+[Project Brief](PROJECT_BRIEF.md) | [Quickstart](docs/QUICKSTART.md) | [Demo Script](docs/DEMO_SCRIPT.md) | [Architecture](ARCHITECTURE.md) | [Model](packages/core/README.md) | [Design](DESIGN.md) | [Docs](docs/learn/README.md)
 
-The central object is the Alpha Capacity Surface, `C(delay, crowd AUM)`: the maximum aggregate follower capital for which the trade's scenario-adjusted follower expected value remains positive.
+---
 
-> The default replay is labelled **Demo scenario**: a synthetic, calibrated fixture. Type any wallet into the form to get an **Estimated reconstruction** built from real Mobula history (works even without a key through Mobula's demo API). **Live witnessed** sessions need a Growth-plan key for the WebSocket streams.
+[Live utility](https://second-order-crash-test.vercel.app) | [Stream API health](https://stream-production-900a.up.railway.app/health) | [Stream API reference](docs/learn/stream-api.md) | [Decisions](DECISIONS.md)
 
-## Run the demo
+---
+
+## Problem First
+
+Copy-trading products rank wallets by *their* realized return. A wallet that made +186% is shown as something to follow. But the follower is not the source: they arrive seconds later, they pay the price impact of everyone who arrived before them, they exit after the source has already sold into the same pool, and if a hundred other followers had the same idea, the trade's edge is gone long before the last of them fills.
+
+A profitable source wallet is not necessarily profitable to copy. Nothing in the leaderboard tells you where the line is.
+
+<img alt="The setup utility armed on the demo scenario" src="docs/assets/screens/utility-armed.png" />
+
+Second Order draws the line. It replays the source trade, runs a **shadow-follower simulation** across delays and sizes against observed quotes and **competing flow**, drains a **Remaining Alpha** meter as capacity is consumed, and evaluates *your* intended size and delay against what survives.
+
+**The utility tells you:**
+- the source's realized return, as a leaderboard would
+- how much scenario-compatible follower capital remains at your delay, and how fast it drained
+- your own scenario-adjusted outcome at your size
+- the maximum scenario-compatible size, if any
+- whether the source exited while followers were still holding
+- what every number rests on, and how confident the model is
+
+No claim that simulated followers are real. No claim that same-direction trades are copy-trades. No claim that a source exit shows intent. Estimates, labelled as estimates, with their provenance next to them.
+
+---
+
+## Overview
+
+Second Order is a two-part system:
+- A **stream service** that turns Mobula observations into normalized, versioned events
+- A **browser utility** that reduces those events into a capacity surface and a verdict, locally
+
+The stream service never sees your intended size, delay or policy. The model comes to the browser, not the other way round.
+
+### The central object
+
+> **Alpha Capacity Surface**  `C(delay, crowd AUM)` = the maximum aggregate follower capital for which the trade's scenario-adjusted follower expected value remains positive.
+
+Remaining Alpha is `C` at your delay given the flow already observed. The CrowdGuard verdict compares your intended size against it.
+
+### Core Principles
+
+1. **Price the follower, not the leader.** Every number on the primary surface describes what a follower would receive.
+2. **Evidence before verdict.** F9 opens the Evidence Log: provenance, model inputs, data quality, the latest quote column, the security snapshot, the competing-flow ledger and the assumptions.
+3. **Fail conservative.** Missing or stale market, quote or security data can only move a verdict toward RESIZE or BLOCK. Critical security flags block regardless of outcome.
+4. **Name the provenance.** DEMO SCENARIO, ESTIMATED RECONSTRUCTION and LIVE WITNESSED are visibly different states everywhere a number appears.
+5. **Private by default.** Size, delay and policy stay in `localStorage`. They are not in any request.
+
+---
+
+## How It Works
+
+At a high level, Second Order estimates this statement:
+
+> *A follower of size S entering D seconds behind this trade, behind the flow that actually arrived before them, exiting after the source's remaining position is sold, would receive this scenario-adjusted outcome.*
+
+### Observations (stream service)
+
+**From Mobula:**
+1. the source wallet's trades (`/api/2/wallet/trades`) → the anchoring buy and later exits
+2. the wallet's trading analysis (`/api/2/wallet/analysis`) → the leaderboard number
+3. the pool's trade history (`/api/2/token/trades`) → competing same-direction flow
+4. 5-second candles (`/api/2/market/ohlcv-history`) → the price path after the trade
+5. market details and token security (`/api/2/market/details`, `/api/2/token/security`) → depth, taxes, honeypot flags
+6. with a Growth-plan key: the quoting and fast-trade WebSocket streams → live witnessed quotes and flow
+
+Every observation becomes a `DomainEvent` with an explicit provenance kind. Duplicate ids are dropped. Every frame is validated at the boundary.
+
+### Model (browser, pure functions)
+
+1. **Quote grid.** Observed quotes over (delay, size) become a continuous entry-price function: linear in delay, log in size, constant-product extrapolation marked as such beyond the observed envelope.
+2. **Entry.** The follower pays the average price over their slice of the impact curve at their delay.
+3. **Exit.** The target is the source's typical gain until a source exit is witnessed, then the current observed spot: no further upside is assumed once the source has left. The source's unsold remainder is sold first; exit depth is the lower of reported liquidity and the depth the latest quotes imply.
+4. **Costs.** Buy/sell taxes from the security snapshot, a proportional platform fee and fixed gas per side.
+5. **Capacity.** EV rises then falls in size; a golden-section search finds the peak and a bisection finds the upper root. That root is `C`.
+6. **CrowdGuard.** ALLOW if your size is at or below `C` and every input is fresh and complete. RESIZE if a smaller size survives. BLOCK otherwise, or on a critical security flag.
+
+The 100 shadow followers are 100 sampled (delay, size) scenarios re-evaluated as flow arrives. They are a visualization of the surface, not agents.
+
+---
+
+## Demo: The Fifteen-Second Crash Test
+
+<img alt="CrowdGuard verdict dialog after the fifteen-second run" src="docs/assets/screens/utility-verdict.png" />
+
+Press **F5**. A wallet with +186% realized return has just bought. Shadow followers board along the delay axis, green at first. Competing flow enters, execution depth thins, the source exits 55% of its position, Remaining Alpha collapses from $13,925 to $84. The CrowdGuard dialog reads: **RESIZE — do not copy at $1,000. Scenario-adjusted outcome −12.4%. Maximum scenario-compatible size $84.** Copy anyway is greyed out.
+
+That run is a calibrated synthetic fixture and says so. Then switch `REPLAY` to a real one:
+
+<img alt="A real Base wallet's fake CBBTC buy ends in a security block" src="docs/assets/screens/real-honeypot-verdict.png" />
+
+- **Fake CBBTC honeypot on Base.** A real wallet bought a token named CBBTC in a $250k pool; Mobula's static analysis flags it as a honeypot with a 100% sell tax; the wallet itself sold 86% four minutes in. Verdict: **SECURITY BLOCK**.
+- **FLOCK on Base.** 109 same-direction trades in five minutes, pool deep enough that a $1,000 copy stays **scenario-compatible**.
+
+Or press **F2**, type any wallet, and press **F6**: the utility reconstructs the minutes after its latest buy from Mobula history, in about fifteen seconds.
+
+<img alt="The utility on a phone, verdict dialog open" src="docs/assets/screens/utility-mobile.png" width="390" />
+
+### Second Order can power:
+
+pre-trade checks in copy-trading UIs | wallet leaderboards that show follower capacity next to source return | position sizing for signal groups | a prospective **Crowdproof** credential, earned only when a wallet's signals survive witnessed follower conditions
+
+---
+
+## Provenance States
+
+| Label | Means | How it is produced |
+|---|---|---|
+| **DEMO SCENARIO** | Synthetic fixture, nothing from a market | Seeded generator, calibrated to the brief's numbers, committed with a manifest and disclosure |
+| **ESTIMATED RECONSTRUCTION** | Real Mobula history fetched after the fact; quotes inferred from the price path and current depth | Stream service, any wallet, keyless demo API or your key |
+| **LIVE WITNESSED** | Captured from Mobula streams while it happened | Growth-plan key; quoting + fast-trade WebSockets |
+
+The utility never upgrades a label. A reconstruction is never called witnessed.
+
+---
+
+## Tech Stack
+
+| Component | Technology | Purpose |
+| --- | --- | --- |
+| Data | **Mobula REST + WebSocket** | Wallet trades, pool history, candles, security, quotes, flow |
+| Contracts | **Zod** | Versioned event envelope, API payloads, raw Mobula validators |
+| Model | **TypeScript (pure)** | Quote grid, capacity solver, reducer, CrowdGuard; unit and property tests |
+| Stream | **Fastify + SSE** | Providers (replay, reconstruction, live), dedupe, fan-out, capture |
+| Persistence | **PostgreSQL + Drizzle** | Events, capacity snapshots, replay manifests, errors; sessions rebuilt after restarts |
+| Web | **Next.js 16 + React 19 + Tailwind 4** | The setup utility; VT323 + Archivo self-hosted |
+| Dialogs | **Radix** (behaviour only) | Focus, Escape, aria for the Win95 windows |
+| Tests | **Vitest + Playwright** | 55 unit/integration tests, 15 e2e at 1440×900, 1280×800, 390×844 |
+| Hosting | **Vercel + Railway** | Web on Vercel; stream + Postgres on Railway |
+
+---
+
+## Deployments
+
+1. **Utility:** https://second-order-crash-test.vercel.app
+2. **Stream API:** https://stream-production-900a.up.railway.app (`/health`, `/api/replays`, `/api/capabilities`, `/api/sessions`)
+3. **Repository:** https://github.com/MihRazvan/second-order
+
+### Run locally
 
 ```bash
-corepack enable            # pnpm 10
-pnpm install
-pnpm dev                   # web on :3000, stream on :4010
+corepack enable && pnpm install
+pnpm dev            # web :3000 · stream :4010 (keyless Mobula demo API unless MOBULA_API_KEY is set)
+pnpm test           # unit + integration
+pnpm test:e2e       # Playwright, needs pnpm dev
 ```
 
-Open http://localhost:3000 and press **Crash test this wallet**. The run takes about fifteen seconds. If the stream service is not reachable the page falls back to replaying the same fixture in the browser and says so in the status bar (`?stream=off` forces that path).
+More in the [Quickstart](docs/QUICKSTART.md).
 
-To crash-test a real wallet, paste its address in **Crash test any wallet**, pick the chain and window, and press **Reconstruct crash test**. The stream service anchors on the wallet's most recent buy that is at least one window old, pulls the pool's trade history, 5-second candles, security and market context from Mobula, and replays the reconstructed minutes in about fifteen seconds. Every completed run has a **Share report** link (`/report/<sessionId>`), with your size and delay carried only in the URL fragment. With `CAPTURE_DIR` set, reconstructions are saved as replay files and appear in the replay picker.
-
-Useful commands:
-
-```bash
-pnpm test                  # Vitest: core model, contracts, fixtures, stream service, normalizers
-pnpm test:e2e              # Playwright: the fifteen-second flow at 1440×900, 1280×800, 390×844
-pnpm replays:generate      # regenerate the demo fixture from data/replays/src/scenario-config.ts
-pnpm --filter @second-order/replays calibrate   # print the brief's numbers as the reducer sees them
-node apps/web/scripts/demo-run.mjs out/ 1440x900  # drive the demo and capture frames
-```
-
-## Architecture in one paragraph
-
-`packages/contracts` (Zod, versioned `DomainEvent` envelope with explicit provenance) → `packages/core` (pure capacity model: quote-grid interpolation, entry/exit pricing, capacity solver, fail-conservative CrowdGuard, scenario reducer) → `data/replays` (seeded deterministic fixtures with manifests) → `apps/stream` (Fastify; `ReplayDataSource` and `MobulaDataSource` emit identical normalized events; SSE fan-out; optional PostgreSQL via Drizzle) → `apps/web` (Next.js; the browser reduces the same events and computes the verdict locally so intended size, delay and policy never leave it). Details: [ARCHITECTURE.md](ARCHITECTURE.md), [DECISIONS.md](DECISIONS.md), [DESIGN.md](DESIGN.md), [packages/core/README.md](packages/core/README.md).
-
-## Mobula access
-
-| Capability | Endpoint | Plan | Used for |
-|---|---|---|---|
-| Wallet trades v2 | `GET /api/2/wallet/trades` | Free+ | source trade anchor, source exits (poll fallback) |
-| Wallet analysis | `GET /api/2/wallet/analysis` | Free+ (5 credits) | historical performance context |
-| Token security | `GET /api/2/token/security` | Free+ (10 credits) | taxes, honeypot and critical flags |
-| Market details | `GET /api/2/market/details` | Free+ | reported liquidity, spot |
-| Swap quoting | `GET /api/2/swap/quoting` | Free+ | quote fallback when the stream is plan-gated |
-| Quoting stream | `wss://api.mobula.io` type `quoting` | **Growth+** | live quotes at several sizes |
-| Fast trades stream | `wss://api.mobula.io` type `fast-trade` | **Growth+** | competing flow and source exits |
-
-Reconstruction additionally uses `GET /api/2/token/trades` (pair mode) and `GET /api/2/market/ohlcv-history` (5s candles), both Free+. Without a key the service talks to `demo-api.mobula.io` (rate limited, no signup); with `MOBULA_API_KEY` in `apps/stream/.env` it uses `api.mobula.io`. The service probes each capability at start and reports `available`, `plan-gated`, `unreachable` or `disabled` at `GET /api/capabilities`; `/health` reports `mobula: ready` only when a stream is available, otherwise `rest-only`, and the UI offers live sessions only in the former case. Ended live and reconstruction sessions are written to `CAPTURE_DIR` as replay files with their provenance.
-
-## Deployment
-
-- **Stream service + PostgreSQL on Railway** (project `second-order`). The service builds from `apps/stream/Dockerfile` with the repository as context (`railway.json` at the root sets the Dockerfile, `/health` check and restart policy). Variables on the `stream` service: `MOBULA_API_KEY`, `DATABASE_URL` (referenced from the Postgres plugin), `CORS_ORIGIN` (comma-separated web origins), `CAPTURE_DIR`, `MOBULA_RPS`. Deploy with `railway up -s stream --ci` from the repo root. Live: https://stream-production-900a.up.railway.app/health
-- **Web on Vercel** (project `second-order`, alias https://second-order-crash-test.vercel.app): root directory `apps/web` (`apps/web/vercel.json` runs the pnpm install and build from the workspace root). Variable: `NEXT_PUBLIC_STREAM_URL` pointing at the Railway stream URL. Deployment Protection is off so judges can open it. `CORS_ORIGIN` on Railway includes `*.vercel.app`, so preview deployments work too. Deploy with `vercel deploy --prod --yes` from the repo root.
-- Health: `/health` and `/ready` on stream, `/api/health` on web.
+---
 
 ## Truthfulness
 
-Simulated followers are not real followers. Same-direction trades do not prove copy-trading. A source exit that overlaps follower exits describes timing, not intent. Scenario estimates do not guarantee returns. Historical reconstruction is not live witnessing. The system is not completely private or trustless: user intent stays in the browser, but the stream service still sees which wallet is being tested.
+Simulated followers are not real followers. Same-direction trades do not prove copy-trading. A source exit that overlaps follower exits describes timing, not intent. Scenario estimates do not guarantee returns. Historical reconstruction is not live witnessing. The system is not completely private or trustless: your intent stays in the browser, but the stream service still sees which wallet you are testing.
+
+---
+
+Built with <3 during the Mobula hackathon, 2026. MIT licensed.

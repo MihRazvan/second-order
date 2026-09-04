@@ -51,3 +51,13 @@ Format: decision, why, rejected alternatives. Newest at the bottom. Dates are ab
 **Decision.** The replay provider emits events with the fixture's original relative timing (speed factor configurable); the UI only reacts to events. The "Crash test this wallet" button starts a session on the server (or in the browser fallback) rather than animating a script.
 **Why.** Keeps the UI provider-agnostic: a live witnessed session and a replay drive identical code paths, which is the whole point of the provider abstraction.
 **Rejected.** A UI-side scripted timeline (would make the live path a second implementation).
+
+## D-011 · 2026-09-04 · Mobula's keyless demo API is the default REST backend
+**Decision.** Without `MOBULA_API_KEY` the stream service talks to `demo-api.mobula.io`; with a key it uses `api.mobula.io`. Reconstructions therefore work on a fresh clone with no signup.
+**Why.** Mobula documents the demo API as keyless and rate-limited for testing; it serves every REST endpoint the reconstruction needs. Judges can run a real wallet without provisioning anything.
+**Rejected.** Requiring a key (blocks the first-run experience); bundling a key in the client (never).
+
+## D-012 · 2026-09-04 · Redesign to a BIOS setup utility with Win95 dialogs
+**Decision.** Replace the flight-recorder surface with a setup-utility world: navy field, cyan labels, bracketed values, Item Specific Help, block-glyph meters, function-key navigation, Win95 dialogs for CrowdGuard and the Evidence Log. VT323 + Archivo.
+**Why.** The founder judged the recorder too close to a generic dark dashboard for a fifteen-second pitch and pinned this aesthetic with mockups. The utility metaphor fits the product exactly: a diagnostic you run before you act, with every setting explained beside it.
+**Rejected.** Blending the two worlds; keeping the recorder as a secondary view (clutter without a job).

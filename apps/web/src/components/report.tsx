@@ -125,7 +125,7 @@ export function Report({ sessionId }: { sessionId: string }) {
                 <AlphaMeter remainingUsd={remainingUsd} startUsd={startAlphaUsd} delayMs={intent.delayMs} />
                 <FlowAndDepth derived={derived} state={state} />
                 <div className="bios-rule my-1" />
-                <div className="grid gap-x-8 gap-y-2 xl:grid-cols-2">
+                <div className="grid gap-x-10 gap-y-2 xl:grid-cols-[auto_minmax(0,1fr)]">
                   <FollowerGrid shadows={shadows} nowAt={endAt} intent={intent} cols={GRID_COLS} colLabels={COL_LABELS} />
                   <CapacityMap curve={curve} intent={intent} maxCompatibleUsd={verdict.maxCompatibleUsd} />
                 </div>
