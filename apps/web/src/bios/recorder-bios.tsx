@@ -86,7 +86,7 @@ export function FollowerGrid({ shadows, nowAt, intent, cols, colLabels }: { shad
                       title={`#${s.id + 1} ${fmtUsdWhole(s.sizeUsd)} at ${fmtDelay(s.delayMs)}${on ? ` → ${s.evPct.toFixed(1)}%` : ''}`}
                       className="inline-block"
                       style={{
-                        width: '1.05em', height: '0.8em',
+                        width: '0.92em', height: '0.78em',
                         background: on ? cellBg[toneForEv(s.evPct)] : 'repeating-linear-gradient(45deg, var(--bios-dim) 0 1px, transparent 1px 3px)',
                         outline: you ? '2px solid var(--bios-white)' : undefined, outlineOffset: you ? '1px' : undefined,
                       }}
@@ -100,7 +100,7 @@ export function FollowerGrid({ shadows, nowAt, intent, cols, colLabels }: { shad
         <div className="flex items-baseline gap-x-3 text-bios-fg">
           <span className="w-[6ch]" />
           <span className="flex" style={{ gap: '0.18em' }}>
-            {Array.from({ length: cols }, (_, i) => <span key={i} className="inline-block text-center" style={{ width: '1.05em', fontSize: '0.75em' }}>{colLabels[i] ?? ''}</span>)}
+            {Array.from({ length: cols }, (_, i) => <span key={i} className="inline-block text-center" style={{ width: '0.92em', fontSize: '0.72em' }}>{colLabels[i] ?? ''}</span>)}
           </span>
         </div>
       </div>
@@ -113,7 +113,7 @@ const LOG_MAX = 20_000;
 
 /** CAPACITY MAP C(delay): one row per delay, block bar on a log dollar scale. */
 export function CapacityMap({ curve, intent, maxCompatibleUsd }: { curve: CapacityCurvePoint[]; intent: { delayMs: number; sizeUsd: number }; maxCompatibleUsd: number | null }) {
-  const MAP_CELLS = 24;
+  const MAP_CELLS = 18;
   const rows = curve.filter((c) => [500, 1200, 2000, 5000, 8000, 20_000, 45_000].includes(c.delayMs));
   const cells = (usd: number) => (usd <= 0 ? 0 : Math.max(1, Math.round((Math.log(Math.min(LOG_MAX, Math.max(LOG_MIN, usd)) / LOG_MIN) / Math.log(LOG_MAX / LOG_MIN)) * MAP_CELLS)));
   const userCells = cells(intent.sizeUsd);
