@@ -1,0 +1,25 @@
+node_modules
+.pnpm-store
+dist
+.next
+out
+coverage
+*.log
+.env
+.env.*
+!.env.example
+.DS_Store
+test-results
+playwright-report
+apps/web/tests/e2e/__screenshots__/**/*-actual.png
+.impeccable/live
+.impeccable/critique
+.impeccable/mocks
+tsconfig.tsbuildinfo
+*.tsbuildinfo
+
+# local tooling state
+.claude/settings.local.json
+.impeccable/config.local.json
+# npm lockfile from a one-off `npm i shadcn`; pnpm-lock.yaml is the workspace lockfile
+package-lock.json

@@ -1,0 +1,26 @@
+{
+  "name": "second-order",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.28.0",
+  "engines": { "node": ">=22.12" },
+  "scripts": {
+    "dev": "pnpm -r --parallel --filter ./apps/* dev",
+    "dev:web": "pnpm --filter @second-order/web dev",
+    "dev:stream": "pnpm --filter @second-order/stream dev",
+    "build": "pnpm -r build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "pnpm --filter @second-order/web test:e2e",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "pnpm -r lint",
+    "replays:generate": "pnpm --filter @second-order/replays generate",
+    "db:generate": "pnpm --filter @second-order/stream db:generate",
+    "db:migrate": "pnpm --filter @second-order/stream db:migrate"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "typescript": "~5.9.2",
+    "vitest": "^3.2.4"
+  }
+}
