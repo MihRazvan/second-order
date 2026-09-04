@@ -45,6 +45,20 @@ export const WalletTradesV2Response = loose({
   pagination: loose({ page: z.number(), offset: z.number(), limit: z.number(), pageEntries: z.number() }).optional(),
 });
 
+/** GET /api/2/token/trades — one item of `data[]`. Same shape as wallet trades v2 but `type` also carries deposit/withdrawal. */
+export const TokenTrade = WalletTradeV2.extend({ type: z.string() });
+export const TokenTradesResponse = loose({
+  data: z.array(TokenTrade),
+  pagination: loose({ page: z.number().optional(), offset: z.number().optional(), limit: z.number().optional(), pageEntries: z.number().optional() }).optional(),
+});
+
+/** GET /api/2/market/ohlcv-history — abbreviated candle fields, timestamps in ms. */
+export const OhlcvCandle = loose({ t: z.number(), o: z.number(), h: z.number(), l: z.number(), c: z.number(), v: z.number().nullable().optional() });
+export const OhlcvHistoryResponse = loose({ data: z.array(OhlcvCandle) });
+
+/** GET /api/2/token/price-at */
+export const TokenPriceAtResponse = loose({ data: loose({ priceUSD: z.number(), timestamp: z.number().optional(), swapTimestamp: z.number().nullable().optional(), poolAddress: z.string().nullable().optional() }) });
+
 /** GET /api/2/wallet/analysis */
 export const WalletAnalysisResponse = loose({
   data: loose({
@@ -172,6 +186,7 @@ export const MarketDetailsResponse = loose({
 });
 
 export type WalletTradeV2 = z.infer<typeof WalletTradeV2>;
+export type OhlcvCandle = z.infer<typeof OhlcvCandle>;
 export type QuotingFrame = z.infer<typeof QuotingFrame>;
 export type FastTradeFrame = z.infer<typeof FastTradeFrame>;
 export type EnrichedSwapFrame = z.infer<typeof EnrichedSwapFrame>;

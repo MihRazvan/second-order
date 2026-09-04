@@ -5,7 +5,10 @@
  */
 import {
   MarketDetailsResponse,
+  OhlcvHistoryResponse,
   SwapQuotingResponse,
+  TokenPriceAtResponse,
+  TokenTradesResponse,
   TokenSecurityResponse,
   WalletAnalysisResponse,
   WalletTradesV2Response,
@@ -61,7 +64,9 @@ export class MobulaRest {
     let attempt = 0;
     for (;;) {
       await this.bucket.take(signal);
-      const res = await this.fetchImpl(url, { headers: { Authorization: this.opts.apiKey, Accept: 'application/json' }, signal });
+      const headers: Record<string, string> = { Accept: 'application/json' };
+      if (this.opts.apiKey) headers.Authorization = this.opts.apiKey;
+      const res = await this.fetchImpl(url, { headers, signal });
       if (res.status === 429 || res.status >= 500) {
         const ra = Number(res.headers.get('retry-after'));
         const retryAfterMs = Number.isFinite(ra) && ra > 0 ? ra * 1000 : Math.min(30_000, 500 * 2 ** attempt) + Math.random() * 250;
@@ -96,6 +101,18 @@ export class MobulaRest {
   /** GET /api/2/market/details */
   marketDetails(p: { blockchain: string; address: string }, signal?: AbortSignal) {
     return this.get('/api/2/market/details', { blockchain: p.blockchain, address: p.address }, MarketDetailsResponse, signal);
+  }
+  /** GET /api/2/token/trades — pair mode by pool address or asset mode by token address. */
+  tokenTrades(p: { blockchain: string; address: string; mode?: 'pair' | 'asset'; limit?: number; offset?: number; sortOrder?: 'asc' | 'desc'; fromDate?: number; toDate?: number; type?: 'buy' | 'sell' }, signal?: AbortSignal) {
+    return this.get('/api/2/token/trades', { blockchain: p.blockchain, address: p.address, mode: p.mode ?? 'pair', limit: p.limit ?? 500, offset: p.offset, sortOrder: p.sortOrder ?? 'asc', fromDate: p.fromDate, toDate: p.toDate, type: p.type }, TokenTradesResponse, signal);
+  }
+  /** GET /api/2/market/ohlcv-history */
+  ohlcvHistory(p: { chainId: string; address: string; period?: string; from?: number; to?: number; amount?: number; fill?: boolean }, signal?: AbortSignal) {
+    return this.get('/api/2/market/ohlcv-history', { address: p.address, chainId: p.chainId, period: p.period ?? '5s', from: p.from, to: p.to, amount: p.amount, fill: p.fill === undefined ? undefined : String(p.fill) }, OhlcvHistoryResponse, signal);
+  }
+  /** GET /api/2/token/price-at (timestamp in seconds) */
+  priceAt(p: { blockchain: string; address: string; timestampSec: number }, signal?: AbortSignal) {
+    return this.get('/api/2/token/price-at', { blockchain: p.blockchain, address: p.address, timestamp: p.timestampSec }, TokenPriceAtResponse, signal);
   }
   /** GET /api/2/swap/quoting */
   swapQuote(p: { chainId: string; tokenIn: string; tokenOut: string; amount: string; walletAddress: string; slippage?: string }, signal?: AbortSignal) {

@@ -10,7 +10,7 @@ import { SessionManager } from './sessions.js';
 export interface ServerDeps {
   config: Config;
   persistence: Persistence;
-  sources: Record<'replay' | 'mobula', DataSource | null>;
+  sources: Record<'replay' | 'mobula' | 'reconstruction', DataSource | null>;
 }
 
 const HEARTBEAT_MS = 5000;
@@ -40,7 +40,7 @@ export async function buildServer(deps: ServerDeps): Promise<FastifyInstance> {
       version: deps.config.SERVICE_VERSION,
       uptimeMs: Date.now() - startedAt,
       persistence: deps.persistence.kind,
-      providers: { replay: deps.sources.replay ? 'ready' : 'disabled', mobula: deps.sources.mobula ? 'ready' : 'disabled' },
+      providers: { replay: deps.sources.replay ? 'ready' : 'disabled', mobula: deps.sources.mobula ? 'ready' : 'disabled', reconstruction: deps.sources.reconstruction ? 'ready' : 'disabled' },
       sessions: sessions.count(),
     };
   });
@@ -82,10 +82,25 @@ export async function buildServer(deps: ServerDeps): Promise<FastifyInstance> {
 
   app.get<{ Params: { id: string } }>('/api/sessions/:id/snapshot', async (req, reply) => {
     const s = sessions.get(req.params.id);
-    if (!s) return reply.status(404).send({ error: { code: 'NOT_FOUND', message: 'Session not found' } } satisfies ApiError);
-    const body: SessionSnapshot = { v: 1, session: s.info, events: s.events, serverTime: Date.now() };
+    if (s) {
+      const body: SessionSnapshot = { v: 1, session: s.info, events: s.events, serverTime: Date.now() };
+      return body;
+    }
+    // Not in memory (restart, eviction): rebuild from persistence so reports outlive the process.
+    const events = await deps.persistence.listEvents(req.params.id);
+    if (events.length === 0) return reply.status(404).send({ error: { code: 'NOT_FOUND', message: 'Session not found' } } satisfies ApiError);
+    const first = events[0]!;
+    const mode = first.provenance.kind === 'demo-scenario' ? 'replay' : first.provenance.kind === 'live-witnessed' ? 'live' : 'reconstruction';
+    const body: SessionSnapshot = {
+      v: 1,
+      session: { v: 1, sessionId: req.params.id, mode, provenanceKind: first.provenance.kind, replayId: first.provenance.replayId, speed: 1, startedAt: first.provenance.capturedAt ?? new Date(0).toISOString(), state: 'ended' },
+      events,
+      serverTime: Date.now(),
+    };
     return body;
   });
+
+  app.get('/api/sessions/persisted', async () => ({ v: 1, persistence: deps.persistence.kind, sessions: await deps.persistence.listSessions(50) }));
 
   app.get<{ Params: { id: string } }>('/api/sessions/:id/reference-verdict', async (req, reply) => {
     const v = sessions.referenceVerdict(req.params.id);

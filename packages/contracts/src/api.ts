@@ -28,16 +28,20 @@ export const ReplayFile = z.object({
 });
 export type ReplayFile = z.infer<typeof ReplayFile>;
 
-export const SessionMode = z.enum(['replay', 'live']);
+export const SessionMode = z.enum(['replay', 'live', 'reconstruction']);
 export type SessionMode = z.infer<typeof SessionMode>;
 
 export const CreateSessionRequest = z.object({
   mode: SessionMode.default('replay'),
   replayId: z.string().optional(),
-  speed: z.number().positive().max(64).optional(),
-  /** Live mode only: wallet to track. */
+  speed: z.number().positive().max(600).optional(),
+  /** Live and reconstruction modes: wallet to analyse. */
   wallet: z.string().optional(),
   chainId: z.string().optional(),
+  /** Reconstruction only: which of the wallet's recent buys to anchor on (0 = latest). */
+  tradeIndex: z.number().int().min(0).max(19).optional(),
+  /** Reconstruction only: seconds of market history to reconstruct after the source trade. */
+  windowSeconds: z.number().int().min(60).max(3600).optional(),
 });
 export type CreateSessionRequest = z.infer<typeof CreateSessionRequest>;
 

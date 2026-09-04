@@ -21,6 +21,7 @@ export class MemoryPersistence implements Persistence {
   async saveManifest(m: ReplayManifest) { this.manifests.set(m.id, m); }
   async saveError(e: ProcessingError) { this.errors.push(e); if (this.errors.length > 500) this.errors.shift(); }
   async listEvents(sessionId: string) { return this.events.get(sessionId) ?? []; }
+  async listSessions(limit = 50) { return [...this.events.entries()].slice(-limit).reverse().map(([sessionId, evs]) => ({ sessionId, events: evs.length, firstAt: new Date().toISOString() })); }
   async ping() { return true; }
   async close() {}
 }

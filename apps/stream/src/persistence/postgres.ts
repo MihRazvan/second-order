@@ -1,5 +1,5 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
-import { eq } from 'drizzle-orm';
+import { desc, eq, sql } from 'drizzle-orm';
 import postgres from 'postgres';
 import type { DomainEvent, ReplayManifest } from '@second-order/contracts';
 import * as schema from './schema.js';
@@ -67,9 +67,36 @@ export class PostgresPersistence implements Persistence {
     await this.db.insert(schema.processingErrors).values({ id: err.id, sessionId: err.sessionId ?? null, stage: err.stage, code: err.code, message: err.message.slice(0, 2000), rawSample: err.rawSample ?? null }).onConflictDoNothing();
   }
   async listEvents(sessionId: string): Promise<DomainEvent[]> {
-    const rows = await this.db.select().from(schema.quoteObservations).where(eq(schema.quoteObservations.sessionId, sessionId));
-    // Only quotes are reconstructed here; full reconstruction lives in the snapshot buffer.
-    return rows.map((r) => ({ v: 1, id: r.id.split('@')[0]!, seq: r.seq, at: r.at, sessionId: r.sessionId, provenance: { kind: r.provenanceKind, source: r.provenanceSource } as DomainEvent['provenance'], type: 'quote.observed', payload: r.payload as never }) as DomainEvent);
+    type Row = { id: string; seq: number; at: number; sessionId: string; provenanceKind: string; provenanceSource: string; endpoint: string | null; payload: unknown };
+    const wrap = (r: Row, type: DomainEvent['type']): DomainEvent => ({
+      v: 1, id: r.id.split('@')[0]!, seq: r.seq, at: r.at, sessionId: r.sessionId,
+      provenance: { kind: r.provenanceKind, source: r.provenanceSource, endpoint: r.endpoint ?? undefined } as DomainEvent['provenance'],
+      type, payload: r.payload as never,
+    }) as DomainEvent;
+    const [src, quotes, flows, sec, mkt] = await Promise.all([
+      this.db.select().from(schema.sourceTradeEvents).where(eq(schema.sourceTradeEvents.sessionId, sessionId)),
+      this.db.select().from(schema.quoteObservations).where(eq(schema.quoteObservations.sessionId, sessionId)),
+      this.db.select().from(schema.competingFlowObservations).where(eq(schema.competingFlowObservations.sessionId, sessionId)),
+      this.db.select().from(schema.securitySnapshots).where(eq(schema.securitySnapshots.sessionId, sessionId)),
+      this.db.select().from(schema.marketSnapshots).where(eq(schema.marketSnapshots.sessionId, sessionId)),
+    ]);
+    const out: DomainEvent[] = [
+      ...src.map((r) => wrap(r, `source.${r.kind}` as DomainEvent['type'])),
+      ...quotes.map((r) => wrap(r, 'quote.observed')),
+      ...flows.map((r) => wrap(r, 'flow.competing')),
+      ...sec.map((r) => wrap(r, 'security.snapshot')),
+      ...mkt.map((r) => wrap(r, 'market.snapshot')),
+    ];
+    return out.sort((a, b) => a.seq - b.seq);
+  }
+  async listSessions(limit = 50) {
+    const rows = await this.db
+      .select({ sessionId: schema.sourceTradeEvents.sessionId, events: sql<number>`count(*)`, firstAt: sql<string>`min(${schema.sourceTradeEvents.ingestedAt})` })
+      .from(schema.sourceTradeEvents)
+      .groupBy(schema.sourceTradeEvents.sessionId)
+      .orderBy(desc(sql`min(${schema.sourceTradeEvents.ingestedAt})`))
+      .limit(limit);
+    return rows.map((r) => ({ sessionId: r.sessionId, events: Number(r.events), firstAt: new Date(r.firstAt).toISOString() }));
   }
   async ping() {
     try { await this.sql`select 1`; return true; } catch { return false; }

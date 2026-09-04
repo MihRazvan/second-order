@@ -1,6 +1,7 @@
 'use client';
+import { useRef, useState } from 'react';
 import type { DerivedInputs, ScenarioState, ShadowOutcome } from '@second-order/core';
-import { fmtUsdWhole } from '@/lib/format';
+import { fmtDelay, fmtPct, fmtUsdWhole } from '@/lib/format';
 import type { TimelinePoint } from '@/lib/demo-snapshot';
 import { evColor, linear, sizeScale } from '@/viz/scales';
 import { timeScale, TIME_TICKS_MS, tickLabel } from '@/viz/time';
@@ -19,6 +20,11 @@ export interface RecorderProps {
   phase: 'armed' | 'connecting' | 'running' | 'ended' | 'failed';
   reducedMotion: boolean;
   width?: number;
+  /** Drag the "you" marker to change the delay assumption (browser-local). */
+  onDelayChange?: (delayMs: number) => void;
+  /** After a run, drag the playhead to review any moment. */
+  onScrub?: (atMs: number | null) => void;
+  scrubbing?: boolean;
 }
 
 const GUTTER = 196;
@@ -30,10 +36,27 @@ const H = 512;
  * The flight recorder. One square-root time axis; three lanes; one playhead.
  * Everything drawn here comes from reduced events; nothing is scripted.
  */
-export function Recorder({ state, derived, shadows, timeline, nowAt, durationMs, startAlphaUsd, remainingUsd, intent, phase, reducedMotion, width = 1376 }: RecorderProps) {
+export function Recorder({ state, derived, shadows, timeline, nowAt, durationMs, startAlphaUsd, remainingUsd, intent, phase, reducedMotion, width = 1376, onDelayChange, onScrub, scrubbing = false }: RecorderProps) {
   const W = width;
   const t = timeScale(durationMs, [GUTTER, W - 20]);
   const px = t(nowAt);
+  const svgRef = useRef<SVGSVGElement | null>(null);
+  const [hover, setHover] = useState<ShadowOutcome | null>(null);
+  const [drag, setDrag] = useState<'delay' | 'playhead' | null>(null);
+
+  /** Pointer x in viewBox units → event time on the sqrt axis. */
+  const xToTime = (clientX: number) => {
+    const el = svgRef.current;
+    if (!el) return 0;
+    const r = el.getBoundingClientRect();
+    const vx = ((clientX - r.left) / r.width) * W;
+    return Math.max(0, Math.min(durationMs, t.invert(Math.max(GUTTER, Math.min(W - 20, vx)))));
+  };
+  const onPointerMove = (e: React.PointerEvent<SVGSVGElement>) => {
+    if (drag === 'delay' && onDelayChange) onDelayChange(Math.max(300, Math.min(45_000, xToTime(e.clientX))));
+    if (drag === 'playhead' && onScrub) onScrub(xToTime(e.clientX));
+  };
+  const endDrag = () => setDrag(null);
 
   // Lane 1 · Remaining Alpha
   const A = LANES.alpha;
@@ -71,13 +94,17 @@ export function Recorder({ state, derived, shadows, timeline, nowAt, durationMs,
 
   return (
     <svg
+      ref={svgRef}
       width="100%"
       viewBox={`0 0 ${W} ${H}`}
       preserveAspectRatio="xMinYMin meet"
+      onPointerMove={onPointerMove}
+      onPointerUp={endDrag}
+      onPointerLeave={() => { endDrag(); setHover(null); }}
       role="img"
       aria-label={`Flight recorder. Remaining Alpha ${fmtUsdWhole(lastAlpha)} of ${fmtUsdWhole(startAlphaUsd)}. ${flows.length} competing trades. Execution depth ${fmtUsdWhole(depthNow)}.${exit ? ` Source exited ${Math.round(exit.fractionOfPosition * 100)}% at ${(exit.delayMs / 1000).toFixed(0)} seconds.` : ''}`}
-      className="block"
-      style={{ fontFamily: 'var(--font-data)' }}
+      className="block select-none"
+      style={{ fontFamily: 'var(--font-data)', touchAction: drag ? 'none' : 'pan-y' }}
     >
       {/* time grid */}
       <g stroke="var(--so-line)" shapeRendering="crispEdges">
@@ -125,19 +152,22 @@ export function Recorder({ state, derived, shadows, timeline, nowAt, durationMs,
               key={s.id}
               cx={t(s.delayMs)}
               cy={sy(s.sizeUsd)}
-              r={entered ? 3.6 : 2.2}
+              r={hover?.id === s.id ? 6 : entered ? 3.6 : 2.2}
               fill={entered ? evColor(s.evPct) : 'none'}
-              stroke={entered ? 'none' : 'var(--so-line-strong)'}
+              stroke={hover?.id === s.id ? 'var(--so-fg)' : entered ? 'none' : 'var(--so-line-strong)'}
               opacity={entered ? 0.95 : 0.7}
-              style={reducedMotion ? undefined : { transition: 'fill 500ms ease-out, r 300ms ease-out' }}
+              style={{ cursor: 'help', ...(reducedMotion ? {} : { transition: 'fill 500ms ease-out, r 150ms ease-out' }) }}
+              onPointerEnter={() => setHover(s)}
+              onPointerLeave={() => setHover((h) => (h?.id === s.id ? null : h))}
             />
           );
         })}
-        {/* your copy */}
-        <g>
-          <circle cx={t(intent.delayMs)} cy={sy(intent.sizeUsd)} r={8} fill="none" stroke="var(--so-amber)" strokeWidth={2} />
+        {/* your copy: drag to change the delay assumption */}
+        <g style={{ cursor: onDelayChange ? 'ew-resize' : 'default' }} onPointerDown={(e) => { if (!onDelayChange) return; e.preventDefault(); (e.currentTarget.ownerSVGElement ?? e.currentTarget).setPointerCapture?.(e.pointerId); setDrag('delay'); }}>
+          <rect x={t(intent.delayMs) - 14} y={S.y + 4} width={28} height={S.h - 4} fill="transparent" />
+          <circle cx={t(intent.delayMs)} cy={sy(intent.sizeUsd)} r={drag === 'delay' ? 10 : 8} fill="none" stroke="var(--so-amber)" strokeWidth={2} />
           <line x1={t(intent.delayMs)} x2={t(intent.delayMs)} y1={S.y + 8} y2={S.y + S.h - 4} stroke="var(--so-amber)" strokeWidth={1} strokeDasharray="2 4" />
-          <text x={t(intent.delayMs) + 12} y={sy(intent.sizeUsd) + 4} fontSize={11} fill="var(--so-amber)">you · {fmtUsdWhole(intent.sizeUsd)}</text>
+          <text x={t(intent.delayMs) + 12} y={sy(intent.sizeUsd) + 4} fontSize={11} fill="var(--so-amber)">you · {fmtUsdWhole(intent.sizeUsd)} · {fmtDelay(intent.delayMs)}{onDelayChange ? ' ⟷' : ''}</text>
         </g>
       </g>
 
@@ -167,12 +197,38 @@ export function Recorder({ state, derived, shadows, timeline, nowAt, durationMs,
 
       {/* playhead */}
       {(running || phase === 'ended') && (
-        <g>
-          <line x1={px} x2={px} y1={MARKERS.y + MARKERS.h} y2={D.y + D.h + 4} stroke="var(--so-fg)" strokeWidth={1} />
-          <rect x={px - 30} y={D.y + D.h + 6} width={60} height={16} fill="var(--so-fg)" />
+        <g style={{ cursor: phase === 'ended' && onScrub ? 'ew-resize' : 'default' }} onPointerDown={(e) => { if (phase !== 'ended' || !onScrub) return; e.preventDefault(); (e.currentTarget.ownerSVGElement ?? e.currentTarget).setPointerCapture?.(e.pointerId); setDrag('playhead'); onScrub(xToTime(e.clientX)); }}>
+          <rect x={px - 12} y={MARKERS.y + MARKERS.h} width={24} height={D.y + D.h + 26 - MARKERS.y - MARKERS.h} fill="transparent" />
+          <line x1={px} x2={px} y1={MARKERS.y + MARKERS.h} y2={D.y + D.h + 4} stroke={scrubbing ? 'var(--so-amber)' : 'var(--so-fg)'} strokeWidth={1} />
+          <rect x={px - 34} y={D.y + D.h + 6} width={68} height={16} fill={scrubbing ? 'var(--so-amber)' : 'var(--so-fg)'} />
           <text x={px} y={D.y + D.h + 18} fontSize={11} fill="var(--so-bg-sunken)" textAnchor="middle" fontWeight={600}>T+{(nowAt / 1000).toFixed(1)}s</text>
         </g>
       )}
+      {phase === 'ended' && onScrub && !scrubbing && (
+        <text x={W - 24} y={D.y + D.h + 18} fontSize={11} fill="var(--so-fg-faint)" textAnchor="end">drag the playhead to review · drag your marker to change delay</text>
+      )}
+      {scrubbing && onScrub && (
+        <g style={{ cursor: 'pointer' }} onClick={() => onScrub(null)}>
+          <rect x={W - 124} y={D.y + D.h + 6} width={104} height={16} fill="var(--so-bg-raised)" stroke="var(--so-line-strong)" />
+          <text x={W - 72} y={D.y + D.h + 18} fontSize={11} fill="var(--so-fg)" textAnchor="middle">back to end</text>
+        </g>
+      )}
+
+      {/* hover card for a shadow follower */}
+      {hover && (() => {
+        const cx = t(hover.delayMs);
+        const cy = sy(hover.sizeUsd);
+        const w = 210, h = 46;
+        const x0 = Math.min(W - 20 - w, Math.max(GUTTER, cx + 12));
+        const y0 = cy - h - 10 < S.y ? cy + 12 : cy - h - 10;
+        return (
+          <g pointerEvents="none">
+            <rect x={x0} y={y0} width={w} height={h} fill="var(--so-bg-raised)" stroke="var(--so-line-strong)" />
+            <text x={x0 + 8} y={y0 + 16} fontSize={11} fill="var(--so-fg)">shadow follower #{hover.id + 1} · {fmtUsdWhole(hover.sizeUsd)} at {fmtDelay(hover.delayMs)}</text>
+            <text x={x0 + 8} y={y0 + 34} fontSize={11} fill={evColor(hover.evPct)} fontWeight={600}>{fmtPct(hover.evPct, 1)} <tspan fill="var(--so-fg-faint)" fontWeight={400}>scenario-adjusted · {hover.confidence}</tspan></text>
+          </g>
+        );
+      })()}
 
       {/* time axis */}
       <g fontSize={11} fill="var(--so-fg-muted)">

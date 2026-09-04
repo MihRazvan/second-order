@@ -18,7 +18,7 @@ import type { CapabilityState, DomainEvent, Provenance, TokenRef } from '@second
 import { FastTradeFrame, QuotingFrame } from '@second-order/contracts/mobula';
 import type { Config } from '../../config.js';
 import type { CapabilityReport, DataSource, SessionSpec } from '../types.js';
-import { chainIdFromName, normalizeCompetingFlow, normalizeMarket, normalizeProfile, normalizeQuote, normalizeRestQuote, normalizeSecurity, normalizeSourceExit, normalizeSourceTrade, statusEvent, type NormalizeContext } from './normalize.js';
+import { chainIdFromName, chainName, normalizeCompetingFlow, normalizeMarket, normalizeProfile, normalizeQuote, normalizeRestQuote, normalizeSecurity, normalizeSourceExit, normalizeSourceTrade, statusEvent, type NormalizeContext } from './normalize.js';
 import { MobulaHttpError, MobulaRest } from './rest.js';
 import { ReconnectingSocket } from './ws.js';
 
@@ -49,9 +49,8 @@ function queue(signal: AbortSignal): Queue {
   };
 }
 
-export function createMobulaDataSource(config: Config): DataSource {
+export function createMobulaDataSource(config: Config, rest: MobulaRest = new MobulaRest({ baseUrl: config.MOBULA_REST_URL, apiKey: config.MOBULA_API_KEY ?? '', rps: config.MOBULA_RPS })): DataSource {
   const apiKey = config.MOBULA_API_KEY ?? '';
-  const rest = new MobulaRest({ baseUrl: config.MOBULA_REST_URL, apiKey, rps: config.MOBULA_RPS });
   let cachedCaps: CapabilityReport | null = null;
 
   async function probe<T>(fn: () => Promise<T>): Promise<CapabilityState> {
@@ -229,12 +228,6 @@ export function createMobulaDataSource(config: Config): DataSource {
   }
 
   return { kind: 'mobula', provenanceKind: () => 'live-witnessed', capabilities, start };
-}
-
-/** Wallet endpoints take chain names; streams take chain ids. */
-function chainName(chainId: string): string {
-  const map: Record<string, string> = { 'evm:1': 'ethereum', 'evm:8453': 'base', 'evm:42161': 'arbitrum', 'evm:56': 'bnb', 'evm:137': 'polygon', 'evm:10': 'optimism', 'evm:43114': 'avalanche', 'solana:solana': 'solana' };
-  return map[chainId] ?? chainId;
 }
 
 export { chainIdFromName };

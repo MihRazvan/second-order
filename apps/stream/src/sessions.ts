@@ -24,7 +24,7 @@ const REFERENCE_DELAY_MS = 5000; // server-side derived snapshot uses a fixed re
 export class SessionManager {
   private sessions = new Map<string, Session>();
   constructor(
-    private sources: Record<'replay' | 'mobula', DataSource | null>,
+    private sources: Record<'replay' | 'mobula' | 'reconstruction', DataSource | null>,
     private persistence: Persistence,
     private log: FastifyBaseLogger,
     private maxSessions = 50,
@@ -35,13 +35,13 @@ export class SessionManager {
   get(id: string): Session | undefined { return this.sessions.get(id); }
   count() { return this.sessions.size; }
 
-  async create(input: { mode: SessionMode; replayId?: string; speed?: number; wallet?: string; chainId?: string }): Promise<Session> {
-    const source = input.mode === 'live' ? this.sources.mobula : this.sources.replay;
+  async create(input: { mode: SessionMode; replayId?: string; speed?: number; wallet?: string; chainId?: string; tradeIndex?: number; windowSeconds?: number }): Promise<Session> {
+    const source = input.mode === 'live' ? this.sources.mobula : input.mode === 'reconstruction' ? this.sources.reconstruction : this.sources.replay;
     if (!source) throw Object.assign(new Error(`${input.mode} provider is not configured`), { code: 'PROVIDER_UNAVAILABLE', status: 503 });
     if (this.sessions.size >= this.maxSessions) this.evictOldest();
 
     const sessionId = randomUUID();
-    const spec: SessionSpec = { sessionId, mode: input.mode, replayId: input.replayId, speed: input.speed, wallet: input.wallet, chainId: input.chainId };
+    const spec: SessionSpec = { sessionId, mode: input.mode, replayId: input.replayId, speed: input.speed, wallet: input.wallet, chainId: input.chainId, tradeIndex: input.tradeIndex, windowSeconds: input.windowSeconds };
     const session: Session = {
       info: {
         v: 1,
@@ -78,7 +78,7 @@ export class SessionManager {
       }
       session.info.state = 'ended';
       session.endedReason = session.abort.signal.aborted ? 'aborted' : 'complete';
-      if (session.info.mode === 'live') this.capture(session);
+      if (session.info.mode !== 'replay') this.capture(session);
     } catch (err) {
       session.info.state = 'failed';
       session.endedReason = 'failed';
@@ -114,18 +114,22 @@ export class SessionManager {
     try {
       mkdirSync(this.captureDir, { recursive: true });
       const trade = session.state.sourceTrade;
-      const id = `live-${trade?.token.symbol?.toLowerCase() ?? 'session'}-${session.info.startedAt.slice(0, 19).replace(/[:T]/g, '')}`;
+      const kind = session.info.provenanceKind;
+      const prefix = kind === 'live-witnessed' ? 'live' : 'recon';
+      const id = `${prefix}-${trade?.token.symbol?.toLowerCase().replace(/[^a-z0-9]/g, '') ?? 'session'}-${session.info.startedAt.slice(0, 19).replace(/[:T-]/g, '')}`;
       const file: ReplayFile = {
         manifest: {
           v: 1,
           id,
-          title: trade ? `Live witnessed: ${trade.side.toUpperCase()} ${trade.token.symbol} by ${trade.wallet.slice(0, 8)}…` : 'Live witnessed session',
-          description: `Captured from Mobula by the stream service. ${session.events.length} events over ${Math.round(session.state.lastEventAt / 1000)} s of event time.`,
-          provenance: { kind: 'live-witnessed', source: 'mobula-wss', capturedAt: session.info.startedAt },
+          title: trade ? `${kind === 'live-witnessed' ? 'Live witnessed' : 'Estimated reconstruction'}: ${trade.side.toUpperCase()} ${trade.token.symbol} by ${trade.wallet.slice(0, 8)}…` : 'Captured session',
+          description: `${kind === 'live-witnessed' ? 'Captured from Mobula streams while it happened' : 'Reconstructed from Mobula REST history'} by the stream service. ${session.events.length} events over ${Math.round(session.state.lastEventAt / 1000)} s of event time.`,
+          provenance: { kind, source: kind === 'live-witnessed' ? 'mobula-wss' : 'mobula-rest', capturedAt: session.info.startedAt },
           durationMs: session.state.lastEventAt,
           defaultSpeed: 4,
           eventCount: session.events.length,
-          disclosure: `Live witnessed. Observations were captured from Mobula endpoints while they happened (session ${session.info.sessionId}, started ${session.info.startedAt}). Replaying them does not re-observe the market.`,
+          disclosure: kind === 'live-witnessed'
+            ? `Live witnessed. Observations were captured from Mobula endpoints while they happened (session ${session.info.sessionId}, started ${session.info.startedAt}). Replaying them does not re-observe the market.`
+            : `Estimated reconstruction. Trades, prices and context were fetched from Mobula REST history after the fact (session ${session.info.sessionId}, started ${session.info.startedAt}). Quotes are inferred from the price path and current pool depth, not observed.`,
           createdAt: new Date().toISOString(),
         },
         events: session.events,

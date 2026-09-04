@@ -18,6 +18,12 @@ export function chainIdFromName(name: string): string {
   return CHAIN_IDS[key] ?? key;
 }
 
+/** Wallet/market/ohlcv endpoints take chain names; streams and security take chain ids. */
+const CHAIN_NAMES: Record<string, string> = { 'evm:1': 'ethereum', 'evm:8453': 'base', 'evm:42161': 'arbitrum', 'evm:56': 'bnb', 'evm:137': 'polygon', 'evm:10': 'optimism', 'evm:43114': 'avalanche', 'solana:solana': 'solana' };
+export function chainName(chainId: string): string {
+  return CHAIN_NAMES[chainId] ?? chainId;
+}
+
 export interface NormalizeContext {
   sessionId: string;
   provenance: Provenance;

@@ -7,6 +7,8 @@ export interface SessionSpec {
   speed?: number;
   wallet?: string;
   chainId?: string;
+  tradeIndex?: number;
+  windowSeconds?: number;
 }
 
 export interface CapabilityReport {

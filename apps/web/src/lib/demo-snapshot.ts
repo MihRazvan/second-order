@@ -95,3 +95,18 @@ export function demoTimeline(stepMs = 1000, intent = DEFAULT_INTENT): TimelinePo
   }
   return out;
 }
+
+/** Per-step derived readings from an arbitrary event list (snapshots, reports). */
+export function timelineFromEvents(events: import('@second-order/contracts').DomainEvent[], durationMs: number, stepMs: number, intent = DEFAULT_INTENT): TimelinePoint[] {
+  const sorted = [...events].sort((a, b) => a.at - b.at || a.seq - b.seq);
+  let s = initialScenarioState();
+  let i = 0;
+  const out: TimelinePoint[] = [];
+  for (let at = 0; at <= durationMs; at += stepMs) {
+    while (i < sorted.length && sorted[i]!.at <= at) s = reduceScenario(s, sorted[i++]!);
+    const d = deriveInputs(s, { nowAt: at });
+    if (!d) continue;
+    out.push({ at, remainingUsd: remainingAlpha(d, intent.delayMs).capacityUsd, spotRatio: d.spotNow, depthUsd: d.impliedDepthUsd, competingFlowUsd: d.competingFlowUsd, competingFlowCount: d.competingFlowCount, sourceExited: d.quality.sourceExitWitnessed });
+  }
+  return out;
+}

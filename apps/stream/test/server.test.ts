@@ -14,7 +14,7 @@ beforeAll(async () => {
   app = await buildServer({
     config: loadConfig({ PORT: '0', CORS_ORIGIN: 'http://localhost:3000' }),
     persistence,
-    sources: { replay: new ReplayDataSource(), mobula: null },
+    sources: { replay: new ReplayDataSource(), mobula: null, reconstruction: null },
   });
   await app.listen({ port: 0, host: '127.0.0.1' });
   const addr = app.server.address();

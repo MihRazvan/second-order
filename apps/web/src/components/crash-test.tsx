@@ -18,7 +18,7 @@ import { useIntent } from '@/lib/use-intent';
 import { Annunciator } from './annunciator';
 import { Controls } from './controls';
 import { EvidenceDrawer } from './evidence-drawer';
-import { LiveForm } from './live-form';
+import { WalletForm } from './wallet-form';
 import { Readouts } from './readouts';
 import { Recorder } from './recorder';
 import { StatusBar } from './status-bar';
@@ -44,11 +44,14 @@ export function CrashTest() {
   const intentApi = useIntent();
   const reducedMotion = useReducedMotion();
   const { intent, policy, extraCrowdUsd } = intentApi;
-  const live = snap.liveTarget !== null;
+  const live = snap.liveTarget?.mode === 'live';
   // Live sessions have no fixed length: the axis grows in whole minutes as events arrive.
   const durationMs = live ? Math.max(120_000, Math.ceil((snap.eventTime + 1) / 60_000) * 60_000) : snap.manifest?.durationMs ?? 60_000;
   const armed = snap.phase === 'armed' || snap.phase === 'connecting';
-  const nowAt = armed ? 0 : live ? snap.eventTime : Math.min(clock, durationMs);
+  // After a run the playhead can be dragged to review any moment; the verdict follows.
+  const [scrubAt, setScrubAt] = useState<number | null>(null);
+  useEffect(() => { if (snap.phase !== 'ended') setScrubAt(null); }, [snap.phase]);
+  const nowAt = armed ? 0 : scrubAt !== null ? scrubAt : live ? snap.eventTime : Math.min(clock, durationMs);
 
   const derived = useMemo(() => deriveInputs(snap.state, { nowAt, policy }), [snap.state, nowAt, policy]);
   const verdict = useMemo(() => (snap.state.sourceTrade ? crowdGuard(snap.state, intent, policy, nowAt) : null), [snap.state, intent, policy, nowAt]);
@@ -128,6 +131,7 @@ export function CrashTest() {
             onUnblock={() => wallet && intentApi.unblock(wallet)}
             onReset={() => void store.reset()}
             reducedMotion={reducedMotion}
+            reportHref={snap.session && snap.transport === 'stream-sse' ? `/report/${snap.session.sessionId}#size=${intent.sizeUsd}&delay=${intent.delayMs}` : null}
           />
         </div>
       </section>
@@ -147,6 +151,9 @@ export function CrashTest() {
               intent={intent}
               phase={snap.phase}
               reducedMotion={reducedMotion}
+              onDelayChange={intentApi.setDelay}
+              onScrub={setScrubAt}
+              scrubbing={scrubAt !== null}
             />
           </div>
         </div>
@@ -156,7 +163,16 @@ export function CrashTest() {
         </div>
       </section>
 
-      <LiveForm available={snap.liveAvailable} disabled={snap.phase === 'running' || snap.phase === 'connecting'} onStart={(wallet, chainId) => void store.start({ wallet, chainId })} />
+      <WalletForm
+        reconstructionAvailable={snap.reconstructionAvailable}
+        liveAvailable={snap.liveAvailable}
+        replays={snap.replays}
+        currentReplayId={snap.manifest?.id ?? null}
+        disabled={snap.phase === 'running' || snap.phase === 'connecting'}
+        onReconstruct={(wallet, chainId, windowSeconds, tradeIndex) => void store.start({ mode: 'reconstruction', wallet, chainId, windowSeconds, tradeIndex })}
+        onLive={(wallet, chainId) => void store.start({ mode: 'live', wallet, chainId })}
+        onSelectReplay={(id) => void store.selectReplay(id)}
+      />
 
       <section className="border-t border-line px-6 py-5 md:px-8">
         <Controls

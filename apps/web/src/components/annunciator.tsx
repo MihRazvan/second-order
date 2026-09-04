@@ -18,6 +18,8 @@ interface Props {
   onUnblock: () => void;
   onReset: () => void;
   reducedMotion: boolean;
+  /** Link to the shareable report for this session (intent travels in the fragment). */
+  reportHref?: string | null;
 }
 
 const TITLE: Record<Verdict['decision'], string> = {
@@ -99,7 +101,10 @@ export function Annunciator(p: Props) {
     <div className={`${base} ${flip} border-l-4 ${border} bg-bg-raised`} role="status" aria-live="assertive" data-decision={v.decision}>
       <div className="flex items-baseline justify-between">
         <div className={`text-[13px] font-semibold tracking-[0.04em] ${text}`}>{TITLE[v.decision]}</div>
-        <button type="button" onClick={p.onReset} className="text-[12px] text-fg-muted underline-offset-4 hover:text-fg hover:underline">Run again</button>
+        <div className="flex gap-4">
+          {p.reportHref && <a href={p.reportHref} className="text-[12px] text-fg-muted underline-offset-4 hover:text-fg hover:underline">Share report</a>}
+          <button type="button" onClick={p.onReset} className="text-[12px] text-fg-muted underline-offset-4 hover:text-fg hover:underline">Run again</button>
+        </div>
       </div>
       <div className="mt-2 grid grid-cols-[auto_auto] gap-x-8">
         <div>
