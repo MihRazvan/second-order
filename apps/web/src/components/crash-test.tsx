@@ -64,10 +64,16 @@ export function CrashTest() {
     return CURVE_DELAYS.map((d) => { const c = solveCapacity(inputs, d, { minSizeUsd: policy.minSizeUsd }); return { delayMs: d, capacityUsd: c.capacityUsd, confidence: c.confidence }; });
   }, [derived, extraCrowdUsd, policy]);
 
-  // Start-of-test estimate, frozen when the run starts so the meter has a fixed "of" reference.
-  const startAlphaRef = useRef<number | null>(null);
-  if (armed && remainingUsd !== null) startAlphaRef.current = remainingUsd;
-  const startAlphaUsd = startAlphaRef.current ?? remainingUsd ?? 0;
+  // Start-of-test estimate: the first reading of the current session, frozen so the meter has a
+  // fixed "of" reference. Reset whenever the session (fixture, reconstruction, live) changes.
+  const startAlphaRef = useRef<{ key: string; value: number } | null>(null);
+  const sessionKey = `${snap.session?.sessionId ?? 'armed'}:${snap.manifest?.id ?? ''}`;
+  if (startAlphaRef.current && startAlphaRef.current.key !== sessionKey) startAlphaRef.current = null;
+  if (remainingUsd !== null && snap.state.sourceTrade && (armed || !startAlphaRef.current)) {
+    if (armed || snap.liveTarget) startAlphaRef.current = { key: sessionKey, value: remainingUsd };
+    else if (!startAlphaRef.current) startAlphaRef.current = { key: sessionKey, value: remainingUsd };
+  }
+  const startAlphaUsd = startAlphaRef.current?.value ?? remainingUsd ?? 0;
 
   // Timeline accumulates one reading per second as the replay advances.
   const [timeline, setTimeline] = useState<TimelinePoint[]>([]);
@@ -159,7 +165,7 @@ export function CrashTest() {
         </div>
         <div className="font-data mt-1 flex flex-wrap justify-between gap-x-6 gap-y-1 text-[12px] text-fg-faint">
           <span>Shadow-follower simulation · 100 sampled scenarios · colour = scenario-adjusted outcome (green ≥ +2%, amber ±2%, red ≤ −2%)</span>
-          <span>{derived ? `${derived.competingFlowCount} competing trades · ${fmtUsdWhole(derived.competingFlowUsd)}` : ''}{snap.manifest ? ` · ${snap.manifest.eventCount} events` : ''}</span>
+          <span>{derived ? `${derived.competingFlowCount} competing trades · ${fmtUsdWhole(derived.competingFlowUsd)}` : ''}{` · ${snap.state.seen.size} events`}</span>
         </div>
       </section>
 

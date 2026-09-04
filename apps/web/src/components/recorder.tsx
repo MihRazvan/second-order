@@ -4,7 +4,7 @@ import type { DerivedInputs, ScenarioState, ShadowOutcome } from '@second-order/
 import { fmtDelay, fmtPct, fmtUsdWhole } from '@/lib/format';
 import type { TimelinePoint } from '@/lib/demo-snapshot';
 import { evColor, linear, sizeScale } from '@/viz/scales';
-import { timeScale, TIME_TICKS_MS, tickLabel } from '@/viz/time';
+import { timeScale, timeTicks, tickLabel } from '@/viz/time';
 
 export interface RecorderProps {
   state: ScenarioState;
@@ -108,7 +108,7 @@ export function Recorder({ state, derived, shadows, timeline, nowAt, durationMs,
     >
       {/* time grid */}
       <g stroke="var(--so-line)" shapeRendering="crispEdges">
-        {TIME_TICKS_MS.filter((ms) => ms <= durationMs).map((ms) => <line key={ms} x1={t(ms)} x2={t(ms)} y1={MARKERS.y + MARKERS.h} y2={D.y + D.h} />)}
+        {timeTicks(durationMs).map((ms) => <line key={ms} x1={t(ms)} x2={t(ms)} y1={MARKERS.y + MARKERS.h} y2={D.y + D.h} />)}
         <line x1={GUTTER} x2={W - 20} y1={MARKERS.y + MARKERS.h} y2={MARKERS.y + MARKERS.h} stroke="var(--so-line-strong)" />
         <line x1={GUTTER} x2={W - 20} y1={A.y + A.h + 8} y2={A.y + A.h + 8} stroke="var(--so-line-strong)" />
         <line x1={GUTTER} x2={W - 20} y1={S.y + S.h + 8} y2={S.y + S.h + 8} stroke="var(--so-line-strong)" />
@@ -232,7 +232,7 @@ export function Recorder({ state, derived, shadows, timeline, nowAt, durationMs,
 
       {/* time axis */}
       <g fontSize={11} fill="var(--so-fg-muted)">
-        {TIME_TICKS_MS.filter((ms) => ms <= durationMs).map((ms) => (
+        {timeTicks(durationMs).map((ms) => (
           <text key={ms} x={t(ms)} y={H - 4} textAnchor={ms === 0 ? 'start' : 'middle'} opacity={Math.abs(t(ms) - px) < 34 && (running || phase === 'ended') ? 0 : 1}>{tickLabel(ms)}</text>
         ))}
       </g>

@@ -49,7 +49,8 @@ export function normalizeSourceTrade(ctx: NormalizeContext, t: WalletTradeV2): D
   const base = tokenRef(t.baseToken, 'unknown');
   const quote = tokenRef(t.quoteToken, 'unknown');
   return envelope(ctx, 'source.trade', `mobula:trade:${t.transactionHash}`, t.date, 'wallet-trades-v2', {
-    wallet: t.swapSenderAddress ?? t.transactionSenderAddress ?? 'unknown',
+    // swapRecipient is the beneficiary (AA-safe); the swap sender is often a router or bundler.
+    wallet: t.swapRecipient ?? t.transactionSenderAddress ?? t.swapSenderAddress ?? 'unknown',
     chainId,
     token: base,
     quoteToken: quote,

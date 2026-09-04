@@ -93,6 +93,9 @@ export function Annunciator(p: Props) {
 
   const v = p.verdict;
   if (!v) return null;
+  const securityBlock = v.decision === 'BLOCK' && v.reasons.some((r) => r.startsWith('Critical security flag'));
+  const heading = securityBlock ? 'SECURITY BLOCK' : TITLE[v.decision];
+  const lead = v.reasons[0];
   const color = v.decision === 'ALLOW' ? 'alpha' : v.decision === 'RESIZE' ? 'red' : 'red';
   const border = color === 'alpha' ? 'border-alpha' : 'border-red';
   const text = color === 'alpha' ? 'text-alpha' : 'text-red';
@@ -100,7 +103,7 @@ export function Annunciator(p: Props) {
   return (
     <div className={`${base} ${flip} border-l-4 ${border} bg-bg-raised`} role="status" aria-live="assertive" data-decision={v.decision}>
       <div className="flex items-baseline justify-between">
-        <div className={`text-[13px] font-semibold tracking-[0.04em] ${text}`}>{TITLE[v.decision]}</div>
+        <div className={`text-[13px] font-semibold tracking-[0.04em] ${text}`}>{heading}</div>
         <div className="flex gap-4">
           {p.reportHref && <a href={p.reportHref} className="text-[12px] text-fg-muted underline-offset-4 hover:text-fg hover:underline">Share report</a>}
           <button type="button" onClick={p.onReset} className="text-[12px] text-fg-muted underline-offset-4 hover:text-fg hover:underline">Run again</button>
@@ -116,6 +119,7 @@ export function Annunciator(p: Props) {
           <div className="font-data text-[28px] leading-none text-fg">{v.maxCompatibleUsd > 0 ? fmtUsdWhole(v.maxCompatibleUsd) : 'none'}</div>
         </div>
       </div>
+      {lead && v.decision !== 'ALLOW' && <div className="mt-2 text-[12px] leading-[1.4] text-fg-muted">{lead}</div>}
       <div className="mt-3 flex flex-wrap gap-2">
         {v.decision !== 'ALLOW' && v.maxCompatibleUsd > 0 && (
           <button type="button" onClick={() => p.onResize(v.maxCompatibleUsd)} className="bg-fg px-3.5 py-2 text-[13px] font-medium text-bg-sunken hover:bg-white">Resize to {fmtUsdWhole(v.maxCompatibleUsd)}</button>

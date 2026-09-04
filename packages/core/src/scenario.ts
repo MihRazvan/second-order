@@ -328,6 +328,7 @@ export function crowdGuard(state: ScenarioState, intent: UserIntent, policy: Cro
     reasons.push('Security snapshot required for ALLOW');
   }
   if (derived.inputs.exitConfidence !== 'observed') reasons.push('Source exit not yet witnessed: full exit at target assumed');
+  if (state.profile?.typicalGainPct == null) reasons.push(`Typical gain unknown for this wallet: ${(derived.inputs.targetRatio - 1) * 100 > 0 ? `${Math.round((derived.inputs.targetRatio - 1) * 100)}%` : 'current spot'} used as the exit target`);
   if (confidence === 'extrapolated') reasons.push('Order size beyond the observed quote grid: impact extrapolated');
   if (confidence === 'model') reasons.push('No quotes observed: constant-product model on reported liquidity');
 

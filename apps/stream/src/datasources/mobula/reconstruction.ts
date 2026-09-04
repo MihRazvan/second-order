@@ -55,6 +55,7 @@ export async function reconstruct(rest: MobulaRest, spec: SessionSpec, signal: A
   const ctx: NormalizeContext = { sessionId: spec.sessionId, provenance, originMs: buy.date, nextSeq: () => seq++ };
   const events: DomainEvent[] = [];
   const sourceEvent = normalizeSourceTrade(ctx, buy);
+  (sourceEvent.payload as { wallet: string }).wallet = spec.wallet; // the tracked wallet, not a router
   const source = sourceEvent.payload as Extract<DomainEvent, { type: 'source.trade' }>['payload'];
   const chainId = source.chainId;
   const chain = chainName(chainId);

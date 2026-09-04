@@ -32,7 +32,7 @@ export function Readouts({ state, remainingUsd, startAlphaUsd, verdict, intent, 
           <span>Tracked wallet</span>
           <span className="font-data">{trade ? shortAddress(trade.wallet) : '—'}</span>
         </div>
-        <div className="font-data mt-1 text-[36px] leading-none text-alpha">{profile ? fmtPct(profile.realizedRatePct, 0) : '—'}</div>
+        <div className="font-data mt-1 text-[36px] leading-none text-alpha">{profile ? fmtPct(profile.realizedRatePct, Math.abs(profile.realizedRatePct) < 10 ? 1 : 0) : '—'}</div>
         <div className="mt-1.5 text-[12px] text-fg-muted">
           {profile ? `realized over ${profile.periodDays} days · ${profile.tradeCount} trades` : 'loading profile'}
           {trade && <> · <span className="font-data text-fg">{trade.side.toUpperCase()} {trade.token.symbol} {fmtUsdWhole(trade.sizeUsd)}</span></>}
