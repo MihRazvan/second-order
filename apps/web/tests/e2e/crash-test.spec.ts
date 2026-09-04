@@ -10,7 +10,7 @@ async function armed(page: Page) {
   const start = page.getByRole('button', { name: 'Crash test this wallet' });
   await expect(start).toBeVisible({ timeout: 20_000 });
   await expect(page.getByText('+186%')).toBeVisible();
-  await expect(page.getByText('Demo scenario')).toBeVisible();
+  await expect(page.getByText('Demo scenario', { exact: true })).toBeVisible();
   return start;
 }
 
@@ -40,7 +40,7 @@ test('tells the source-profit to follower-loss story in about fifteen seconds', 
   await expect(panel.getByRole('button', { name: 'Block wallet' })).toBeVisible();
 
   // Never claims live capture for a fixture.
-  await expect(page.getByText('Live witnessed')).toHaveCount(0);
+  await expect(page.getByText('Live witnessed', { exact: true })).toHaveCount(0);
   await expect(page).toHaveScreenshot('verdict.png', { fullPage: false });
   expect(problems, problems.join('\n')).toEqual([]);
 });
