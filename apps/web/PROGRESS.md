@@ -1,0 +1,1 @@
+- 2026-09-04 · Deployed: Railway project `second-order` (id 3b64f95c…) with PostgreSQL and the `stream` service built from apps/stream/Dockerfile; live at https://stream-production-900a.up.railway.app (persistence=postgres, mobula=rest-only on the free plan). CORS allows localhost:3000 and *.vercel.app. Web deploys to Vercel from apps/web (pending `vercel login`).
