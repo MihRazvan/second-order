@@ -3,9 +3,11 @@
   "private": true,
   "version": "0.1.0",
   "packageManager": "pnpm@10.28.0",
-  "engines": { "node": ">=22.12" },
+  "engines": {
+    "node": ">=22.12"
+  },
   "scripts": {
-    "dev": "pnpm -r --parallel --filter ./apps/* dev",
+    "dev": "pnpm -r --parallel --filter @second-order/web --filter @second-order/stream dev",
     "dev:web": "pnpm --filter @second-order/web dev",
     "dev:stream": "pnpm --filter @second-order/stream dev",
     "build": "pnpm -r build",
@@ -22,5 +24,10 @@
     "@types/node": "^24.3.0",
     "typescript": "~5.9.2",
     "vitest": "^3.2.4"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   }
 }
