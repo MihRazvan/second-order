@@ -1,3 +1,5 @@
+import { CrashTest } from '@/components/crash-test';
+
 export default function Page() {
-  return <main>Second Order</main>;
+  return <CrashTest />;
 }

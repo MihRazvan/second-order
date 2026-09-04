@@ -72,3 +72,14 @@ body {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }
+
+/* Range inputs carry the instrument look */
+.so-range { -webkit-appearance: none; appearance: none; height: 24px; background: transparent; cursor: pointer; }
+.so-range::-webkit-slider-runnable-track { height: 2px; background: var(--so-line-strong); }
+.so-range::-moz-range-track { height: 2px; background: var(--so-line-strong); }
+.so-range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 14px; height: 22px; margin-top: -10px; background: var(--so-fg); border: 0; border-radius: 1px; }
+.so-range::-moz-range-thumb { width: 14px; height: 22px; background: var(--so-fg); border: 0; border-radius: 1px; }
+.so-range:focus-visible { outline: none; }
+.so-range:focus-visible::-webkit-slider-thumb { outline: 2px solid var(--so-amber); outline-offset: 2px; }
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+input[type=number] { -moz-appearance: textfield; appearance: textfield; }

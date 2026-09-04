@@ -3,6 +3,7 @@ import type { NextConfig } from 'next';
 const config: NextConfig = {
   reactStrictMode: true,
   agentRules: false,
+  devIndicators: false,
   transpilePackages: ['@second-order/core', '@second-order/contracts', '@second-order/replays', '@second-order/ui'],
   experimental: { externalDir: true },
   env: {
