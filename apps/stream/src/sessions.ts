@@ -1,4 +1,7 @@
 import { randomUUID } from 'node:crypto';
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+import type { ReplayFile } from '@second-order/contracts';
 import type { DomainEvent, SessionInfo, SessionMode } from '@second-order/contracts';
 import { crowdGuard, deriveInputs, initialScenarioState, reduceScenario, remainingAlpha, DEFAULT_POLICY, type ScenarioState } from '@second-order/core';
 import type { FastifyBaseLogger } from 'fastify';
@@ -25,6 +28,7 @@ export class SessionManager {
     private persistence: Persistence,
     private log: FastifyBaseLogger,
     private maxSessions = 50,
+    private captureDir?: string,
   ) {}
 
   list(): SessionInfo[] { return [...this.sessions.values()].map((s) => s.info); }
@@ -74,6 +78,7 @@ export class SessionManager {
       }
       session.info.state = 'ended';
       session.endedReason = session.abort.signal.aborted ? 'aborted' : 'complete';
+      if (session.info.mode === 'live') this.capture(session);
     } catch (err) {
       session.info.state = 'failed';
       session.endedReason = 'failed';
@@ -101,6 +106,36 @@ export class SessionManager {
       confidence: cap.confidence,
       degraded: derived.quality.degraded,
     }).catch((err) => this.log.warn({ err }, 'capacity persist failed'));
+  }
+
+  /** Persist a live session as a replay fixture. Provenance stays live-witnessed; the manifest says when and how it was captured. */
+  private capture(session: Session) {
+    if (!this.captureDir || session.events.length === 0) return;
+    try {
+      mkdirSync(this.captureDir, { recursive: true });
+      const trade = session.state.sourceTrade;
+      const id = `live-${trade?.token.symbol?.toLowerCase() ?? 'session'}-${session.info.startedAt.slice(0, 19).replace(/[:T]/g, '')}`;
+      const file: ReplayFile = {
+        manifest: {
+          v: 1,
+          id,
+          title: trade ? `Live witnessed: ${trade.side.toUpperCase()} ${trade.token.symbol} by ${trade.wallet.slice(0, 8)}…` : 'Live witnessed session',
+          description: `Captured from Mobula by the stream service. ${session.events.length} events over ${Math.round(session.state.lastEventAt / 1000)} s of event time.`,
+          provenance: { kind: 'live-witnessed', source: 'mobula-wss', capturedAt: session.info.startedAt },
+          durationMs: session.state.lastEventAt,
+          defaultSpeed: 4,
+          eventCount: session.events.length,
+          disclosure: `Live witnessed. Observations were captured from Mobula endpoints while they happened (session ${session.info.sessionId}, started ${session.info.startedAt}). Replaying them does not re-observe the market.`,
+          createdAt: new Date().toISOString(),
+        },
+        events: session.events,
+      };
+      writeFileSync(join(this.captureDir, `${id}.json`), JSON.stringify(file, null, 1));
+      void this.persistence.saveManifest(file.manifest);
+      this.log.info({ id, events: session.events.length }, 'live session captured');
+    } catch (err) {
+      this.log.warn({ err }, 'capture failed');
+    }
   }
 
   subscribe(id: string, listener: Listener): () => void {

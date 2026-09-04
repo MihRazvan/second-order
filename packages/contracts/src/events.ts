@@ -37,7 +37,12 @@ export const SourceTradePayload = z.object({
   txHash: z.string(),
   poolAddress: Address.optional(),
   platform: z.string().optional(),
+  /** Fixed costs of the trade (gas + priority), USD. */
   feesUsd: UsdAmount.nullable().optional(),
+  /** Proportional platform/aggregator fee paid, USD (used to infer the platform fee rate). */
+  platformFeesUsd: UsdAmount.nullable().optional(),
+  /** USD price of the quote token at trade time (lets a follower route be sized in quote-token units). */
+  quoteTokenPriceUsd: z.number().finite().positive().nullable().optional(),
 });
 
 export const SourceExitPayload = z.object({

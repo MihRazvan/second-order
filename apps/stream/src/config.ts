@@ -13,6 +13,8 @@ const Env = z.object({
   MOBULA_SOL_STREAM_URL: z.string().default('wss://stream-sol-prod.mobula.io/'),
   MOBULA_RPS: z.coerce.number().positive().default(1),
   SERVICE_VERSION: z.string().default('0.1.0'),
+  /** When set, ended live sessions are written here as replay files with live-witnessed provenance. */
+  CAPTURE_DIR: z.string().optional(),
 });
 
 export type Config = z.infer<typeof Env>;

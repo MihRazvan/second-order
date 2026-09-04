@@ -18,7 +18,7 @@ const HEARTBEAT_MS = 5000;
 export async function buildServer(deps: ServerDeps): Promise<FastifyInstance> {
   const app = Fastify({ logger: { level: deps.config.LOG_LEVEL }, disableRequestLogging: true });
   const startedAt = Date.now();
-  const sessions = new SessionManager(deps.sources, deps.persistence, app.log);
+  const sessions = new SessionManager(deps.sources, deps.persistence, app.log, 50, deps.config.CAPTURE_DIR);
 
   await app.register(cors, { origin: deps.config.CORS_ORIGIN.split(',').map((s) => s.trim()) });
 
