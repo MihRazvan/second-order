@@ -77,6 +77,16 @@ export function EvidenceDrawer({ state, derived, verdict, manifest, intent, nowA
             </>
           )}
 
+          {state.status?.capabilities && (
+            <>
+              <h3 className="mt-6 text-[13px] font-semibold">Provider capabilities</h3>
+              {Object.entries(state.status.capabilities).map(([k, v]) => (
+                <Row key={k} k={k} v={v} tone={v === 'available' ? 'text-alpha' : v === 'plan-gated' ? 'text-amber' : 'text-fg-muted'} />
+              ))}
+              {state.status.message && <p className="mt-2 text-[12px] text-fg-muted">{state.status.message}</p>}
+            </>
+          )}
+
           <h3 className="mt-6 text-[13px] font-semibold">Model inputs at T+{(nowAt / 1000).toFixed(1)} s</h3>
           {derived && (
             <>

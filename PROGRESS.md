@@ -8,3 +8,7 @@
 - 2026-09-04 · Milestone 2 done: three design-lab directions screenshotted at 1440×900; B (flight recorder) chosen, DESIGN.md written.
 - 2026-09-04 · Milestone 3 in progress: primary experience live at /, full 15.4 s run produces CROWD CAPTURE RISK · −12.4% · $84 at 1440×900, 1280×800 and 390×844 with clean console/network. Two browser-inspected iterations done (v1: lane collisions, fake curve floor, wrapping labels; v2: flag overflow, depth label, in-lane text).
 - 2026-09-04 · Repository pushed to github.com/MihRazvan/second-order in milestone-sized commits.
+- 2026-09-04 · Milestone 3 done: three inspected iterations (v1→v3 in docs/design-exploration/primary-v*), reduced-motion capture, Playwright e2e green at all three viewports with screenshot baselines.
+- 2026-09-04 · Milestone 4 done: evidence drawer, provenance/transport/freshness status bar, degraded states (no ALLOW when stale/missing), property tests (55 unit tests total).
+- 2026-09-04 · Milestone 5 built without a key: Mobula REST client (rate limit, 429 backoff, zod), reconnecting WebSocket (backoff+jitter, ping/pong, stale), normalizers tested on documented frames, capability probes, live session flow with REST fallbacks, CAPTURE_DIR recorder for live-witnessed replays. Not exercised against Mobula: needs MOBULA_API_KEY (Growth plan for the streams).
+- 2026-09-04 · Milestone 6: Railway configs, health routes, README, demo script; design-lab routes removed, screenshots kept.

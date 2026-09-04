@@ -18,6 +18,7 @@ import { useIntent } from '@/lib/use-intent';
 import { Annunciator } from './annunciator';
 import { Controls } from './controls';
 import { EvidenceDrawer } from './evidence-drawer';
+import { LiveForm } from './live-form';
 import { Readouts } from './readouts';
 import { Recorder } from './recorder';
 import { StatusBar } from './status-bar';
@@ -43,9 +44,11 @@ export function CrashTest() {
   const intentApi = useIntent();
   const reducedMotion = useReducedMotion();
   const { intent, policy, extraCrowdUsd } = intentApi;
-  const durationMs = snap.manifest?.durationMs ?? 60_000;
-  const nowAt = snap.phase === 'armed' || snap.phase === 'connecting' ? 0 : Math.min(clock, durationMs);
+  const live = snap.liveTarget !== null;
+  // Live sessions have no fixed length: the axis grows in whole minutes as events arrive.
+  const durationMs = live ? Math.max(120_000, Math.ceil((snap.eventTime + 1) / 60_000) * 60_000) : snap.manifest?.durationMs ?? 60_000;
   const armed = snap.phase === 'armed' || snap.phase === 'connecting';
+  const nowAt = armed ? 0 : live ? snap.eventTime : Math.min(clock, durationMs);
 
   const derived = useMemo(() => deriveInputs(snap.state, { nowAt, policy }), [snap.state, nowAt, policy]);
   const verdict = useMemo(() => (snap.state.sourceTrade ? crowdGuard(snap.state, intent, policy, nowAt) : null), [snap.state, intent, policy, nowAt]);
@@ -152,6 +155,8 @@ export function CrashTest() {
           <span>{derived ? `${derived.competingFlowCount} competing trades · ${fmtUsdWhole(derived.competingFlowUsd)}` : ''}{snap.manifest ? ` · ${snap.manifest.eventCount} events` : ''}</span>
         </div>
       </section>
+
+      <LiveForm available={snap.liveAvailable} disabled={snap.phase === 'running' || snap.phase === 'connecting'} onStart={(wallet, chainId) => void store.start({ wallet, chainId })} />
 
       <section className="border-t border-line px-6 py-5 md:px-8">
         <Controls

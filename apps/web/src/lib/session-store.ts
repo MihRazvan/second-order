@@ -12,8 +12,13 @@ export type Phase = 'armed' | 'connecting' | 'running' | 'ended' | 'failed';
 export type Transport = 'stream-sse' | 'browser-replay' | 'none';
 export type ConnectionState = 'idle' | 'open' | 'stale' | 'reconnecting' | 'closed';
 
+export interface LiveTarget { wallet: string; chainId?: string }
+
 export interface SessionSnapshot {
   phase: Phase;
+  /** True when the stream service reports a ready Mobula provider. */
+  liveAvailable: boolean;
+  liveTarget: LiveTarget | null;
   transport: Transport;
   connection: ConnectionState;
   state: ScenarioState;
@@ -38,9 +43,12 @@ export class SessionStore {
   private localAbort: AbortController | null = null;
   private staleTimer: ReturnType<typeof setInterval> | null = null;
 
+  /** Dev/demo switch: `?stream=off` forces the browser replay path to demonstrate the fallback. */
+  private forceLocal = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('stream') === 'off';
+
   constructor(private streamUrl: string, private replayId: string = DEMO_REPLAY_ID) {
     this.snap = {
-      phase: 'armed', transport: 'none', connection: 'idle', state: initialScenarioState(), manifest: null, session: null,
+      phase: 'armed', liveAvailable: false, liveTarget: null, transport: 'none', connection: 'idle', state: initialScenarioState(), manifest: null, session: null,
       startedAtWall: null, speed: 1, lastFrameAtWall: null, error: null, eventTime: 0,
     };
   }
@@ -58,12 +66,14 @@ export class SessionStore {
   /** Load the tracked-wallet context (fixture origin) before the crash test starts. */
   async arm(): Promise<void> {
     try {
+      if (this.forceLocal) throw new Error('stream disabled by query');
       const ctrl = new AbortController();
       const t = setTimeout(() => ctrl.abort(), CONNECT_TIMEOUT_MS);
       const res = await fetch(`${this.streamUrl}/api/replays/${this.replayId}/context`, { signal: ctrl.signal });
       clearTimeout(t);
       if (!res.ok) throw new Error(`context ${res.status}`);
       const body = (await res.json()) as { manifest: ReplayManifest; events: unknown[] };
+      fetch(`${this.streamUrl}/health`).then((r) => r.json()).then((h: { providers?: Record<string, string> }) => this.set({ liveAvailable: h.providers?.mobula === 'ready' })).catch(() => {});
       let state = this.snap.state;
       for (const raw of body.events) state = reduceScenario(state, DomainEvent.parse(raw));
       this.set({ state, manifest: body.manifest, transport: 'stream-sse', speed: body.manifest.defaultSpeed });
@@ -77,9 +87,14 @@ export class SessionStore {
   }
 
   /** Start the crash test: a stream session over SSE, or a local replay if the service is down. */
-  async start(): Promise<void> {
+  async start(live?: LiveTarget): Promise<void> {
     if (this.snap.phase === 'running' || this.snap.phase === 'connecting') return;
-    this.set({ phase: 'connecting', error: null });
+    this.set({ phase: 'connecting', error: null, liveTarget: live ?? null });
+    if (live) {
+      // Live sessions have no local fallback: a fixture must never stand in for a live wallet.
+      try { await this.startStream(live); } catch (err) { this.set({ phase: 'failed', error: (err as Error).message }); }
+      return;
+    }
     if (this.snap.transport !== 'browser-replay') {
       try {
         await this.startStream();
@@ -91,18 +106,26 @@ export class SessionStore {
     this.startLocal();
   }
 
-  private async startStream() {
+  private async startStream(live?: LiveTarget) {
     const ctrl = new AbortController();
-    const t = setTimeout(() => ctrl.abort(), CONNECT_TIMEOUT_MS);
+    const t = setTimeout(() => ctrl.abort(), live ? 20_000 : CONNECT_TIMEOUT_MS);
     const res = await fetch(`${this.streamUrl}/api/sessions`, {
       method: 'POST', headers: { 'content-type': 'application/json' }, signal: ctrl.signal,
-      body: JSON.stringify({ mode: 'replay', replayId: this.replayId, speed: this.snap.speed }),
+      body: JSON.stringify(live ? { mode: 'live', wallet: live.wallet, chainId: live.chainId, speed: 1 } : { mode: 'replay', replayId: this.replayId, speed: this.snap.speed }),
     });
     clearTimeout(t);
-    if (!res.ok) throw new Error(`sessions ${res.status}`);
+    if (!res.ok) {
+      let msg = `sessions ${res.status}`;
+      try { msg = ((await res.json()) as { error?: { message?: string } }).error?.message ?? msg; } catch { /* keep */ }
+      throw new Error(msg);
+    }
     const session = SessionInfo.parse(await res.json());
     const es = new EventSource(`${this.streamUrl}/api/sessions/${session.sessionId}/events`);
     this.es = es;
+    if (live) {
+      // Live: the wallet context arrives through the stream itself; drop the fixture context.
+      this.set({ state: initialScenarioState(), eventTime: 0, manifest: { v: 1, id: `live:${live.wallet}`, title: `Live · ${live.wallet.slice(0, 6)}…${live.wallet.slice(-4)}`, description: 'Live Mobula session', provenance: { kind: 'live-witnessed', source: 'mobula-wss' }, durationMs: 120_000, defaultSpeed: 1, eventCount: 0, disclosure: 'Live witnessed: observations captured from Mobula while they happen. Estimates remain estimates.', createdAt: new Date().toISOString() }, speed: 1 });
+    }
     this.set({ session, transport: 'stream-sse', connection: 'open', phase: 'running', startedAtWall: Date.now(), lastFrameAtWall: Date.now() });
     es.onmessage = (m) => {
       const parsed = SseFrameSchema.safeParse(JSON.parse(m.data));
