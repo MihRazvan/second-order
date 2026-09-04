@@ -69,7 +69,8 @@ export function Report({ sessionId }: { sessionId: string }) {
   const trade = state.sourceTrade;
   const kind = snap.session.provenanceKind;
   const tone = verdict.decision === 'ALLOW' ? 'text-alpha' : 'text-red';
-  const title = verdict.decision === 'ALLOW' ? 'SCENARIO-COMPATIBLE' : verdict.decision === 'RESIZE' ? 'CROWD CAPTURE RISK' : 'CAPACITY EXHAUSTED';
+  const securityBlock = verdict.decision === 'BLOCK' && verdict.reasons.some((r) => r.startsWith('Critical security flag'));
+  const title = verdict.decision === 'ALLOW' ? 'SCENARIO-COMPATIBLE' : verdict.decision === 'RESIZE' ? 'CROWD CAPTURE RISK' : securityBlock ? 'SECURITY BLOCK' : 'CAPACITY EXHAUSTED';
 
   const copy = async () => {
     try { await navigator.clipboard.writeText(window.location.href); setCopied(true); setTimeout(() => setCopied(false), 1500); } catch { /* clipboard blocked */ }
