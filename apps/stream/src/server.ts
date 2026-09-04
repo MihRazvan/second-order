@@ -21,7 +21,17 @@ export async function buildServer(deps: ServerDeps): Promise<FastifyInstance> {
   const sessions = new SessionManager(deps.sources, deps.persistence, app.log, 50, deps.config.CAPTURE_DIR);
   const library = new ReplayLibrary(deps.config.CAPTURE_DIR);
 
-  await app.register(cors, { origin: deps.config.CORS_ORIGIN.split(',').map((s) => s.trim()) });
+  // CORS_ORIGIN: comma-separated exact origins, or `*.suffix` entries (e.g. `*.vercel.app` for preview deployments).
+  const allowed = deps.config.CORS_ORIGIN.split(',').map((s) => s.trim()).filter(Boolean);
+  await app.register(cors, {
+    origin: (origin, cb) => {
+      if (!origin) return cb(null, true); // same-origin, curl, health checks
+      let host = '';
+      try { host = new URL(origin).hostname; } catch { return cb(null, false); }
+      const ok = allowed.some((a) => (a.startsWith('*.') ? host === a.slice(2) || host.endsWith(a.slice(1)) : a === origin));
+      cb(null, ok);
+    },
+  });
 
   // Never leak stack traces or secrets.
   app.setErrorHandler((err: Error & { status?: number; statusCode?: number; code?: string }, _req, reply) => {
