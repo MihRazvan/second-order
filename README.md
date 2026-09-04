@@ -48,7 +48,9 @@ Reconstruction additionally uses `GET /api/2/token/trades` (pair mode) and `GET 
 
 ## Deployment
 
-One Railway project, two services from this repo (`apps/web/railway.json`, `apps/stream/railway.json`) plus Railway PostgreSQL. Variables: `MOBULA_API_KEY`, `DATABASE_URL`, `CORS_ORIGIN` on `stream`; `NEXT_PUBLIC_STREAM_URL` on `web`. Health: `/health` and `/ready` on stream, `/api/health` on web. Nothing is deployed from this repository without explicit approval.
+- **Stream service + PostgreSQL on Railway** (project `second-order`). The service builds from `apps/stream/Dockerfile` with the repository as context (`railway.json` at the root sets the Dockerfile, `/health` check and restart policy). Variables on the `stream` service: `MOBULA_API_KEY`, `DATABASE_URL` (referenced from the Postgres plugin), `CORS_ORIGIN` (comma-separated web origins), `CAPTURE_DIR`, `MOBULA_RPS`. Deploy with `railway up -s stream --ci` from the repo root. Live: https://stream-production-900a.up.railway.app/health
+- **Web on Vercel**: project root directory `apps/web` (`apps/web/vercel.json` runs the pnpm install and build from the workspace root). Variable: `NEXT_PUBLIC_STREAM_URL` pointing at the Railway stream URL. After the first deploy, add the Vercel domain to `CORS_ORIGIN` on Railway.
+- Health: `/health` and `/ready` on stream, `/api/health` on web.
 
 ## Truthfulness
 
