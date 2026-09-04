@@ -1,0 +1,74 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------ */
+/* Second Order tokens. Semantic first; raw values live only here.     */
+/* ------------------------------------------------------------------ */
+:root {
+  /* Graphite foundation, faintly cool-tinted */
+  --so-bg: oklch(0.155 0.008 250);
+  --so-bg-raised: oklch(0.19 0.009 250);
+  --so-bg-sunken: oklch(0.125 0.008 250);
+  --so-line: oklch(0.30 0.010 250);
+  --so-line-strong: oklch(0.42 0.012 250);
+  --so-fg: oklch(0.93 0.008 95);          /* cool off-white */
+  --so-fg-muted: oklch(0.70 0.012 240);
+  --so-fg-faint: oklch(0.52 0.012 240);
+
+  /* Semantic: available alpha / warning / failed / neutral evidence */
+  --so-alpha: oklch(0.86 0.23 140);       /* high-visibility green */
+  --so-alpha-dim: oklch(0.60 0.16 140);
+  --so-amber: oklch(0.80 0.16 75);        /* safety amber */
+  --so-amber-dim: oklch(0.60 0.12 75);
+  --so-red: oklch(0.66 0.20 25);          /* controlled red */
+  --so-red-dim: oklch(0.48 0.15 25);
+  --so-evidence: oklch(0.78 0.03 230);    /* desaturated technical blue-grey */
+
+  --so-focus: var(--so-amber);
+
+  --font-ui: var(--font-archivo), 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --font-data: var(--font-martian), 'Martian Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}
+
+@theme inline {
+  --color-bg: var(--so-bg);
+  --color-bg-raised: var(--so-bg-raised);
+  --color-bg-sunken: var(--so-bg-sunken);
+  --color-line: var(--so-line);
+  --color-line-strong: var(--so-line-strong);
+  --color-fg: var(--so-fg);
+  --color-fg-muted: var(--so-fg-muted);
+  --color-fg-faint: var(--so-fg-faint);
+  --color-alpha: var(--so-alpha);
+  --color-alpha-dim: var(--so-alpha-dim);
+  --color-amber: var(--so-amber);
+  --color-amber-dim: var(--so-amber-dim);
+  --color-red: var(--so-red);
+  --color-red-dim: var(--so-red-dim);
+  --color-evidence: var(--so-evidence);
+  --font-ui: var(--font-ui);
+  --font-data: var(--font-data);
+}
+
+html { color-scheme: dark; background: var(--so-bg); }
+body {
+  margin: 0;
+  background: var(--so-bg);
+  color: var(--so-fg);
+  font-family: var(--font-ui);
+  font-size: 15px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Browser surfaces carry the design too */
+::selection { background: var(--so-amber); color: var(--so-bg-sunken); }
+:focus-visible { outline: 2px solid var(--so-focus); outline-offset: 2px; }
+* { scrollbar-width: thin; scrollbar-color: var(--so-line-strong) transparent; }
+
+.font-data { font-family: var(--font-data); font-variant-numeric: tabular-nums slashed-zero; }
+.tnum { font-variant-numeric: tabular-nums; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
