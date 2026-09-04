@@ -3,11 +3,11 @@
 
 Second Order is an onchain **Alpha Crash Test**. *If I copy this wallet, what do I actually receive once delay, size, competing flow and the source's own exit are priced in?* It runs on Mobula's wallet, trade, market and security data and returns a private pre-trade verdict: **ALLOW · RESIZE · BLOCK**.
 
-[Project Brief](PROJECT_BRIEF.md) | [Quickstart](docs/QUICKSTART.md) | [Demo Script](docs/DEMO_SCRIPT.md) | [Architecture](ARCHITECTURE.md) | [Model](packages/core/README.md) | [Design](DESIGN.md) | [Docs](docs/learn/README.md)
+[Project Brief](PROJECT_BRIEF.md) | [Quickstart](docs/QUICKSTART.md) | [Demo Video]() | [Architecture](ARCHITECTURE.md) | [Docs](docs/learn/README.md)
 
 ---
 
-[Live utility](https://second-order-crash-test.vercel.app) | [Stream API health](https://stream-production-900a.up.railway.app/health) | [Stream API reference](docs/learn/stream-api.md) | [Decisions](DECISIONS.md)
+[Live Demo](https://second-order-crash-test.vercel.app) | [Stream API health](https://stream-production-900a.up.railway.app/health) | [Stream API reference](docs/learn/stream-api.md) | [Decisions](DECISIONS.md)
 
 ---
 
