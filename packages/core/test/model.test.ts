@@ -11,7 +11,8 @@ function inputs(over: Partial<ModelInputs> = {}): ModelInputs {
     exitLiquidityUsd: L,
     buyTaxPct: 0,
     sellTaxPct: 0,
-    fixedFeesUsd: 2,
+    platformFeePct: 0.5,
+    fixedFeesUsd: 0.05,
     exitConfidence: 'projected',
     ...over,
   };
@@ -35,7 +36,7 @@ describe('follower outcome', () => {
 
   it('tiny orders are eaten by fixed fees', () => {
     const i = inputs();
-    expect(followerOutcome(i, 1000, 1).evPct).toBeLessThan(-50);
+    expect(followerOutcome(i, 1000, 0.1).evPct).toBeLessThan(-50);
   });
 
   it('taxes reduce EV multiplicatively', () => {

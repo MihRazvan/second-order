@@ -146,6 +146,8 @@ export interface DeriveOptions {
   defaultTypicalGainPct?: number;
   /** Fallback fixed fees (USD) when the source trade has none. */
   defaultFixedFeesUsd?: number;
+  /** Fallback proportional platform fee per side (percent) when the source trade has none. */
+  defaultPlatformFeePct?: number;
 }
 
 export function deriveInputs(state: ScenarioState, opts: DeriveOptions = {}): DerivedInputs | null {
@@ -200,7 +202,10 @@ export function deriveInputs(state: ScenarioState, opts: DeriveOptions = {}): De
   const security = state.security;
   const buyTaxPct = security?.buyFeePct ?? 0;
   const sellTaxPct = security?.sellFeePct ?? 0;
-  const fixedFeesUsd = trade.feesUsd ?? opts.defaultFixedFeesUsd ?? 2;
+  const fixedFeesUsd = trade.feesUsd ?? opts.defaultFixedFeesUsd ?? 0.25;
+  const platformFeePct = trade.platformFeesUsd != null && trade.sizeUsd > 0
+    ? (trade.platformFeesUsd / trade.sizeUsd) * 100
+    : opts.defaultPlatformFeePct ?? 0.5;
 
   const lastQuoteAt = state.quotes.length ? Math.max(...state.quotes.filter((q) => q.at <= nowAt).map((q) => q.at)) : null;
   const quoteAgeMs = lastQuoteAt === null ? null : nowAt - lastQuoteAt;
@@ -228,6 +233,7 @@ export function deriveInputs(state: ScenarioState, opts: DeriveOptions = {}): De
       exitLiquidityUsd,
       buyTaxPct,
       sellTaxPct,
+      platformFeePct,
       fixedFeesUsd,
       exitConfidence,
     },
@@ -300,7 +306,9 @@ export function crowdGuard(state: ScenarioState, intent: UserIntent, policy: Cro
   const confidence = worstConfidence(outcome.confidence, capacity.confidence);
 
   let decision: Decision;
-  if (outcome.evPct >= policy.minEvPct && intent.sizeUsd <= Math.max(capacity.capacityUsd, intent.sizeUsd)) {
+  // An order at or below the solved capacity is scenario-compatible by definition, so a
+  // "Resize to $X" action always lands on ALLOW instead of chasing floating-point noise.
+  if (outcome.evPct >= policy.minEvPct || (capacity.capacityUsd >= policy.minSizeUsd && intent.sizeUsd <= capacity.capacityUsd)) {
     decision = 'ALLOW';
   } else if (capacity.capacityUsd >= policy.minSizeUsd) {
     decision = 'RESIZE';

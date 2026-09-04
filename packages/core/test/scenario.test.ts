@@ -11,7 +11,7 @@ const ev = <T extends DomainEvent['type']>(type: T, at: number, payload: Extract
 
 function baseState(withSecurity = true) {
   let s = initialScenarioState();
-  s = reduceScenario(s, ev('source.trade', 0, { wallet: '0xsrc', chainId: 'evm:8453', token, quoteToken: weth, side: 'buy', sizeUsd: 18500, tokenAmount: 1, executionPriceUsd: 0.04, txHash: '0x1', feesUsd: 1.5 }));
+  s = reduceScenario(s, ev('source.trade', 0, { wallet: '0xsrc', chainId: 'evm:8453', token, quoteToken: weth, side: 'buy', sizeUsd: 18500, tokenAmount: 1, executionPriceUsd: 0.04, txHash: '0x1', feesUsd: 0.05, platformFeesUsd: 92.5 }));
   s = reduceScenario(s, ev('source.profile', 0, { wallet: '0xsrc', periodDays: 90, realizedRatePct: 186, realizedPnlUsd: 90000, winRatePct: 61, typicalGainPct: 40, tradeCount: 120, labels: [], chains: ['evm:8453'] }));
   s = reduceScenario(s, ev('market.snapshot', 0, { chainId: 'evm:8453', poolAddress: '0xpool', poolType: 'uniswap-v3', exchange: 'Uniswap', priceUsd: 0.04, liquidityUsd: 400000, volume1hUsd: 1000, volume24hUsd: 5000, priceChange1hPct: 1, latestTradeAt: 0, observedAt: 0 }));
   if (withSecurity) {
@@ -49,6 +49,8 @@ describe('crowdGuard', () => {
     const v = crowdGuard(baseState(), { sizeUsd: 300, delayMs: 2000 }, DEFAULT_POLICY, 5000);
     expect(v.decision).toBe('ALLOW');
     expect(v.evPct).toBeGreaterThan(DEFAULT_POLICY.minEvPct);
+    const resized = crowdGuard(baseState(), { sizeUsd: v.maxCompatibleUsd, delayMs: 2000 }, DEFAULT_POLICY, 5000);
+    expect(resized.decision).toBe('ALLOW');
   });
 
   it('RESIZEs when the order exceeds capacity', () => {

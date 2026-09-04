@@ -25,7 +25,9 @@ export interface ModelInputs {
   exitLiquidityUsd: number;
   buyTaxPct: number;
   sellTaxPct: number;
-  /** Fixed per-order cost (gas + platform), USD. */
+  /** Proportional platform/aggregator fee per side, percent of notional. */
+  platformFeePct: number;
+  /** Fixed per-order cost (gas + priority), USD, paid on entry and again on exit. */
   fixedFeesUsd: number;
   /** Confidence of the exit-side assumptions (observed source exit vs assumed). */
   exitConfidence: Confidence;
@@ -47,6 +49,7 @@ export interface Outcome {
     /** The follower's own exit impact on the remaining depth. */
     exitOwnPct: number;
     taxesPct: number;
+    platformFeesPct: number;
     fixedFeesPct: number;
   };
 }
@@ -66,7 +69,7 @@ export function followerExitRatio(inputs: ModelInputs, sizeUsd: number): { ratio
 
 /**
  * EV of a follower of `sizeUsd` entering `delayMs` after the source.
- * EV = exit·(1−sellTax)·(1−buyTax) / entry − 1 − fixedFees / size
+ * EV = exit·(1−sellTax)(1−buyTax)(1−platformFee)² / entry − 1 − 2·fixedFees / size
  */
 export function followerOutcome(inputs: ModelInputs, delayMs: number, sizeUsd: number): Outcome {
   const ahead = inputs.aheadUsdAt(delayMs);
@@ -75,8 +78,9 @@ export function followerOutcome(inputs: ModelInputs, delayMs: number, sizeUsd: n
   const exit = followerExitRatio(inputs, sizeUsd);
   const exitRatio = exit.ratio;
   const taxes = (1 - inputs.sellTaxPct / 100) * (1 - inputs.buyTaxPct / 100);
-  const fixedPct = sizeUsd > 0 ? (inputs.fixedFeesUsd / sizeUsd) * 100 : Number.POSITIVE_INFINITY;
-  const gross = (exitRatio * taxes) / entry.value;
+  const platform = Math.pow(1 - inputs.platformFeePct / 100, 2);
+  const fixedPct = sizeUsd > 0 ? ((2 * inputs.fixedFeesUsd) / sizeUsd) * 100 : Number.POSITIVE_INFINITY;
+  const gross = (exitRatio * taxes * platform) / entry.value;
   const evPct = Number.isFinite(gross) ? (gross - 1) * 100 - fixedPct : -100;
 
   return {
@@ -90,6 +94,7 @@ export function followerOutcome(inputs: ModelInputs, delayMs: number, sizeUsd: n
       exitOverlapPct: (exit.afterSource - 1) * 100,
       exitOwnPct: (exit.own - 1) * 100,
       taxesPct: (taxes - 1) * 100,
+      platformFeesPct: (platform - 1) * 100,
       fixedFeesPct: -fixedPct,
     },
   };

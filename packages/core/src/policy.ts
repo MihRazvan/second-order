@@ -2,7 +2,7 @@
  * User policy. Lives in the browser only; never sent to the server.
  */
 export interface CrowdGuardPolicy {
-  /** Minimum scenario-adjusted EV (percent) for ALLOW. */
+  /** Minimum scenario-adjusted EV (percent) for ALLOW. 0 = "remains positive", the brief's definition. */
   minEvPct: number;
   /** Below this a resize is not worth making; the verdict becomes BLOCK. */
   minSizeUsd: number;
@@ -16,7 +16,7 @@ export interface CrowdGuardPolicy {
 }
 
 export const DEFAULT_POLICY: CrowdGuardPolicy = {
-  minEvPct: 2,
+  minEvPct: 0,
   minSizeUsd: 25,
   quoteStaleAfterMs: 20_000,
   marketStaleAfterMs: 120_000,
