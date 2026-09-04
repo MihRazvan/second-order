@@ -2,42 +2,64 @@
 
 <!-- impeccable:design-schema 1 -->
 
-## Decision
+## Decision history
 
-Three hero alternatives were built on identical demo data and inspected at 1440×900 (screenshots in `docs/design-exploration/`). Scores use the brief's weights: 40% immediate comprehension, 30% distinctiveness, 20% trust and credibility, 10% implementation feasibility.
+1. **Exploration (2026-09-04, morning).** Three directions on identical data: laboratory instrument, crash telemetry / flight recorder, forensic editorial. The flight recorder won on comprehension and distinctiveness and shipped as the first primary experience. Screenshots: `docs/design-exploration/design-lab_*.png`, `primary-v1..v3`, `primary-final`.
+2. **Redesign (2026-09-04, evening).** The founder judged the recorder still too close to a generic dark dashboard and pinned a new world: a **BIOS setup utility with Win95 dialogs**. Per the redesign rule, product truth, content, function and constraints were kept; the visual world was replaced, not blended. The flight recorder is retired and recorded here as anti-reference for this product: competent, but not memorable enough for a fifteen-second pitch.
 
-| Direction | Comprehension | Distinctiveness | Trust | Feasibility | Weighted |
-|---|---|---|---|---|---|
-| A · Laboratory instrument | 7 | 6 | 8 | 9 | 7.1 |
-| **B · Crash telemetry / flight recorder** | **8.5** | **8.5** | 8 | 8 | **8.35** |
-| C · Forensic editorial analysis | 7 | 7 | 8.5 | 9 | 7.5 |
+## Visual world: the setup utility
 
-**Chosen: B, the flight recorder.**
+Second Order is a diagnostic utility you run on a wallet before you copy it. The screen is a setup-utility page: navy field inside a teal desktop, cyan item labels, values in square brackets, a grey selection bar, an *Item Specific Help* column, block-glyph meters, and a function-key legend that is the only navigation. Decisions arrive as Win95 dialogs because a modal you must read is the honest way to deliver a verdict.
 
-Why B: the readout row states the whole story in one line (`+186%` for the wallet, `$0` alpha remaining, `−13.5%` for you, verdict) before any chart is read. Time is explicit on the page, so the fifteen-second demo has a natural mechanism: a playhead sweeps the recorder while lanes fill and the Remaining Alpha area drains. The draining area is the one signature element the brief asked for. It reads as an incident recorder, not a trading terminal.
+The world is not a costume. Every element does a job the product needs: the item list is the CrowdGuard input form, the help column carries the product's definitions in its own language, the block meters are the Remaining Alpha battery and the capacity surface, the cell grid is the shadow-follower swarm, and the dialog is the verdict.
 
-Why not A: the log-log chamber is the most honest picture of the capacity surface (delay × size) and is kept as a secondary view, but the story splits across three columns and the burette is weak. Why not C: strongest single sentence, but comprehension depends on reading that sentence; it is static and calm where the brief asks for controlled danger.
+### Colour (semantic, binding)
 
-Defects noted in B's first cut, fixed in the build: lane labels colliding with values (label gutter too narrow), followers compressed into the first seconds on a linear time axis (recorder now uses a square-root time axis, ticks labelled), empty space below the recorder (controls and capacity curve occupy it), verdict panel too small for the decisive moment.
+| Role | Token | Value |
+|---|---|---|
+| Desktop behind the utility | `--desk` | `#007f7f` |
+| Setup field | `--bios-bg` | `#0000a8` |
+| Body text | `--bios-fg` | `#a8a8a8` |
+| Empty cells, rules, hints | `--bios-dim` | `#5454a8` |
+| Item labels | `--bios-cyan` | `#54fcfc` |
+| Titles, warnings, degrading capacity | `--bios-yellow` | `#fcfc54` |
+| Available alpha, ALLOW | `--bios-green` | `#54fc54` |
+| Failed capacity, BLOCK | `--bios-red` | `#fc5454` |
+| Selection bar | `--bios-sel` / `--bios-sel-fg` | `#a8a8a8` / `#0000a8` |
+| Win95 face / light / shadow / dark | `--w95-*` | `#c0c0c0` `#ffffff` `#808080` `#000000` |
+| Win95 title bar | `--w95-title` | `#000080` |
 
-## Visual world
+Green, yellow and red keep the meanings the brief fixed: available alpha, degrading capacity, failed capacity. Cyan and grey carry neutral evidence. Colour is never the only carrier of a state: every verdict has a word, a dialog icon and a number.
 
-An incident flight recorder for onchain copy-trading. Dark graphite instrument housing; readings in a condensed technical mono; lanes ruled like recorder paper; one moving playhead. Nothing glows. Colour appears only where it means something.
+### Type
 
-- **Foundation:** graphite, faintly cool (`--so-bg` oklch 0.155 / 0.008 / 250). Raised surfaces one step lighter, sunken lanes one step darker. Rules are 1px, low contrast.
-- **Semantic colour (binding):** available alpha = high-visibility green `--so-alpha` (oklch 0.86 0.23 140); degrading capacity and warnings = safety amber `--so-amber` (oklch 0.80 0.16 75); failed capacity and blocked actions = controlled red `--so-red` (oklch 0.66 0.20 25); neutral evidence = cool off-white `--so-fg` and desaturated technical blue-grey `--so-evidence`.
-- **Type:** Archivo (variable, width axis) for interface and headings; Martian Mono for every number, timestamp, address and lane label, tabular figures always. No Inter, no system sans, no Geist. Display numerals up to 38px in the readout row; body 15px/1.45; captions 12px.
-- **Shape:** rectangles, 0 radius on instrument surfaces, 2px on buttons. No pills. No nested cards: the readout row is a single ruled strip, the recorder is one surface.
-- **Depth:** none by shadow. Hierarchy by surface step and rule weight.
-- **Motion:** one authored moment, the playhead sweep with lanes filling and the alpha area draining. Exponential ease-out for the annunciator flip. Under `prefers-reduced-motion` the playhead does not glide; lanes update per event and the flip is instant.
-- **Icons:** none decorative. Provenance and stream state are text plus a 6px status square.
+- **VT323** (SIL OFL, self-hosted through `next/font`) for the whole setup screen at 22px (19px at tablet widths, 16px on phones). It renders like 8×16 VGA text and has the block glyphs the meters need.
+- **Archivo** at 13px for Win95 dialog bodies and buttons, where a period bitmap sans would cost legibility.
+- Uppercase is used the way a BIOS uses it: labels and values, never running help text.
 
-## Surface: `/` (Operate mode)
+### Components
 
-Above the fold at 1440×900, in reading order: header (name, mode, provenance, clock) · readout row (tracked wallet with realized return · Remaining Alpha · your copy · verdict/annunciator or the "Crash test this wallet" action) · recorder (Remaining Alpha lane, shadow-follower boarding lane with competing-flow bars, execution-depth lane, source-exit flag, playhead) · controls strip (intended size, delay, additional crowd) with the capacity curve. Below the fold: evidence drawer trigger and methodology.
+- **Panel** `.bios-box`: 3px double rule, optional yellow title on the top edge.
+- **SettingsList**: rows of `LABEL  [ VALUE ]`; the selected row inverts to the grey bar and shows its key hint. Readouts below a rule are coloured by state. Two pages, MAIN and TARGET WALLET, switched with F2.
+- **Item Specific Help**: contextual definitions for the selected row.
+- **Meters**: `█`/`░` glyph bars for Remaining Alpha, competing flow and execution depth. Filled cells are the semantic colour; empty cells are dim hatching.
+- **Shadow-follower grid**: 5 rows (size) × 20 columns (delay) of boxed cells; hatched until the recorder passes that follower's delay, then coloured by outcome. Your own scenario is outlined in white.
+- **Capacity map**: one bar per delay on a log dollar scale, the row matching your delay inverted, your size marked with ▲.
+- **Key legend**: real buttons, each labelled with the key that also triggers it.
+- **Win95 dialogs** (Radix Dialog for focus and Escape): CrowdGuard verdict with stop / warning / check icons drawn as SVG; Evidence Log as a scrolling inset with grooved groups.
 
-Anti-goals: no candlesticks, no order book, no purple gradients, no eyebrow labels above headings, no glassmorphism, no ambient animation, no emoji.
+### Motion
 
-## Copy rules
+One authored moment: the run. Cells fill, meters drain, the verdict readout spins `| / - \`, and the CrowdGuard dialog appears when the recording ends. Under `prefers-reduced-motion` the spinner and caret stop; cells and meters still change per event because those are state, not decoration.
 
-Use the product's terms exactly: shadow-follower simulation, competing flow, source-exit overlap, scenario-adjusted outcome, estimated, live witnessed, maximum scenario-compatible size, Demo scenario. Every number carries its provenance within the same visual group.
+### Interaction
+
+↑↓ select · +/− change · ⏎ edit inline · F2 page · F5 run / run again · F6 reconstruct target wallet · F8 block/unblock (local) · F9 evidence · F10 share report · ESC reset. Mouse and touch do everything the keys do. Intent (size, delay, crowd) persists in `localStorage` only.
+
+## Surface: `/` (Operate)
+
+Above the fold at 1440×900: title block, MAIN page with readouts, Item Specific Help, CRASH TEST RECORDER (meters, follower grid, capacity map, status line), key legend. Phones stack the panels and hide the help column; the recorder scrolls horizontally inside its panel.
+
+## Anti-goals
+
+No gradients, no glow, no rounded cards, no icon tiles, no emoji, no ambient animation. The world is committed: a half-BIOS with modern chrome would be the worst of both.

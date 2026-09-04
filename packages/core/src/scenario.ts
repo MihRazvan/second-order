@@ -363,6 +363,8 @@ export interface ShadowOutcome extends ShadowFollower {
 
 export interface ShadowSamplerOptions {
   count?: number;
+  /** Delay columns of the stratified grid (rows = count / cols). Default 10. */
+  cols?: number;
   seed?: number;
   minDelayMs?: number;
   maxDelayMs?: number;
@@ -375,7 +377,7 @@ export function sampleShadowFollowers(opts: ShadowSamplerOptions = {}): ShadowFo
   const count = opts.count ?? 100;
   const rng = mulberry32(opts.seed ?? 20260904);
   const out: ShadowFollower[] = [];
-  const cols = 10;
+  const cols = opts.cols ?? 10;
   const rows = Math.ceil(count / cols);
   const minD = opts.minDelayMs ?? 300;
   const maxD = opts.maxDelayMs ?? 45_000;

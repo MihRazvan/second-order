@@ -1,85 +1,154 @@
 @import 'tailwindcss';
 
-/* ------------------------------------------------------------------ */
-/* Second Order tokens. Semantic first; raw values live only here.     */
-/* ------------------------------------------------------------------ */
+/* ------------------------------------------------------------------------- */
+/* Second Order · BIOS setup-utility world.                                   */
+/* A navy setup screen inside a teal desktop; Win95 dialogs for decisions.    */
+/* Semantic colour is preserved: green = available alpha, yellow = degrading, */
+/* red = failed/blocked, cyan/grey = neutral evidence.                        */
+/* ------------------------------------------------------------------------- */
 :root {
-  /* Graphite foundation, faintly cool-tinted */
-  --so-bg: oklch(0.155 0.008 250);
-  --so-bg-raised: oklch(0.19 0.009 250);
-  --so-bg-sunken: oklch(0.125 0.008 250);
-  --so-line: oklch(0.30 0.010 250);
-  --so-line-strong: oklch(0.42 0.012 250);
-  --so-fg: oklch(0.93 0.008 95);          /* cool off-white */
-  --so-fg-muted: oklch(0.70 0.012 240);
-  --so-fg-faint: oklch(0.52 0.012 240);
+  --desk: #007f7f;            /* teal desktop behind the utility */
+  --bios-bg: #0000a8;         /* setup-screen navy */
+  --bios-bg-deep: #000080;
+  --bios-fg: #a8a8a8;         /* body text grey */
+  --bios-dim: #5454a8;        /* empty cells, rules */
+  --bios-white: #ffffff;
+  --bios-cyan: #54fcfc;       /* item labels */
+  --bios-yellow: #fcfc54;     /* title, warnings */
+  --bios-green: #54fc54;      /* available alpha */
+  --bios-red: #fc5454;        /* failed / blocked */
+  --bios-sel: #a8a8a8;        /* selected row background */
+  --bios-sel-fg: #0000a8;
 
-  /* Semantic: available alpha / warning / failed / neutral evidence */
-  --so-alpha: oklch(0.86 0.23 140);       /* high-visibility green */
-  --so-alpha-dim: oklch(0.60 0.16 140);
-  --so-amber: oklch(0.80 0.16 75);        /* safety amber */
-  --so-amber-dim: oklch(0.60 0.12 75);
-  --so-red: oklch(0.66 0.20 25);          /* controlled red */
-  --so-red-dim: oklch(0.48 0.15 25);
-  --so-evidence: oklch(0.78 0.03 230);    /* desaturated technical blue-grey */
+  --w95-face: #c0c0c0;
+  --w95-light: #ffffff;
+  --w95-shadow: #808080;
+  --w95-dark: #000000;
+  --w95-title: #000080;
+  --w95-title-fg: #ffffff;
+  --w95-text: #000000;
+  --w95-disabled: #808080;
 
-  --so-focus: var(--so-amber);
-
+  --font-bios: var(--font-vt323), 'VT323', 'Px437 IBM VGA8', ui-monospace, monospace;
   --font-ui: var(--font-archivo), 'Archivo', 'Helvetica Neue', Arial, sans-serif;
-  --font-data: var(--font-martian), 'Martian Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
 }
 
 @theme inline {
-  --color-bg: var(--so-bg);
-  --color-bg-raised: var(--so-bg-raised);
-  --color-bg-sunken: var(--so-bg-sunken);
-  --color-line: var(--so-line);
-  --color-line-strong: var(--so-line-strong);
-  --color-fg: var(--so-fg);
-  --color-fg-muted: var(--so-fg-muted);
-  --color-fg-faint: var(--so-fg-faint);
-  --color-alpha: var(--so-alpha);
-  --color-alpha-dim: var(--so-alpha-dim);
-  --color-amber: var(--so-amber);
-  --color-amber-dim: var(--so-amber-dim);
-  --color-red: var(--so-red);
-  --color-red-dim: var(--so-red-dim);
-  --color-evidence: var(--so-evidence);
+  --color-desk: var(--desk);
+  --color-bios: var(--bios-bg);
+  --color-bios-deep: var(--bios-bg-deep);
+  --color-bios-fg: var(--bios-fg);
+  --color-bios-dim: var(--bios-dim);
+  --color-bios-white: var(--bios-white);
+  --color-bios-cyan: var(--bios-cyan);
+  --color-bios-yellow: var(--bios-yellow);
+  --color-bios-green: var(--bios-green);
+  --color-bios-red: var(--bios-red);
+  --color-bios-sel: var(--bios-sel);
+  --color-bios-sel-fg: var(--bios-sel-fg);
+  --color-w95-face: var(--w95-face);
+  --color-w95-light: var(--w95-light);
+  --color-w95-shadow: var(--w95-shadow);
+  --color-w95-dark: var(--w95-dark);
+  --color-w95-title: var(--w95-title);
+  --color-w95-text: var(--w95-text);
+  --font-bios: var(--font-bios);
   --font-ui: var(--font-ui);
-  --font-data: var(--font-data);
 }
 
-html { color-scheme: dark; background: var(--so-bg); }
+html { color-scheme: dark; background: var(--desk); }
 body {
   margin: 0;
-  background: var(--so-bg);
-  color: var(--so-fg);
-  font-family: var(--font-ui);
-  font-size: 15px;
-  line-height: 1.45;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+  background: var(--desk);
+  color: var(--bios-fg);
+  font-family: var(--font-bios);
+  font-size: 22px;            /* VT323 at 22px reads like 8×16 VGA text */
+  line-height: 1.15;
+  -webkit-font-smoothing: none;
+  text-rendering: geometricPrecision;
+  text-transform: none;
 }
 
-/* Browser surfaces carry the design too */
-::selection { background: var(--so-amber); color: var(--so-bg-sunken); }
-:focus-visible { outline: 2px solid var(--so-focus); outline-offset: 2px; }
-* { scrollbar-width: thin; scrollbar-color: var(--so-line-strong) transparent; }
+/* Browser surfaces carry the world too */
+::selection { background: var(--bios-yellow); color: var(--bios-bg); }
+:focus-visible { outline: 2px dotted var(--bios-yellow); outline-offset: 1px; }
+* { scrollbar-width: thin; scrollbar-color: var(--w95-shadow) var(--w95-face); }
+::-webkit-scrollbar { width: 16px; height: 16px; }
+::-webkit-scrollbar-track { background: repeating-conic-gradient(var(--w95-face) 0 25%, var(--w95-light) 0 50%) 0 0 / 4px 4px; }
+::-webkit-scrollbar-thumb { background: var(--w95-face); border: 1px solid; border-color: var(--w95-light) var(--w95-dark) var(--w95-dark) var(--w95-light); }
 
-.font-data { font-family: var(--font-data); font-variant-numeric: tabular-nums slashed-zero; }
-.tnum { font-variant-numeric: tabular-nums; }
+/* --- BIOS primitives ------------------------------------------------------ */
+.bios-box { border: 3px double var(--bios-fg); }
+.bios-rule { border-top: 1px solid var(--bios-fg); }
+.bios-label { color: var(--bios-cyan); }
+.bios-value { color: var(--bios-white); }
+.bios-title { color: var(--bios-yellow); }
+.bios-selected { background: var(--bios-sel); color: var(--bios-sel-fg); }
+.bios-selected .bios-label, .bios-selected .bios-value { color: var(--bios-sel-fg); }
+.bios-cells { letter-spacing: 0; white-space: pre; font-variant-ligatures: none; }
+.bios-caret::after { content: '_'; color: var(--bios-white); animation: bios-blink 1s steps(1) infinite; }
+@keyframes bios-blink { 50% { opacity: 0; } }
+
+/* --- Win95 primitives ------------------------------------------------------ */
+.w95-window {
+  background: var(--w95-face);
+  color: var(--w95-text);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  line-height: 1.35;
+  border: 1px solid;
+  border-color: var(--w95-light) var(--w95-dark) var(--w95-dark) var(--w95-light);
+  box-shadow: inset 1px 1px 0 var(--w95-face), inset -1px -1px 0 var(--w95-shadow), 2px 2px 0 rgba(0,0,0,0.35);
+  padding: 3px;
+}
+.w95-title {
+  background: var(--w95-title);
+  color: var(--w95-title-fg);
+  font-weight: 700;
+  padding: 3px 6px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.w95-btn {
+  background: var(--w95-face);
+  color: var(--w95-text);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  padding: 4px 14px;
+  min-width: 78px;
+  border: 1px solid;
+  border-color: var(--w95-light) var(--w95-dark) var(--w95-dark) var(--w95-light);
+  box-shadow: inset 1px 1px 0 var(--w95-face), inset -1px -1px 0 var(--w95-shadow);
+}
+.w95-btn:active { border-color: var(--w95-dark) var(--w95-light) var(--w95-light) var(--w95-dark); box-shadow: inset 1px 1px 0 var(--w95-shadow); }
+.w95-btn:disabled { color: var(--w95-disabled); text-shadow: 1px 1px 0 var(--w95-light); }
+.w95-btn-default { outline: 1px solid var(--w95-dark); outline-offset: 0; }
+.w95-btn:focus-visible { outline: 1px dotted var(--w95-dark); outline-offset: -4px; }
+.w95-inset {
+  background: var(--w95-light);
+  border: 1px solid;
+  border-color: var(--w95-shadow) var(--w95-light) var(--w95-light) var(--w95-shadow);
+  box-shadow: inset 1px 1px 0 var(--w95-dark);
+}
+.w95-field {
+  background: var(--w95-light);
+  color: var(--w95-text);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  padding: 3px 5px;
+  border: 1px solid;
+  border-color: var(--w95-shadow) var(--w95-light) var(--w95-light) var(--w95-shadow);
+  box-shadow: inset 1px 1px 0 var(--w95-dark);
+  outline: none;
+}
+.w95-groove { border: 1px solid; border-color: var(--w95-shadow) var(--w95-light) var(--w95-light) var(--w95-shadow); }
+
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+input[type=number] { -moz-appearance: textfield; appearance: textfield; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+  .bios-caret::after { animation: none; }
 }
-
-/* Range inputs carry the instrument look */
-.so-range { -webkit-appearance: none; appearance: none; height: 24px; background: transparent; cursor: pointer; }
-.so-range::-webkit-slider-runnable-track { height: 2px; background: var(--so-line-strong); }
-.so-range::-moz-range-track { height: 2px; background: var(--so-line-strong); }
-.so-range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 14px; height: 22px; margin-top: -10px; background: var(--so-fg); border: 0; border-radius: 1px; }
-.so-range::-moz-range-thumb { width: 14px; height: 22px; background: var(--so-fg); border: 0; border-radius: 1px; }
-.so-range:focus-visible { outline: none; }
-.so-range:focus-visible::-webkit-slider-thumb { outline: 2px solid var(--so-amber); outline-offset: 2px; }
-input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-input[type=number] { -moz-appearance: textfield; appearance: textfield; }
+@media print {
+  html, body { background: #fff; }
+}
