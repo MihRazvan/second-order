@@ -7,7 +7,7 @@ Second Order is an onchain **Alpha Crash Test**. *If I copy this wallet, what do
 
 ---
 
-[Live Demo](https://second-order-crash-test.vercel.app) | [Stream API health](https://stream-production-900a.up.railway.app/health) | [Stream API reference](docs/learn/stream-api.md) | [Decisions](DECISIONS.md)
+[Live Demo](https://second-order-crash-test.vercel.app) | [Stream API health](https://stream-production-900a.up.railway.app/health) | [Stream API reference](docs/learn/stream-api.md)
 
 ---
 
