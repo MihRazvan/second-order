@@ -3,7 +3,7 @@
 
 Second Order is an onchain **Alpha Crash Test**. *If I copy this wallet, what do I actually receive once delay, size, competing flow and the source's own exit are priced in?* It runs on Mobula's wallet, trade, market and security data and returns a private pre-trade verdict: **`ALLOW` · `RESIZE` · `BLOCK`**.
 
-[Project Brief](PROJECT_BRIEF.md) | [Quickstart](docs/QUICKSTART.md) | [Demo Video](https://youtu.be/iZcqWZA_i_Y) | [Architecture](ARCHITECTURE.md) | [Docs](docs/learn/README.md) | [Submission](https://taikai.network/cryptocanal/hackathons/commons3nse/projects/cmtn9abkc009gpdpwh3rxuv1q/idea)
+[Project Brief](PROJECT_BRIEF.md) | [Quickstart](docs/QUICKSTART.md) | [Demo Video](https://youtu.be/iZcqWZA_i_Y) | [Architecture](ARCHITECTURE.md) | [Docs](docs/learn/README.md) | [Submission](https://taikai.network/cryptocanal/hackathons/commons3nse/projects/cmtn9abkc009gpdpwh3rxuv1q/idea) | [Slides](https://github.com/MihRazvan/second-order/blob/main/SLIDES.md) |
 
 ---
 
